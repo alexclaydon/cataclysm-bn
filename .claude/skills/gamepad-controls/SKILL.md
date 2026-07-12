@@ -119,6 +119,30 @@ through so all normal movement handling (vehicles, prompts) applies.
 Consume unknown *gamepad* events silently rather than letting them hit
 the "Unknown command" message when they're part of your scheme.
 
+## Text input & the on-screen keyboard (SDL3 lifecycle)
+
+SDL text-input mode is **off by default** and enabled only while a text
+field is active — that is what makes SteamOS pop its on-screen keyboard
+exactly when a text box opens instead of at launch (`5f77394`). The
+moving parts, and their gotchas:
+
+- The chokepoint is `enable_ime`/`disable_ime` in src/ime.cpp, driven
+  by RAII `ime_sentry` guards that already wrap every text field
+  (string_input_popup, uilist filter, character/world naming, map
+  notes…). New text-entry UIs MUST construct an `ime_sentry` (enable
+  mode) for their query loop, or the OSK won't appear on the Deck —
+  though physical keyboards still work via the fallback below.
+- Do NOT reintroduce `SDL_StartTextInput` at startup or leave it on
+  permanently: SteamOS interprets active text input as "show the OSK".
+- The reason it used to be permanently on: `sdl_keysym_to_curses`
+  returns 0 for printable characters, so ALL letter/number/symbol input
+  historically arrived via `SDL_EVENT_TEXT_INPUT` only. With text input
+  off, printables are derived from key events in `CheckMessages`
+  (`SDL_GetKeyFromScancode( scancode, mod, false )`), gated on
+  `!SDL_TextInputActive` so nothing double-delivers inside fields.
+  Touch that fallback carefully — it carries every keyboard command in
+  the game.
+
 ## Current gamepad state (as of 2026-07-13)
 
 - A `JOY_0`: Confirm (shared) · Action Menu (DEFAULTMODE)

@@ -36,6 +36,8 @@ void game::list_missions()
     int entries_per_page = 0;
     input_context ctxt( "MISSIONS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -184,13 +186,13 @@ void game::list_missions()
         }
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "RIGHT" ) {
+        if( action == "RIGHT" || action == "NEXT_TAB" ) {
             tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
             if( tab >= tab_mode::NUM_TABS ) {
                 tab = tab_mode::FIRST_TAB;
             }
             selection = 0;
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" ) {
             tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
             if( tab < tab_mode::FIRST_TAB ) {
                 tab = tab_mode::LAST_TAB;

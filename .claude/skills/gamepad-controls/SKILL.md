@@ -136,6 +136,17 @@ src/input.h, register its name in `init_keycode_mapping()`, emit
 `input_event( CODE, input_event_t::gamepad )` from the SDL layer. Never
 reuse the 0–255 range (raw button numbers live there).
 
+**The registration-order shadowing trap**: `input_to_action` returns the
+FIRST registered action whose bindings match the event. Binding a pad
+button to a later-registered action does nothing if an earlier-registered
+action in scope also carries that button — e.g. query_popup registers
+CONFIRM (shared binding: RETURN + JOY_0) before its YES/NO options, so
+A resolved to confirm-highlighted instead of YES until the five prompt
+categories got keyboard-only CONFIRM overrides. When a new binding
+"doesn't fire", list the screen's registrations in order and check what
+else resolves that button first. The keybindings test enforces the
+prompt-category case.
+
 **The keycode-0 trap** (has bitten twice; assume more lurk): `JOY_0`'s
 keycode is literally 0, and the codebase is full of "0 means none/
 error" conventions. Known instances: the keybinding loader's error
@@ -195,11 +206,40 @@ moving parts, and their gotchas:
   Touch that fallback carefully — it carries every keyboard command in
   the game.
 
+## The action palette (hotkey-only screens)
+
+Pressing X on a screen where `JOY_2` matches nothing opens a uilist of
+that context's registered actions (minus navigation/plumbing) and
+returns the pick as if its hotkey was pressed — implemented centrally
+in `input_context::handle_input` / `display_action_palette()`
+(src/input.cpp), so every hotkey-legend screen (vehicle tasks, advanced
+inventory ops, zone manager verbs, crafting extras) is pad-usable with
+zero per-screen work. It never fires where JOY_2 or ANY_INPUT is bound.
+This is the default answer for "this screen's verbs are hotkey-only";
+hand-bind a button in that screen's category only for verbs frequent
+enough to deserve one.
+
+## Yes/no prompts (A answers yes, B backs out)
+
+All five prompt categories (YESNO, YESNOQUIT,
+CANCEL_ACTIVITY_OR_IGNORE_QUERY, YES_NO_ALWAYS_NEVER, YN_IGNORE_QUERY)
+bind A→YES; B goes to whichever option carries ESC — NO on plain
+yes/no flavors, ABORT on salvage prompts, QUIT on yes/no/quit prompts
+(there NO is a committed answer, not a back-out — keep it off B). Each
+category needs a keyboard-only CONFIRM override (see the shadowing
+trap). The convention table lives in tests/keybinding_mirror_test.cpp —
+new prompt categories must be added to it. Known cosmetic gaps: option
+labels render raw key names ("JOY_0"), and the highlight cursor
+(keyboard affordance) is ignored by pad A/B.
+
 ## Current gamepad state (as of 2026-07-13)
 
-- A `JOY_0`: Confirm (shared) · Action Menu (DEFAULTMODE)
+- A `JOY_0`: Confirm (shared) · Action Menu (DEFAULTMODE) · YES on
+  prompts
 - B `JOY_1`: Exit screen (shared) · cancel in UILIST, OVERMAP,
-  chargen/worldgen/melee-picker dialogs
+  chargen/worldgen/melee-picker dialogs · NO/ABORT on prompts
+- X `JOY_2`: Examine (DEFAULTMODE) · action palette anywhere it is
+  otherwise unbound
 - Y `JOY_3`: Exit screen (shared) · Inventory (DEFAULTMODE)
 - LB/RB `JOY_4/5`: Prev/Next tab (shared + VEH_INTERACT)
 - Select `JOY_6`: View map (DEFAULTMODE) · close map (OVERMAP) — a toggle
@@ -215,9 +255,12 @@ moving parts, and their gotchas:
   LT+left/right chords exist but are unbound
 - Left stick: 8-way aim with white arrow overlay; RT steps that way,
   auto-repeats while held (Qud-style; hardcoded in handle_action, not
-  JSON-rebindable)
-- Unused so far: X `JOY_2`, right stick, L3/R3/Guide (no keynames yet
-  for buttons 8+), LT alone, stick input in menus
+  JSON-rebindable); also answers direction prompts (CHOOSE_DIRECTION)
+- Right stick: opens look-around from the viewport (first tilt = first
+  cursor step via gamepad_look pending-step handoff) and drives the
+  look cursor with hold-to-repeat (LOOK direction overrides)
+- Unused so far: L3/R3/Guide (no keynames yet for buttons 8+), LT
+  alone, stick input in menus
 
 ## Testing & deploy
 

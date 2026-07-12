@@ -228,9 +228,15 @@ yes/no flavors, ABORT on salvage prompts, QUIT on yes/no/quit prompts
 (there NO is a committed answer, not a back-out — keep it off B). Each
 category needs a keyboard-only CONFIRM override (see the shadowing
 trap). The convention table lives in tests/keybinding_mirror_test.cpp —
-new prompt categories must be added to it. Known cosmetic gaps: option
-labels render raw key names ("JOY_0"), and the highlight cursor
-(keyboard affordance) is ignored by pad A/B.
+new prompt categories must be added to it. Known cosmetic gap: the
+highlight cursor (keyboard affordance) is ignored by pad A/B —
+deliberately left as-is.
+
+Gamepad inputs display player-facing names ("Pad A", "LB", "LT+D-Up",
+"R-Stick Up") everywhere hints render — `gamepad_display_name()` in
+src/input.cpp, used by `get_keyname` for non-portable output only; the
+JOY_* identifiers remain the config/serialization names. New JOY_*
+codes need an entry there or they display raw.
 
 ## Current gamepad state (as of 2026-07-13)
 

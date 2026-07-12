@@ -499,6 +499,97 @@ auto input_manager::get_keycode( const std::string &name ) const -> std::optiona
     return std::nullopt;
 }
 
+namespace
+{
+/// Player-facing names for gamepad inputs (Xbox-style labels). The
+/// portable JOY_* identifiers remain the config/serialization names.
+auto gamepad_display_name( const int ch ) -> std::optional<std::string>
+{
+    switch( ch ) {
+        case JOY_0:
+            return pgettext( "gamepad input name", "Pad A" );
+        case JOY_1:
+            return pgettext( "gamepad input name", "Pad B" );
+        case JOY_2:
+            return pgettext( "gamepad input name", "Pad X" );
+        case JOY_3:
+            return pgettext( "gamepad input name", "Pad Y" );
+        case JOY_4:
+            return pgettext( "gamepad input name", "LB" );
+        case JOY_5:
+            return pgettext( "gamepad input name", "RB" );
+        case JOY_6:
+            return pgettext( "gamepad input name", "Select" );
+        case JOY_7:
+            return pgettext( "gamepad input name", "Start" );
+        case JOY_UP:
+            return pgettext( "gamepad input name", "D-Up" );
+        case JOY_DOWN:
+            return pgettext( "gamepad input name", "D-Down" );
+        case JOY_LEFT:
+            return pgettext( "gamepad input name", "D-Left" );
+        case JOY_RIGHT:
+            return pgettext( "gamepad input name", "D-Right" );
+        case JOY_LEFTUP:
+            return pgettext( "gamepad input name", "D-Up-Left" );
+        case JOY_RIGHTUP:
+            return pgettext( "gamepad input name", "D-Up-Right" );
+        case JOY_LEFTDOWN:
+            return pgettext( "gamepad input name", "D-Down-Left" );
+        case JOY_RIGHTDOWN:
+            return pgettext( "gamepad input name", "D-Down-Right" );
+        case JOY_LT_UP:
+            return pgettext( "gamepad input name", "LT+D-Up" );
+        case JOY_LT_DOWN:
+            return pgettext( "gamepad input name", "LT+D-Down" );
+        case JOY_LT_LEFT:
+            return pgettext( "gamepad input name", "LT+D-Left" );
+        case JOY_LT_RIGHT:
+            return pgettext( "gamepad input name", "LT+D-Right" );
+        case JOY_RTRIGGER:
+            return pgettext( "gamepad input name", "RT" );
+        case JOY_LSTICK_UP:
+            return pgettext( "gamepad input name", "L-Stick Up" );
+        case JOY_LSTICK_DOWN:
+            return pgettext( "gamepad input name", "L-Stick Down" );
+        case JOY_LSTICK_LEFT:
+            return pgettext( "gamepad input name", "L-Stick Left" );
+        case JOY_LSTICK_RIGHT:
+            return pgettext( "gamepad input name", "L-Stick Right" );
+        case JOY_LSTICK_LEFTUP:
+            return pgettext( "gamepad input name", "L-Stick Up-Left" );
+        case JOY_LSTICK_RIGHTUP:
+            return pgettext( "gamepad input name", "L-Stick Up-Right" );
+        case JOY_LSTICK_LEFTDOWN:
+            return pgettext( "gamepad input name", "L-Stick Down-Left" );
+        case JOY_LSTICK_RIGHTDOWN:
+            return pgettext( "gamepad input name", "L-Stick Down-Right" );
+        case JOY_LSTICK_CENTER:
+            return pgettext( "gamepad input name", "L-Stick Center" );
+        case JOY_RSTICK_UP:
+            return pgettext( "gamepad input name", "R-Stick Up" );
+        case JOY_RSTICK_DOWN:
+            return pgettext( "gamepad input name", "R-Stick Down" );
+        case JOY_RSTICK_LEFT:
+            return pgettext( "gamepad input name", "R-Stick Left" );
+        case JOY_RSTICK_RIGHT:
+            return pgettext( "gamepad input name", "R-Stick Right" );
+        case JOY_RSTICK_LEFTUP:
+            return pgettext( "gamepad input name", "R-Stick Up-Left" );
+        case JOY_RSTICK_RIGHTUP:
+            return pgettext( "gamepad input name", "R-Stick Up-Right" );
+        case JOY_RSTICK_LEFTDOWN:
+            return pgettext( "gamepad input name", "R-Stick Down-Left" );
+        case JOY_RSTICK_RIGHTDOWN:
+            return pgettext( "gamepad input name", "R-Stick Down-Right" );
+        case JOY_RSTICK_CENTER:
+            return pgettext( "gamepad input name", "R-Stick Center" );
+        default:
+            return std::nullopt;
+    }
+}
+} // namespace
+
 std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool portable ) const
 {
 
@@ -539,6 +630,11 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
             raw = translate_marker_context( "key name", "MOUSE_MOVE" );
         }
     } else if( inp_type == input_event_t::gamepad ) {
+        if( !portable ) {
+            if( const auto friendly = gamepad_display_name( ch ) ) {
+                return *friendly;
+            }
+        }
         const t_key_to_name_map::const_iterator a = gamepad_keycode_to_keyname.find( ch );
         if( a != gamepad_keycode_to_keyname.end() ) {
             raw = a->second;

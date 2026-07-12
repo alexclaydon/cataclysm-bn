@@ -91,6 +91,16 @@ NEXT_TAB/VEH_INTERACT and UILIST UP/DOWN cases). Then
 or for uilist-based menus it's `UILIST`. To see what actions a screen
 offers, look for its `register_action` calls.
 
+**Scope bindings to ONE specific uilist** (uilists normally share the
+`UILIST` category, so anything bound there hits every list menu): set
+`my_uilist.input_category = "MY_CATEGORY"` before `query()`, then
+mirror the UILIST entries (SCROLL_UP/DOWN, UP, DOWN, FILTER, QUIT) into
+that category in keybindings.json — a category switch replaces ALL of
+them, not just the one you're changing — and add your extra binding.
+Worked example: `INGAME_MAIN_MENU` in src/action.cpp
+`handle_main_menu()`, which lets the start button close the ESC menu it
+opened (`9f235d2`).
+
 **Add a new raw input**: allocate the next `(256 + n)` code in
 src/input.h, register its name in `init_keycode_mapping()`, emit
 `input_event( CODE, input_event_t::gamepad )` from the SDL layer. Never
@@ -163,10 +173,14 @@ moving parts, and their gotchas:
 - Y `JOY_3`: Exit screen (shared) · Inventory (DEFAULTMODE)
 - LB/RB `JOY_4/5`: Prev/Next tab (shared + VEH_INTERACT)
 - Select `JOY_6`: View map (DEFAULTMODE) · close map (OVERMAP) — a toggle
-- Start `JOY_7`: Main menu (DEFAULTMODE); B closes it (uilist)
-- D-pad: menu navigation (shared + UILIST up/down); **unmapped for
-  in-world movement** (DEFAULTMODE keyboard-only overrides) — free for
-  future in-game bindings
+- Start `JOY_7`: Main menu (DEFAULTMODE) · close it (INGAME_MAIN_MENU) —
+  a toggle
+- D-pad: menu navigation (shared + UILIST up/down, dialogue, item
+  actions, melee picker, keybindings help); **unmapped for in-world
+  movement** (DEFAULTMODE keyboard-only overrides) — free for future
+  in-game bindings. B backs out of trade/prompts/dialogs; A or B
+  dismisses wait popups; dialogue is a raw-input loop with explicit pad
+  translation in npctalk.cpp (`7456baa`)
 - LT+d-pad up/down: zoom out/in (gameplay `zoom_in/out` + OVERMAP);
   LT+left/right chords exist but are unbound
 - Left stick: 8-way aim with white arrow overlay; RT steps that way,

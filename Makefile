@@ -7,6 +7,8 @@
 #   make test       # build, then run the test binary
 #   make shaders    # fetch precompiled shaders from upstream CI if missing
 #   make clean      # remove the build directory for the current preset
+#   make deck       # Steam Deck build: push branch, run fork CI, download
+#                   # the linux-tiles-x64 tarball into out/deck/
 #
 # Override the preset with e.g. `make PRESET=osx-arm-dist`.
 
@@ -15,7 +17,7 @@ BUILD_DIR := out/build/$(PRESET)
 GAME_BIN := $(BUILD_DIR)/src/cataclysm-bn-tiles
 TEST_BIN := $(BUILD_DIR)/tests/cata_test-tiles
 
-.PHONY: build shaders shaders-force configure compile run test clean
+.PHONY: build shaders shaders-force configure compile run test clean deck
 
 build: shaders configure compile
 
@@ -39,3 +41,6 @@ test: build
 
 clean:
 	rm -rf $(BUILD_DIR)
+
+deck:
+	bash build-scripts/deck-build.sh

@@ -233,20 +233,20 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
             if( keybinding.has_array( "key" ) ) {
                 for( const std::string line : keybinding.get_array( "key" ) ) {
-                    int loaded_keycode = get_keycode( line );
-                    if( loaded_keycode == '\0' ) {
+                    const auto loaded_keycode = get_keycode( line );
+                    if( !loaded_keycode ) {
                         debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
                     } else {
-                        new_event.sequence.push_back( loaded_keycode );
+                        new_event.sequence.push_back( *loaded_keycode );
                     }
                 }
             } else { // assume string if not array, and throw if not string
                 std::string line = keybinding.get_string( "key" );
-                int loaded_keycode = get_keycode( line );
-                if( loaded_keycode == '\0' ) {
+                const auto loaded_keycode = get_keycode( line );
+                if( !loaded_keycode ) {
                     debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
                 } else {
-                    new_event.sequence.push_back( loaded_keycode );
+                    new_event.sequence.push_back( *loaded_keycode );
                 }
             }
 
@@ -440,7 +440,7 @@ void input_manager::init_keycode_mapping()
     keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
 }
 
-int input_manager::get_keycode( const std::string &name ) const
+auto input_manager::get_keycode( const std::string &name ) const -> std::optional<int>
 {
     const t_name_to_key_map::const_iterator a = keyname_to_keycode.find( name );
     if( a != keyname_to_keycode.end() ) {
@@ -450,7 +450,7 @@ int input_manager::get_keycode( const std::string &name ) const
     if( name.starts_with( "UNKNOWN_" ) ) {
         return str_to_int( name.substr( 8 ) );
     }
-    return 0;
+    return std::nullopt;
 }
 
 std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool portable ) const

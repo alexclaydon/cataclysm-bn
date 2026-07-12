@@ -275,7 +275,7 @@ class input_manager
         /**
          * Get the keycode associated with the given key name.
          */
-        int get_keycode( const std::string &name ) const;
+        auto get_keycode( const std::string &name ) const -> std::optional<int>;
 
         /**
          * Get the key name associated with the given keyboard keycode.

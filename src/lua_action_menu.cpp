@@ -31,12 +31,12 @@ auto parse_hotkey( const std::optional<std::string> &hotkey ) -> int
     }
 
     const auto keycode = inp_mngr.get_keycode( *hotkey );
-    if( keycode == 0 ) {
+    if( !keycode ) {
         debugmsg( "Lua action menu hotkey '%s' is not a known key name.", *hotkey );
         return -1;
     }
 
-    return keycode;
+    return *keycode;
 }
 } // namespace
 

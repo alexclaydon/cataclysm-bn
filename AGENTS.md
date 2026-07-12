@@ -10,6 +10,10 @@
   rebuild on the Deck itself. From Nova: `make deck-local` (pushes the
   current branch to `origin`, then ssh → `build-scripts/deck-update.sh`,
   which pulls and rebuilds inside the Deck's `bn-dev` distrobox).
+- Agents MUST run `make deck-local` (and any other long remote build on
+  the Deck) as a background task, then report the result when it
+  finishes — the conversation must stay free for discussion while the
+  Deck compiles.
 - If the Deck is unreachable (ssh timeout / tailscale offline), it is
   asleep — deployment must wait until it is awake; there is no remote
   wake.

@@ -246,6 +246,18 @@ struct action_attributes {
 // Right trigger pull (edge event, fires once when pressed past halfway).
 #define JOY_RTRIGGER         (256 + 22)
 
+// Right analog stick, quantized like the left stick but with
+// hold-to-repeat (drives the look-around cursor).
+#define JOY_RSTICK_LEFT      (256 + 23)
+#define JOY_RSTICK_RIGHT     (256 + 24)
+#define JOY_RSTICK_UP        (256 + 25)
+#define JOY_RSTICK_DOWN      (256 + 26)
+#define JOY_RSTICK_LEFTUP    (256 + 27)
+#define JOY_RSTICK_LEFTDOWN  (256 + 28)
+#define JOY_RSTICK_RIGHTUP   (256 + 29)
+#define JOY_RSTICK_RIGHTDOWN (256 + 30)
+#define JOY_RSTICK_CENTER    (256 + 31)
+
 /**
  * Manages the translation from action IDs to associated input.
  *

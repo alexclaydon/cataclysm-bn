@@ -138,6 +138,20 @@ TEST_CASE( "keybinding_mirror_categories_track_their_base", "[keybindings]" )
         }
     }
 
+    SECTION( "LOOK direction overrides keep base keys and extend gamepad" ) {
+        // Look mode adds right-stick cursor movement on top of the shared
+        // direction bindings (keyboard + d-pad).
+        for( const std::string id : {
+                 "UP", "DOWN", "LEFT", "RIGHT", "LEFTUP", "RIGHTUP", "LEFTDOWN", "RIGHTDOWN"
+             } ) {
+            INFO( "action id: " << id );
+            const auto &base = get_set( bindings, "default", id );
+            const auto &mirror = get_set( bindings, "LOOK", id );
+            CHECK( mirror.keyboard == base.keyboard );
+            CHECK( std::ranges::includes( mirror.gamepad, base.gamepad ) );
+        }
+    }
+
     SECTION( "VEH_INTERACT tab overrides keep base keys" ) {
         for( const std::string id : { "NEXT_TAB", "PREV_TAB" } ) {
             INFO( "action id: " << id );

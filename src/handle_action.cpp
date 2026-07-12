@@ -109,6 +109,8 @@
 #include "weather.h"
 #include "worldfactory.h"
 
+#include "gamepad_look.h"
+
 #if defined(TILES)
 #include "cached_options.h"
 #include "cata_tiles.h"
@@ -1857,6 +1859,30 @@ namespace
 std::optional<action_id> gamepad_aim_act;
 shared_ptr_fast<game::draw_callback_t> gamepad_aim_cb;
 
+auto rstick_look_step( int code ) -> std::optional<point>
+{
+    switch( code ) {
+        case JOY_RSTICK_UP:
+            return point( 0, -1 );
+        case JOY_RSTICK_RIGHTUP:
+            return point( 1, -1 );
+        case JOY_RSTICK_RIGHT:
+            return point( 1, 0 );
+        case JOY_RSTICK_RIGHTDOWN:
+            return point( 1, 1 );
+        case JOY_RSTICK_DOWN:
+            return point( 0, 1 );
+        case JOY_RSTICK_LEFTDOWN:
+            return point( -1, 1 );
+        case JOY_RSTICK_LEFT:
+            return point( -1, 0 );
+        case JOY_RSTICK_LEFTUP:
+            return point( -1, -1 );
+        default:
+            return std::nullopt;
+    }
+}
+
 auto lstick_move_action( int code ) -> std::optional<action_id>
 {
     switch( code ) {
@@ -2102,6 +2128,13 @@ bool game::handle_action()
                     return false;
                 }
                 act = *gamepad_aim_act;
+            }
+            if( const auto step = rstick_look_step( code ) ) {
+                // Right stick opens look mode, starting one tile out.
+                gamepad_look::set_pending_step( *step );
+                act = ACTION_LOOK;
+            } else if( code == JOY_RSTICK_CENTER ) {
+                return false;
             }
         }
     }

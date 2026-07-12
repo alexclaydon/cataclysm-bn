@@ -145,29 +145,46 @@ static constexpr int joy_left_trigger_axis = 2; // XInput-style pads report LT a
 static bool joy_left_trigger_held = false;
 static constexpr int joy_left_stick_x_axis = 0;
 static constexpr int joy_left_stick_y_axis = 1;
+static constexpr int joy_right_stick_x_axis = 3;
+static constexpr int joy_right_stick_y_axis = 4;
 static constexpr int joy_right_trigger_axis = 5; // XInput-style pads report RT as axis 5.
 static constexpr Sint16 joy_stick_deadzone = 14000;
 static Sint16 joy_lstick_x = 0;
 static Sint16 joy_lstick_y = 0;
+static Sint16 joy_rstick_x = 0;
+static Sint16 joy_rstick_y = 0;
 static bool joy_right_trigger_held = false;
 static int joy_lstick_code = JOY_LSTICK_CENTER; // Last emitted quantized stick direction.
+static int joy_rstick_code = JOY_RSTICK_CENTER;
+static Uint64 rstick_repeat_at = std::numeric_limits<Uint64>::max();
+static constexpr Uint64 rstick_initial_delay = 300;
+static constexpr Uint64 rstick_repeat_interval = 100;
 
 namespace
 {
-auto quantized_left_stick_code() -> int
+// codes: {center, up, down, left, right, leftup, rightup, leftdown, rightdown}
+auto quantized_stick_code( const Sint16 x, const Sint16 y,
+                           const std::array<int, 9> &codes ) -> int
 {
-    const auto dx = joy_lstick_x > joy_stick_deadzone ? 1 :
-                    joy_lstick_x < -joy_stick_deadzone ? -1 : 0;
-    const auto dy = joy_lstick_y > joy_stick_deadzone ? 1 :
-                    joy_lstick_y < -joy_stick_deadzone ? -1 : 0;
+    const auto dx = x > joy_stick_deadzone ? 1 : x < -joy_stick_deadzone ? -1 : 0;
+    const auto dy = y > joy_stick_deadzone ? 1 : y < -joy_stick_deadzone ? -1 : 0;
     if( dy < 0 ) {
-        return dx < 0 ? JOY_LSTICK_LEFTUP : dx > 0 ? JOY_LSTICK_RIGHTUP : JOY_LSTICK_UP;
+        return dx < 0 ? codes[5] : dx > 0 ? codes[6] : codes[1];
     }
     if( dy > 0 ) {
-        return dx < 0 ? JOY_LSTICK_LEFTDOWN : dx > 0 ? JOY_LSTICK_RIGHTDOWN : JOY_LSTICK_DOWN;
+        return dx < 0 ? codes[7] : dx > 0 ? codes[8] : codes[2];
     }
-    return dx < 0 ? JOY_LSTICK_LEFT : dx > 0 ? JOY_LSTICK_RIGHT : JOY_LSTICK_CENTER;
+    return dx < 0 ? codes[3] : dx > 0 ? codes[4] : codes[0];
 }
+
+constexpr std::array<int, 9> lstick_codes = {
+    JOY_LSTICK_CENTER, JOY_LSTICK_UP, JOY_LSTICK_DOWN, JOY_LSTICK_LEFT, JOY_LSTICK_RIGHT,
+    JOY_LSTICK_LEFTUP, JOY_LSTICK_RIGHTUP, JOY_LSTICK_LEFTDOWN, JOY_LSTICK_RIGHTDOWN
+};
+constexpr std::array<int, 9> rstick_codes = {
+    JOY_RSTICK_CENTER, JOY_RSTICK_UP, JOY_RSTICK_DOWN, JOY_RSTICK_LEFT, JOY_RSTICK_RIGHT,
+    JOY_RSTICK_LEFTUP, JOY_RSTICK_RIGHTUP, JOY_RSTICK_LEFTDOWN, JOY_RSTICK_RIGHTDOWN
+};
 } // namespace
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
@@ -2969,6 +2986,21 @@ auto HandleRightTriggerRepeat() -> int
     }
     return 0;
 }
+
+// While the right stick stays deflected, re-emit its direction (after a
+// short initial delay) so the look cursor glides while held.
+auto HandleRightStickRepeat() -> int
+{
+    if( joy_rstick_code == JOY_RSTICK_CENTER ) {
+        return 0;
+    }
+    if( SDL_GetTicks() >= rstick_repeat_at ) {
+        rstick_repeat_at = SDL_GetTicks() + rstick_repeat_interval;
+        last_input = input_event( joy_rstick_code, input_event_t::gamepad );
+        return 1;
+    }
+    return 0;
+}
 } // namespace
 
 //Check for any window messages (keypress, paint, mousemove, etc)
@@ -2982,6 +3014,9 @@ static void CheckMessages()
         return;
     }
     if( HandleRightTriggerRepeat() ) {
+        return;
+    }
+    if( HandleRightStickRepeat() ) {
         return;
     }
 
@@ -3496,9 +3531,24 @@ static void CheckMessages()
                     } else {
                         joy_lstick_y = ev.jaxis.value;
                     }
-                    const auto code = quantized_left_stick_code();
+                    const auto code = quantized_stick_code( joy_lstick_x, joy_lstick_y, lstick_codes );
                     if( code != joy_lstick_code ) {
                         joy_lstick_code = code;
+                        last_input = input_event( code, input_event_t::gamepad );
+                    }
+                } else if( ev.jaxis.axis == joy_right_stick_x_axis ||
+                           ev.jaxis.axis == joy_right_stick_y_axis ) {
+                    if( ev.jaxis.axis == joy_right_stick_x_axis ) {
+                        joy_rstick_x = ev.jaxis.value;
+                    } else {
+                        joy_rstick_y = ev.jaxis.value;
+                    }
+                    const auto code = quantized_stick_code( joy_rstick_x, joy_rstick_y, rstick_codes );
+                    if( code != joy_rstick_code ) {
+                        joy_rstick_code = code;
+                        rstick_repeat_at = code == JOY_RSTICK_CENTER ?
+                                           std::numeric_limits<Uint64>::max() :
+                                           SDL_GetTicks() + rstick_initial_delay;
                         last_input = input_event( code, input_event_t::gamepad );
                     }
                 }

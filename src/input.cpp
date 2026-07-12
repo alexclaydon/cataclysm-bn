@@ -450,6 +450,25 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_RTRIGGER,
                               translate_marker_context( "key name", "JOY_RTRIGGER" ) );
 
+    add_gamepad_keycode_pair( JOY_RSTICK_LEFT,
+                              translate_marker_context( "key name", "JOY_RSTICK_LEFT" ) );
+    add_gamepad_keycode_pair( JOY_RSTICK_RIGHT,
+                              translate_marker_context( "key name", "JOY_RSTICK_RIGHT" ) );
+    add_gamepad_keycode_pair( JOY_RSTICK_UP,
+                              translate_marker_context( "key name", "JOY_RSTICK_UP" ) );
+    add_gamepad_keycode_pair( JOY_RSTICK_DOWN,
+                              translate_marker_context( "key name", "JOY_RSTICK_DOWN" ) );
+    add_gamepad_keycode_pair( JOY_RSTICK_LEFTUP,
+                              translate_marker_context( "key name", "JOY_RSTICK_LEFTUP" ) );
+    add_gamepad_keycode_pair( JOY_RSTICK_LEFTDOWN,
+                              translate_marker_context( "key name", "JOY_RSTICK_LEFTDOWN" ) );
+    add_gamepad_keycode_pair( JOY_RSTICK_RIGHTUP,
+                              translate_marker_context( "key name", "JOY_RSTICK_RIGHTUP" ) );
+    add_gamepad_keycode_pair( JOY_RSTICK_RIGHTDOWN,
+                              translate_marker_context( "key name", "JOY_RSTICK_RIGHTDOWN" ) );
+    add_gamepad_keycode_pair( JOY_RSTICK_CENTER,
+                              translate_marker_context( "key name", "JOY_RSTICK_CENTER" ) );
+
     add_gamepad_keycode_pair( JOY_0,         translate_marker_context( "key name", "JOY_0" ) );
     add_gamepad_keycode_pair( JOY_1,         translate_marker_context( "key name", "JOY_1" ) );
     add_gamepad_keycode_pair( JOY_2,         translate_marker_context( "key name", "JOY_2" ) );

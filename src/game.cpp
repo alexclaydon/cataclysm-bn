@@ -103,6 +103,7 @@
 #include "game_inventory.h"
 #include "game_ui.h"
 #include "gamemode.h"
+#include "gamepad_look.h"
 #include "gates.h"
 #include "harvest.h"
 #include "help.h"
@@ -9712,6 +9713,14 @@ look_around_result game::look_around( bool show_window, tripoint_bub_ms &center,
     int &lx = lp.x();
     int &ly = lp.y();
     int &lz = lp.z();
+
+    // A right-stick tilt that opened look mode also supplies the first step.
+    if( const auto step = gamepad_look::take_pending_step() ) {
+        lx += step->x;
+        ly += step->y;
+        center.x() += step->x;
+        center.y() += step->y;
+    }
 
     int soffset = get_option<int>( "FAST_SCROLL_OFFSET" );
     bool fast_scroll = false;

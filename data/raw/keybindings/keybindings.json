@@ -75,14 +75,22 @@
     "id": "UP",
     "category": "MELEE_STYLE_PICKER",
     "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard", "key": "UP" }, { "input_method": "keyboard", "key": "NUMPAD_8" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "UP" },
+      { "input_method": "keyboard", "key": "NUMPAD_8" },
+      { "input_method": "gamepad", "key": "JOY_UP" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "DOWN",
     "category": "MELEE_STYLE_PICKER",
     "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard", "key": "DOWN" }, { "input_method": "keyboard", "key": "NUMPAD_2" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "DOWN" },
+      { "input_method": "keyboard", "key": "NUMPAD_2" },
+      { "input_method": "gamepad", "key": "JOY_DOWN" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2874,21 +2882,29 @@
     "category": "HELP_KEYBINDINGS",
     "name": "Exit this keybinding screen",
     "//": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
-    "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "gamepad", "key": "JOY_1" } ]
   },
   {
     "type": "keybinding",
     "id": "UP",
     "category": "HELP_KEYBINDINGS",
     "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard", "key": "UP" }, { "input_method": "keyboard", "key": "NUMPAD_8" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "UP" },
+      { "input_method": "keyboard", "key": "NUMPAD_8" },
+      { "input_method": "gamepad", "key": "JOY_UP" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "DOWN",
     "category": "HELP_KEYBINDINGS",
     "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard", "key": "DOWN" }, { "input_method": "keyboard", "key": "NUMPAD_2" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "DOWN" },
+      { "input_method": "keyboard", "key": "NUMPAD_2" },
+      { "input_method": "gamepad", "key": "JOY_DOWN" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3271,14 +3287,22 @@
     "id": "UP",
     "category": "ITEM_ACTIONS",
     "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard", "key": "UP" }, { "input_method": "keyboard", "key": "NUMPAD_8" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "UP" },
+      { "input_method": "keyboard", "key": "NUMPAD_8" },
+      { "input_method": "gamepad", "key": "JOY_UP" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "DOWN",
     "category": "ITEM_ACTIONS",
     "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard", "key": "DOWN" }, { "input_method": "keyboard", "key": "NUMPAD_2" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "DOWN" },
+      { "input_method": "keyboard", "key": "NUMPAD_2" },
+      { "input_method": "gamepad", "key": "JOY_DOWN" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3292,7 +3316,7 @@
     "id": "QUIT",
     "category": "ITEM_ACTIONS",
     "name": "Cancel menu",
-    "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "gamepad", "key": "JOY_1" } ]
   },
   {
     "type": "keybinding",
@@ -3394,7 +3418,8 @@
     "bindings": [
       { "input_method": "keyboard", "key": "Q" },
       { "input_method": "keyboard", "key": "q" },
-      { "input_method": "keyboard", "key": "ESC" }
+      { "input_method": "keyboard", "key": "ESC" },
+      { "input_method": "gamepad", "key": "JOY_1" }
     ]
   },
   {
@@ -3469,7 +3494,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "ESC" },
       { "input_method": "keyboard", "key": "SPACE" },
-      { "input_method": "keyboard", "key": "RETURN" }
+      { "input_method": "keyboard", "key": "RETURN" },
+      { "input_method": "gamepad", "key": "JOY_0" },
+      { "input_method": "gamepad", "key": "JOY_1" }
     ]
   },
   {
@@ -3605,7 +3632,7 @@
     "id": "QUIT",
     "category": "NPC_TRADE",
     "name": "Cancel trading",
-    "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "gamepad", "key": "JOY_1" } ]
   },
   {
     "type": "keybinding",

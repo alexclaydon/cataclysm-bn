@@ -2215,7 +2215,23 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         d_win.refresh_response_display();
         do {
             ui_manager::redraw();
-            ch = inp_mngr.get_input_event().get_first_input();
+            const auto evt = inp_mngr.get_input_event();
+            ch = evt.get_first_input();
+            if( evt.type == input_event_t::gamepad ) {
+                // Translate pad input into this loop's keyboard vocabulary.
+                // Unhandled pad events must not fall through: JOY_* codes
+                // numerically collide with KEY_* (e.g. JOY_RIGHT == KEY_DOWN).
+                if( ch == JOY_UP ) {
+                    ch = KEY_UP;
+                } else if( ch == JOY_DOWN ) {
+                    ch = KEY_DOWN;
+                } else if( ch == JOY_0 ) {
+                    ch = '\n';
+                } else {
+                    ch = -1;
+                    continue;
+                }
+            }
             if( ch == KEY_UP ) {
                 if( selected_response > 0 ) {
                     selected_response -= 1;

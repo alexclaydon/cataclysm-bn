@@ -40,6 +40,7 @@ work here:
 | Format before commit | `just fmt` (staged files) or `just fmt-cpp/-json <files>` (specific files) — C++ has TWO formatters by path, don't run astyle/clang-format by hand |
 | Find where a JSON "type" loads in C++ | `src/init.cpp` `DynamicDataLoader::initialize()` |
 | Add/modify game content | data/json — see references/json-data.md |
+| Gamepad/controller input | use the `gamepad-controls` skill (binding rules, contexts, SDL layer) |
 | Docs site | `deno task docs serve` → localhost:3000 |
 
 ## References (read when working in that area)

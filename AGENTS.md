@@ -14,6 +14,13 @@
   the Deck) as a background task, then report the result when it
   finishes — the conversation must stay free for discussion while the
   Deck compiles.
+- **Skill upkeep**: when a session produces knowledge worth keeping —
+  new conventions or principles, corrected assumptions, gotchas, or
+  changed state that an existing skill in `.claude/skills/` describes —
+  the agent MUST offer to update the relevant skill (or propose a new
+  one). Towards the end of a thread is usually the right moment, once
+  it is clear what was actually learned; do not offer when nothing
+  generalizable came up.
 - If the Deck is unreachable (ssh timeout / tailscale offline), it is
   asleep — deployment must wait until it is awake; there is no remote
   wake.

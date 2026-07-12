@@ -39,7 +39,7 @@
     "id": "QUIT",
     "category": "UILIST",
     "name": "Cancel menu",
-    "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "gamepad", "key": "JOY_1" } ]
   },
   {
     "type": "keybinding",
@@ -911,6 +911,20 @@
     "name": "Exit worldgen screen",
     "//": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "OVERMAP",
+    "name": "Exit map",
+    "bindings": [
+      { "input_method": "keyboard", "key": "ESC" },
+      { "input_method": "keyboard", "key": "q" },
+      { "input_method": "keyboard", "key": "Q" },
+      { "input_method": "keyboard", "key": "SPACE" },
+      { "input_method": "gamepad", "key": "JOY_1" },
+      { "input_method": "gamepad", "key": "JOY_6" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1997,6 +2011,13 @@
   },
   {
     "type": "keybinding",
+    "id": "inventory",
+    "category": "DEFAULTMODE",
+    "name": "Open inventory",
+    "bindings": [ { "input_method": "keyboard", "key": "i" }, { "input_method": "gamepad", "key": "JOY_3" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Compare two Items",
     "category": "DEFAULTMODE",
     "id": "compare",
@@ -2283,6 +2304,13 @@
     "category": "DEFAULTMODE",
     "id": "map",
     "bindings": [ { "input_method": "keyboard", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "map",
+    "category": "DEFAULTMODE",
+    "name": "View map",
+    "bindings": [ { "input_method": "keyboard", "key": "m" }, { "input_method": "gamepad", "key": "JOY_6" } ]
   },
   {
     "type": "keybinding",
@@ -2588,6 +2616,13 @@
     "category": "DEFAULTMODE",
     "id": "main_menu",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "main_menu",
+    "category": "DEFAULTMODE",
+    "name": "Open main menu",
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "gamepad", "key": "JOY_7" } ]
   },
   {
     "type": "keybinding",

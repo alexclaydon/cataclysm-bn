@@ -2940,6 +2940,34 @@ void android_vibrate()
 }
 #endif
 
+// Repeat right-trigger events while it stays held (after a short initial
+// delay), so e.g. held-trigger movement keeps stepping without re-pulls.
+// The first event fires on the press edge in the axis-motion handler.
+static Uint64 rtrigger_repeat_at = std::numeric_limits<Uint64>::max();
+static constexpr Uint64 rtrigger_initial_delay = 250;
+static constexpr Uint64 rtrigger_repeat_interval = 75;
+
+namespace
+{
+auto HandleRightTriggerRepeat() -> int
+{
+    if( !joy_right_trigger_held ) {
+        rtrigger_repeat_at = std::numeric_limits<Uint64>::max();
+        return 0;
+    }
+    if( rtrigger_repeat_at == std::numeric_limits<Uint64>::max() ) {
+        rtrigger_repeat_at = SDL_GetTicks() + rtrigger_initial_delay;
+        return 0;
+    }
+    if( SDL_GetTicks() >= rtrigger_repeat_at ) {
+        rtrigger_repeat_at = SDL_GetTicks() + rtrigger_repeat_interval;
+        last_input = input_event( JOY_RTRIGGER, input_event_t::gamepad );
+        return 1;
+    }
+    return 0;
+}
+} // namespace
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 static void CheckMessages()
 {
@@ -2948,6 +2976,9 @@ static void CheckMessages()
     bool text_refresh = false;
     bool is_repeat = false;
     if( HandleDPad() ) {
+        return;
+    }
+    if( HandleRightTriggerRepeat() ) {
         return;
     }
 

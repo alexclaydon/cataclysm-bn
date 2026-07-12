@@ -1,5 +1,19 @@
 # Cataclysm: Bright Nights - Agent Guidelines
 
+## FORK CONVENTION: where work happens (this fork only)
+
+- **All development happens on the local clone on Nova** (the macOS
+  machine; always on). Edit, build, test, and commit there.
+- The **Steam Deck clone** (`~/cataclysm-bn` on host `steamdeck`) is a
+  **deployment target, not a workspace** — never edit or commit there.
+- **"Deploy on deck"** means: bring the Deck's clone up to date and
+  rebuild on the Deck itself. From Nova: `make deck-local` (pushes the
+  current branch to `origin`, then ssh → `build-scripts/deck-update.sh`,
+  which pulls and rebuilds inside the Deck's `bn-dev` distrobox).
+- If the Deck is unreachable (ssh timeout / tailscale offline), it is
+  asleep — deployment must wait until it is awake; there is no remote
+  wake.
+
 ## HARD CONSTRAINTS (NEVER VIOLATE)
 
 Before writing **ANY** code, verify:

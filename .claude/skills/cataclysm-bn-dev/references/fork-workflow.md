@@ -3,6 +3,11 @@
 This is Alex's personal fork of Cataclysm-BN. Dev work happens on the
 `aec-dev` branch. Upstream PRs are not the goal unless explicitly asked.
 
+**Machine convention**: all development happens on the local clone on
+Nova (this Mac; always on). The Steam Deck clone is a deployment target
+only — never a workspace. "Deploy on deck" = `make deck-local` from
+Nova (push origin → ssh → pull + rebuild on the Deck).
+
 ## Remotes
 
 | Remote    | Where                                  | Role                          |

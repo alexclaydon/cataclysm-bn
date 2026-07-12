@@ -152,6 +152,20 @@ TEST_CASE( "keybinding_mirror_categories_track_their_base", "[keybindings]" )
         }
     }
 
+    SECTION( "CHOOSE_DIRECTION direction overrides keep base keys and extend gamepad" ) {
+        // Direction prompts add left-stick selection on top of the shared
+        // direction bindings (keyboard + d-pad).
+        for( const std::string id : {
+                 "UP", "DOWN", "LEFT", "RIGHT", "LEFTUP", "RIGHTUP", "LEFTDOWN", "RIGHTDOWN"
+             } ) {
+            INFO( "action id: " << id );
+            const auto &base = get_set( bindings, "default", id );
+            const auto &mirror = get_set( bindings, "CHOOSE_DIRECTION", id );
+            CHECK( mirror.keyboard == base.keyboard );
+            CHECK( std::ranges::includes( mirror.gamepad, base.gamepad ) );
+        }
+    }
+
     SECTION( "CHOOSE_DIRECTION pause mirrors DEFAULTMODE pause" ) {
         // The direction prompt's "choose here" copies the gameplay pause
         // keys (and adds A on the pad); directions themselves come from the

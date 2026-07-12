@@ -649,6 +649,13 @@ class input_context
                                            const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
+         * Show a menu of this context's registered actions (minus
+         * navigation/plumbing) and return the chosen one, or nullptr if
+         * cancelled. Lets a gamepad trigger hotkey-only screen actions.
+         */
+        auto display_action_palette() -> const std::string *; // *NOPAD*
+
+        /**
          * Handles input and returns the next action in the queue.
          *
          * This internally calls getch() or whatever other input method

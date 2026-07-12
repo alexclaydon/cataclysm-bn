@@ -32,6 +32,7 @@
 #include "string_input_popup.h"
 #include "string_utils.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "color.h"
 #include "point.h"
@@ -1029,11 +1030,63 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
+        // Unbound gamepad X on this screen: show a palette of the screen's
+        // actions so hotkey-only legends stay usable from the pad. Only
+        // fires when nothing else claimed the button, so it never shadows
+        // a screen's own JOY_2 binding.
+        if( next_action.type == input_event_t::gamepad &&
+            next_action.get_first_input() == JOY_2 ) {
+            inp_mngr.reset_timeout();
+            const std::string *palette_choice = display_action_palette();
+            inp_mngr.set_timeout( timeout );
+            if( palette_choice ) {
+                result = palette_choice;
+                break;
+            }
+            continue;
+        }
+
         // If it's an invalid key, just keep looping until the user
         // enters something proper.
     }
     inp_mngr.set_timeout( old_timeout );
     return *result;
+}
+
+auto input_context::display_action_palette() -> const std::string * // *NOPAD*
+{
+    // A palette opened from inside a palette's own uilist would recurse.
+    static bool palette_open = false;
+    if( palette_open ) {
+        return nullptr;
+    }
+    static const std::set<std::string> skipped = {
+        "UP", "DOWN", "LEFT", "RIGHT", "LEFTUP", "LEFTDOWN", "RIGHTUP", "RIGHTDOWN",
+        "PAGE_UP", "PAGE_DOWN", "SCROLL_UP", "SCROLL_DOWN", "NEXT_TAB", "PREV_TAB",
+        "CONFIRM", "QUIT", "HELP_KEYBINDINGS", "ANY_INPUT", "COORDINATE",
+        "MOUSE_MOVE", "SELECT", "SEC_SELECT", "TIMEOUT"
+    };
+    uilist menu;
+    menu.settext( _( "Actions" ) );
+    std::vector<const std::string *> choices;
+    for( const std::string &action : registered_actions ) {
+        if( skipped.contains( action ) ) {
+            continue;
+        }
+        menu.addentry( static_cast<int>( choices.size() ), true, MENU_AUTOASSIGN,
+                       describe_key_and_name( action ) );
+        choices.push_back( &action );
+    }
+    if( choices.empty() ) {
+        return nullptr;
+    }
+    palette_open = true;
+    menu.query();
+    palette_open = false;
+    if( menu.ret >= 0 && static_cast<size_t>( menu.ret ) < choices.size() ) {
+        return choices[menu.ret];
+    }
+    return nullptr;
 }
 
 void input_context::register_directions()

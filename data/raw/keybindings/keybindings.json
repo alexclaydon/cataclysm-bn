@@ -2010,6 +2010,18 @@
   },
   {
     "type": "keybinding",
+    "id": "pause",
+    "category": "CHOOSE_DIRECTION",
+    "name": "Choose here",
+    "bindings": [
+      { "input_method": "keyboard", "key": "." },
+      { "input_method": "keyboard", "key": "5" },
+      { "input_method": "keyboard", "key": "NUMPAD_5" },
+      { "input_method": "gamepad", "key": "JOY_0" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "name": "Show/Hide Preview Outfit",
     "category": "NEW_CHAR_TRAITS",
     "id": "TOGGLE_CHARACTER_PREVIEW_CLOTHES",
@@ -2082,7 +2094,7 @@
     "name": "Examine Nearby Terrain",
     "category": "DEFAULTMODE",
     "id": "examine",
-    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "e" }, { "input_method": "gamepad", "key": "JOY_2" } ]
   },
   {
     "type": "keybinding",

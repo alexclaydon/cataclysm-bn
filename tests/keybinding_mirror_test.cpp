@@ -152,6 +152,15 @@ TEST_CASE( "keybinding_mirror_categories_track_their_base", "[keybindings]" )
         }
     }
 
+    SECTION( "CHOOSE_DIRECTION pause mirrors DEFAULTMODE pause" ) {
+        // The direction prompt's "choose here" copies the gameplay pause
+        // keys (and adds A on the pad); directions themselves come from the
+        // shared entries via fallback, so they need no mirror.
+        const auto &base = get_set( bindings, "DEFAULTMODE", "pause" );
+        const auto &mirror = get_set( bindings, "CHOOSE_DIRECTION", "pause" );
+        CHECK( mirror.keyboard == base.keyboard );
+    }
+
     SECTION( "VEH_INTERACT tab overrides keep base keys" ) {
         for( const std::string id : { "NEXT_TAB", "PREV_TAB" } ) {
             INFO( "action id: " << id );

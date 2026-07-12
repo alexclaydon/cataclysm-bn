@@ -1262,7 +1262,10 @@ action_id handle_main_menu()
 std::optional<tripoint_rel_ms> choose_direction( const std::string &message,
         const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE" );
+    // Own category: DEFAULTMODE's direction overrides are keyboard-only
+    // (the d-pad is reserved in-world), but this prompt should accept the
+    // d-pad via the shared direction entries it falls back to.
+    input_context ctxt( "CHOOSE_DIRECTION" );
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );

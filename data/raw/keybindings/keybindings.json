@@ -3643,6 +3643,41 @@
   },
   {
     "type": "keybinding",
+    "id": "CONFIRM",
+    "category": "YESNO",
+    "name": "Confirm highlighted option",
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CONFIRM",
+    "category": "YESNOQUIT",
+    "name": "Confirm highlighted option",
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CONFIRM",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Confirm highlighted option",
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CONFIRM",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Confirm highlighted option",
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CONFIRM",
+    "category": "YN_IGNORE_QUERY",
+    "name": "Confirm highlighted option",
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "LOAD",
     "category": "LOAD_DELETE_CANCEL",
     "name": "Load",

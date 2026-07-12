@@ -191,6 +191,11 @@ TEST_CASE( "keybinding_mirror_categories_track_their_base", "[keybindings]" )
             INFO( "category: " << cat );
             CHECK( get_set( bindings, cat, "YES" ).gamepad.contains( "JOY_0" ) );
             CHECK( get_set( bindings, cat, back_out ).gamepad.contains( "JOY_1" ) );
+            // CONFIRM must stay keyboard-only here or, being registered
+            // before the options, it swallows JOY_0 (A) in query_popup.
+            const auto &confirm = get_set( bindings, cat, "CONFIRM" );
+            CHECK( confirm.keyboard == get_set( bindings, "default", "CONFIRM" ).keyboard );
+            CHECK( confirm.gamepad.empty() );
         }
     }
 

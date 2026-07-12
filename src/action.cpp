@@ -1244,6 +1244,9 @@ action_id handle_main_menu()
     } );
 
     uilist smenu;
+    // Own category so the start button (JOY_7) can close this menu without
+    // affecting other uilists; mirrors the UILIST bindings in keybindings.json.
+    smenu.input_category = "INGAME_MAIN_MENU";
     smenu.settext( _( "MAIN MENU" ) );
     smenu.entries = entries;
     smenu.query();

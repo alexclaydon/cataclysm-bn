@@ -3389,7 +3389,7 @@ static void CheckMessages()
             }
             break;
             case SDL_EVENT_JOYSTICK_BUTTON_DOWN:
-                last_input = input_event( ev.jbutton.button, input_event_t::keyboard );
+                last_input = input_event( ev.jbutton.button, input_event_t::gamepad );
                 break;
             case SDL_EVENT_JOYSTICK_AXIS_MOTION:
                 // on gamepads, the axes are the analog sticks

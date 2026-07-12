@@ -747,7 +747,7 @@
     "type": "keybinding",
     "id": "CONFIRM",
     "name": "Confirm Choice",
-    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" }, { "input_method": "gamepad", "key": "JOY_0" } ]
   },
   {
     "type": "keybinding",
@@ -1024,6 +1024,7 @@
       { "input_method": "keyboard", "key": "q" },
       { "input_method": "keyboard", "key": "Q" },
       { "input_method": "keyboard", "key": "SPACE" },
+      { "input_method": "gamepad", "key": "JOY_1" },
       { "input_method": "gamepad", "key": "JOY_3" }
     ]
   },

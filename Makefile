@@ -9,6 +9,8 @@
 #   make clean      # remove the build directory for the current preset
 #   make deck       # Steam Deck build: push branch, run fork CI, download
 #                   # the linux-tiles-x64 tarball into out/deck/
+#   make deck-local # push branch, then pull + rebuild the native build on
+#                   # the Deck itself (via ssh, inside its bn-dev distrobox)
 #
 # Override the preset with e.g. `make PRESET=osx-arm-dist`.
 
@@ -17,7 +19,9 @@ BUILD_DIR := out/build/$(PRESET)
 GAME_BIN := $(BUILD_DIR)/src/cataclysm-bn-tiles
 TEST_BIN := $(BUILD_DIR)/tests/cata_test-tiles
 
-.PHONY: build shaders shaders-force configure compile run test clean deck
+.PHONY: build shaders shaders-force configure compile run test clean deck deck-local
+
+DECK_SSH ?= steamdeck
 
 build: shaders configure compile
 
@@ -44,3 +48,7 @@ clean:
 
 deck:
 	bash build-scripts/deck-build.sh
+
+deck-local:
+	git push origin HEAD
+	ssh $(DECK_SSH) 'bash ~/cataclysm-bn/build-scripts/deck-update.sh'

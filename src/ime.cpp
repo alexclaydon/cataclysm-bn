@@ -2,6 +2,9 @@
 
 #ifdef __ANDROID__
 #include "options.h"
+#endif
+
+#if defined(TILES)
 #include "sdltiles.h"
 #endif
 
@@ -105,11 +108,13 @@ static bool ime_enabled()
 {
 #if defined( __ANDROID__ )
     return false; // always call disable_ime() (i.e. do nothing) on return
+#elif defined( TILES )
+    return SDL_TextInputActive( get_sdl_window().get() );
 #elif defined( _WIN32 )
     return imm.ime_enabled();
-#endif
+#else
     return false;
-    // TODO: other platforms?
+#endif
 }
 
 void enable_ime()
@@ -118,20 +123,31 @@ void enable_ime()
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput( get_sdl_window().get() );
     }
-#elif defined( _WIN32 )
+#else
+#if defined( TILES )
+    // SDL text input stays off outside text fields (see CheckMessages'
+    // key-event fallback); enabling it here delivers SDL_EVENT_TEXT_INPUT
+    // and, on platforms with one (e.g. SteamOS), the on-screen keyboard.
+    SDL_StartTextInput( get_sdl_window().get() );
+#endif
+#if defined( _WIN32 )
     imm.enable_ime();
 #endif
-    // TODO: other platforms?
+#endif
 }
 
 void disable_ime()
 {
 #if defined( __ANDROID__ )
     // the original android code did nothing, so don't change it
-#elif defined( _WIN32 )
+#else
+#if defined( TILES )
+    SDL_StopTextInput( get_sdl_window().get() );
+#endif
+#if defined( _WIN32 )
     imm.disable_ime();
 #endif
-    // TODO: other platforms?
+#endif
 }
 
 ime_sentry::ime_sentry( ime_sentry::mode m ) : previously_enabled( ime_enabled() )

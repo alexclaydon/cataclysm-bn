@@ -292,7 +292,10 @@ static void WinCreate()
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
     SDL_SetWindowPosition( ::window.get(), SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
                            SDL_WINDOWPOS_CENTERED_DISPLAY( display ) );
-    SDL_StartTextInput( ::window.get() );
+    // SDL text input is NOT started here: it is enabled only while a text
+    // field is active (ime.cpp), so platforms with an on-screen keyboard
+    // (e.g. SteamOS) don't pop it at launch. Outside text fields, printable
+    // keys are derived from key events in CheckMessages.
 
 #if !defined(__ANDROID__)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
@@ -3357,6 +3360,20 @@ static void CheckMessages()
                 if( lc <= 0 ) {
                     if( ev.key.key >= SDLK_KP_1 && ev.key.key <= SDLK_KP_0 ) {
                         last_input = input_event( ev.key.key - SDLK_KP_1 + NUMPAD_1, input_event_t::keyboard );
+                    } else if( lc == 0 && !SDL_TextInputActive( ::window.get() ) &&
+                               !( ev.key.mod & ( SDL_KMOD_CTRL | SDL_KMOD_GUI ) ) ) {
+                        // Text input mode is only active inside text fields (see
+                        // ime.cpp), so printable characters must be derived from
+                        // the key event; SDL_EVENT_TEXT_INPUT won't fire here.
+                        const SDL_Keycode key =
+                            SDL_GetKeyFromScancode( ev.key.scancode, ev.key.mod, false );
+                        if( key >= ' ' && key != 0x7F &&
+                            !( key & ( SDLK_SCANCODE_MASK | SDLK_EXTENDED_MASK ) ) ) {
+                            last_input = input_event( key, input_event_t::keyboard );
+                            last_input.text = utf32_to_utf8( key );
+                        } else {
+                            break;
+                        }
                     } else {
                         // a key we don't know in curses and won't handle.
                         break;

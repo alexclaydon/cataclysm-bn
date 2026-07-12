@@ -3623,7 +3623,11 @@
     "id": "YES",
     "category": "YESNO",
     "name": "Yes",
-    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "Y" },
+      { "input_method": "keyboard", "key": "y" },
+      { "input_method": "gamepad", "key": "JOY_0" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3633,7 +3637,8 @@
     "bindings": [
       { "input_method": "keyboard", "key": "N" },
       { "input_method": "keyboard", "key": "n" },
-      { "input_method": "keyboard", "key": "ESC" }
+      { "input_method": "keyboard", "key": "ESC" },
+      { "input_method": "gamepad", "key": "JOY_1" }
     ]
   },
   {
@@ -3662,7 +3667,11 @@
     "id": "YES",
     "category": "YESNOQUIT",
     "name": "Yes",
-    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "Y" },
+      { "input_method": "keyboard", "key": "y" },
+      { "input_method": "gamepad", "key": "JOY_0" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3688,7 +3697,11 @@
     "id": "YES",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Yes",
-    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "Y" },
+      { "input_method": "keyboard", "key": "y" },
+      { "input_method": "gamepad", "key": "JOY_0" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3698,7 +3711,8 @@
     "bindings": [
       { "input_method": "keyboard", "key": "N" },
       { "input_method": "keyboard", "key": "n" },
-      { "input_method": "keyboard", "key": "ESC" }
+      { "input_method": "keyboard", "key": "ESC" },
+      { "input_method": "gamepad", "key": "JOY_1" }
     ]
   },
   {
@@ -3720,7 +3734,11 @@
     "id": "YES",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Yes",
-    "bindings": [ { "input_method": "keyboard", "key": [ "Y" ] }, { "input_method": "keyboard", "key": [ "y" ] } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": [ "Y" ] },
+      { "input_method": "keyboard", "key": [ "y" ] },
+      { "input_method": "gamepad", "key": "JOY_0" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3730,7 +3748,8 @@
     "bindings": [
       { "input_method": "keyboard", "key": [ "N" ] },
       { "input_method": "keyboard", "key": [ "n" ] },
-      { "input_method": "keyboard", "key": [ "ESC" ] }
+      { "input_method": "keyboard", "key": [ "ESC" ] },
+      { "input_method": "gamepad", "key": "JOY_1" }
     ]
   },
   {
@@ -4294,7 +4313,11 @@
     "id": "YES",
     "category": "YN_IGNORE_QUERY",
     "name": "Yes",
-    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "Y" },
+      { "input_method": "keyboard", "key": "y" },
+      { "input_method": "gamepad", "key": "JOY_0" }
+    ]
   },
   {
     "type": "keybinding",
@@ -4304,7 +4327,8 @@
     "bindings": [
       { "input_method": "keyboard", "key": "A" },
       { "input_method": "keyboard", "key": "a" },
-      { "input_method": "keyboard", "key": "ESC" }
+      { "input_method": "keyboard", "key": "ESC" },
+      { "input_method": "gamepad", "key": "JOY_1" }
     ]
   },
   {

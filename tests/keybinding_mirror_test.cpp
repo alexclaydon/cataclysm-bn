@@ -175,6 +175,25 @@ TEST_CASE( "keybinding_mirror_categories_track_their_base", "[keybindings]" )
         CHECK( mirror.keyboard == base.keyboard );
     }
 
+    SECTION( "yes/no prompt categories bind A to YES and B to their back-out" ) {
+        // Convention: A answers yes on every prompt flavor; B goes to
+        // whichever option carries ESC (harmless back-out) — NO on plain
+        // yes/no prompts, ABORT on salvage-style prompts, QUIT on
+        // yes/no/quit prompts (where NO is a real answer, not a back-out).
+        const std::vector<std::pair<std::string, std::string>> b_targets = {
+            { "YESNO", "NO" },
+            { "YESNOQUIT", "QUIT" },
+            { "CANCEL_ACTIVITY_OR_IGNORE_QUERY", "NO" },
+            { "YES_NO_ALWAYS_NEVER", "NO" },
+            { "YN_IGNORE_QUERY", "ABORT" },
+        };
+        for( const auto &[cat, back_out] : b_targets ) {
+            INFO( "category: " << cat );
+            CHECK( get_set( bindings, cat, "YES" ).gamepad.contains( "JOY_0" ) );
+            CHECK( get_set( bindings, cat, back_out ).gamepad.contains( "JOY_1" ) );
+        }
+    }
+
     SECTION( "VEH_INTERACT tab overrides keep base keys" ) {
         for( const std::string id : { "NEXT_TAB", "PREV_TAB" } ) {
             INFO( "action id: " << id );

@@ -18,14 +18,22 @@
     "id": "UP",
     "category": "UILIST",
     "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard", "key": "UP" }, { "input_method": "keyboard", "key": "NUMPAD_8" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "UP" },
+      { "input_method": "keyboard", "key": "NUMPAD_8" },
+      { "input_method": "gamepad", "key": "JOY_UP" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "DOWN",
     "category": "UILIST",
     "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard", "key": "DOWN" }, { "input_method": "keyboard", "key": "NUMPAD_2" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "DOWN" },
+      { "input_method": "keyboard", "key": "NUMPAD_2" },
+      { "input_method": "gamepad", "key": "JOY_DOWN" }
+    ]
   },
   {
     "type": "keybinding",

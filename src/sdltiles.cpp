@@ -4174,6 +4174,7 @@ input_event input_manager::get_input_event()
     }
 #endif
 
+    record_last_input_device( last_input );
     return last_input;
 }
 

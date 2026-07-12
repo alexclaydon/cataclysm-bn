@@ -228,9 +228,7 @@ yes/no flavors, ABORT on salvage prompts, QUIT on yes/no/quit prompts
 (there NO is a committed answer, not a back-out — keep it off B). Each
 category needs a keyboard-only CONFIRM override (see the shadowing
 trap). The convention table lives in tests/keybinding_mirror_test.cpp —
-new prompt categories must be added to it. Known cosmetic gap: the
-highlight cursor (keyboard affordance) is ignored by pad A/B —
-deliberately left as-is.
+new prompt categories must be added to it.
 
 Gamepad inputs display player-facing names ("Pad A", "LB", "LT+D-Up",
 "R-Stick Up") everywhere hints render — `gamepad_display_name()` in
@@ -238,8 +236,43 @@ src/input.cpp, used by `get_keyname` for non-portable output only; the
 JOY_* identifiers remain the config/serialization names. New JOY_*
 codes need an entry there or they display raw.
 
+## Device-gated dynamic UI (last_input_was_gamepad)
+
+UI affordances can branch on the device the player is actively using:
+`last_input_was_gamepad()` (src/input.h) flips true on any gamepad
+event and false on keyboard/mouse, recorded once at the dequeue
+chokepoint (`record_last_input_device` call in
+`input_manager::get_input_event`, src/sdltiles.cpp; timeout/error
+events don't touch it, curses builds stay false forever). The pattern
+that makes this work: the gate is **live, not sticky** — check it on
+every render and the UI follows whichever device was touched last, no
+settings toggle. Anything that caches a layout must remember which mode
+it was built for and rebuild on mismatch (see `gamepad_ui` in
+query_popup — option text width differs between modes, so a stale cache
+misplaces buttons).
+
+`gamepad_hint_glyph( keycode )` (src/input.cpp) returns colored face
+button glyphs — green (A), red (B), blue (X), yellow (Y), Xbox
+convention — for inline hints; std::nullopt for everything else, so
+callers fall back to their keyboard hint. Keep hints derived from the
+**actual bindings** in the current context (look up the action's first
+gamepad event and glyph that) rather than hardcoding "A means yes" —
+that way rebinds, filters, and pad-unbound options (e.g. NO on
+yes/no/quit) degrade correctly for free.
+
+First consumer: query_popup (src/popup.cpp) renders "(A) Yes / (B) No"
+and hides the selection cursor when on gamepad; keyboard style
+("(Y)es", highlight cursor) returns the moment a key is pressed. This
+closed the former highlight-cursor gap on prompts. Extend this
+screen-by-screen (uilist hints, AIM headers, the future button-hint
+bar), not with a global switch — each screen's fallback needs
+verifying on the Deck.
+
 ## Current gamepad state (as of 2026-07-13)
 
+- Yes/no prompts render device-aware: colored "(A) Yes / (B) No"
+  glyphs, no cursor, when the last input was gamepad; classic keyboard
+  style otherwise (live gate, see Device-gated dynamic UI)
 - A `JOY_0`: Confirm (shared) · Action Menu (DEFAULTMODE) · YES on
   prompts
 - B `JOY_1`: Exit screen (shared) · cancel in UILIST, OVERMAP,

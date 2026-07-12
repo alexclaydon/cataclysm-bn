@@ -1212,6 +1212,44 @@ void input_context::register_cardinal()
     register_leftright();
 }
 
+namespace
+{
+// Last real input device seen; timeout/error events don't touch it, so it
+// tracks what the player last deliberately pressed.
+bool last_input_gamepad = false;
+} // namespace
+
+void record_last_input_device( const input_event &evt )
+{
+    if( evt.type == input_event_t::gamepad ) {
+        last_input_gamepad = true;
+    } else if( evt.type == input_event_t::keyboard || evt.type == input_event_t::mouse ) {
+        last_input_gamepad = false;
+    }
+}
+
+auto last_input_was_gamepad() -> bool
+{
+    return last_input_gamepad;
+}
+
+auto gamepad_hint_glyph( const int keycode ) -> std::optional<std::string>
+{
+    // Xbox-convention face button colors; other inputs have no glyph form.
+    switch( keycode ) {
+        case JOY_0:
+            return colorize( "(A)", c_light_green );
+        case JOY_1:
+            return colorize( "(B)", c_light_red );
+        case JOY_2:
+            return colorize( "(X)", c_light_blue );
+        case JOY_3:
+            return colorize( "(Y)", c_yellow );
+        default:
+            return std::nullopt;
+    }
+}
+
 // dx and dy are -1, 0, or +1. Rotate the indicated direction 1/8 turn clockwise.
 void rotate_direction_cw( int &dx, int &dy )
 {

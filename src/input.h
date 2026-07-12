@@ -819,6 +819,31 @@ class input_context
  */
 bool gamepad_available();
 
+/**
+ * Record the device an input event came from. Called by the platform input
+ * code for every dequeued event; timeout/error events leave the record
+ * unchanged.
+ */
+void record_last_input_device( const input_event &evt );
+
+/**
+ * True if the most recent real input event came from a gamepad, false once
+ * the keyboard or mouse is used. UI code can branch on this to tailor
+ * affordances (hints, cursors) to the device the player is actively using;
+ * re-render after every input and the UI follows the player's device.
+ *
+ * Always false in non-SDL versions.
+ */
+auto last_input_was_gamepad() -> bool;
+
+/**
+ * Short colored button glyph for a gamepad keycode — "(A)" in green,
+ * "(B)" in red, etc. — for inline UI hints when the player is on gamepad.
+ * Returns std::nullopt for codes without a glyph form (d-pad, sticks,
+ * chords); callers should fall back to their keyboard-oriented hint.
+ */
+auto gamepad_hint_glyph( int keycode ) -> std::optional<std::string>;
+
 // rotate a delta direction clockwise
 void rotate_direction_cw( int &dx, int &dy );
 

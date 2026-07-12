@@ -83,9 +83,35 @@ query_popup &query_popup::default_color( const nc_color &d_color )
     return *this;
 }
 
+namespace
+{
+
+// Option text for players on gamepad: a colored button glyph followed by
+// the option name, e.g. "(A) Yes". Options without a glyph-capable gamepad
+// binding in this context return std::nullopt and keep their keyboard hint.
+auto gamepad_option_desc( const std::string &category, const std::string &action,
+                          const std::string &name,
+                          const std::function<bool( const input_event & )> &filter )
+-> std::optional<std::string>
+{
+    for( const auto &evt : inp_mngr.get_input_for_action( action, category ) ) {
+        if( evt.type != input_event_t::gamepad || !filter( evt ) ) {
+            continue;
+        }
+        if( const auto glyph = gamepad_hint_glyph( evt.get_first_input() ) ) {
+            // \u00A0 is the non-breaking space
+            return string_format( "%s\u00A0%s", *glyph, name );
+        }
+    }
+    return std::nullopt;
+}
+
+} // namespace
+
 std::vector<std::vector<std::string>> query_popup::fold_query(
                                        const std::string &category,
                                        const std::vector<query_option> &options,
+                                       const bool gamepad_hints,
                                        const int max_width, const int horz_padding )
 {
     input_context ctxt( category );
@@ -97,7 +123,12 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
     int query_width = 0;
     for( const auto &opt : options ) {
         const auto &name = ctxt.get_action_name( opt.action );
-        const auto &desc = ctxt.get_desc( opt.action, name, opt.filter );
+        const auto gamepad_desc = gamepad_hints
+                                  ? gamepad_option_desc( category, opt.action, name, opt.filter )
+                                  : std::nullopt;
+        const auto desc = gamepad_desc
+                          ? *gamepad_desc
+                          : ctxt.get_desc( opt.action, name, opt.filter );
         const int this_query_width = utf8_width( desc, true ) + horz_padding;
         ++query_cnt;
         query_width += this_query_width;
@@ -152,7 +183,9 @@ void query_popup::init() const
     folded_msg = foldstring( text, max_line_width );
 
     // Fold query buttons
-    const auto &folded_query = fold_query( category, options, max_line_width, horz_padding );
+    gamepad_ui = last_input_was_gamepad();
+    const auto &folded_query = fold_query( category, options, gamepad_ui,
+                                           max_line_width, horz_padding );
 
     // Calculate size of message part
     int msg_width = 0;
@@ -216,7 +249,9 @@ void query_popup::init() const
 
 void query_popup::show() const
 {
-    if( !win ) {
+    // Re-init when the player switches between gamepad and keyboard/mouse:
+    // the option text (and thus the layout) differs between the two.
+    if( !win || gamepad_ui != last_input_was_gamepad() ) {
         init();
     }
 
@@ -230,7 +265,9 @@ void query_popup::show() const
     }
 
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
-        nc_color col = ind == cur ? hilite( c_white ) : c_white;
+        // On gamepad the options answer directly to their buttons, so the
+        // selection cursor is meaningless — don't draw it.
+        nc_color col = !gamepad_ui && ind == cur ? hilite( c_white ) : c_white;
         const auto &btn = buttons[ind];
         print_colored_text( win, btn.pos + point( border_width, border_width ),
                             col, col, btn.text );

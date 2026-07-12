@@ -229,10 +229,15 @@ class query_popup
         mutable catacurses::window win;
         mutable std::vector<std::string> folded_msg;
         mutable std::vector<button> buttons;
+        // Input device the cached layout was built for; a flip between
+        // gamepad and keyboard/mouse changes the option text, so `show`
+        // re-inits when this goes stale.
+        mutable bool gamepad_ui = false;
 
         static std::vector<std::vector<std::string>> fold_query(
                     const std::string &category,
                     const std::vector<query_option> &options,
+                    bool gamepad_hints,
                     int max_width, int horz_padding );
         void invalidate_ui() const;
         void init() const;

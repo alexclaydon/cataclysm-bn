@@ -226,6 +226,12 @@ struct action_attributes {
 #define JOY_LEFTUP      (256 + 7)
 #define JOY_LEFTDOWN    (256 + 8)
 
+// D-pad directions chorded with a held left trigger.
+#define JOY_LT_LEFT     (256 + 9)
+#define JOY_LT_RIGHT    (256 + 10)
+#define JOY_LT_UP       (256 + 11)
+#define JOY_LT_DOWN     (256 + 12)
+
 /**
  * Manages the translation from action IDs to associated input.
  *

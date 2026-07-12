@@ -424,6 +424,11 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_RIGHTUP,   translate_marker_context( "key name", "JOY_RIGHTUP" ) );
     add_gamepad_keycode_pair( JOY_RIGHTDOWN, translate_marker_context( "key name", "JOY_RIGHTDOWN" ) );
 
+    add_gamepad_keycode_pair( JOY_LT_LEFT,   translate_marker_context( "key name", "JOY_LT_LEFT" ) );
+    add_gamepad_keycode_pair( JOY_LT_RIGHT,  translate_marker_context( "key name", "JOY_LT_RIGHT" ) );
+    add_gamepad_keycode_pair( JOY_LT_UP,     translate_marker_context( "key name", "JOY_LT_UP" ) );
+    add_gamepad_keycode_pair( JOY_LT_DOWN,   translate_marker_context( "key name", "JOY_LT_DOWN" ) );
+
     add_gamepad_keycode_pair( JOY_0,         translate_marker_context( "key name", "JOY_0" ) );
     add_gamepad_keycode_pair( JOY_1,         translate_marker_context( "key name", "JOY_1" ) );
     add_gamepad_keycode_pair( JOY_2,         translate_marker_context( "key name", "JOY_2" ) );

@@ -825,14 +825,14 @@
     "id": "ZOOM_OUT",
     "category": "OVERMAP",
     "name": "Zoom Out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "Z" }, { "input_method": "gamepad", "key": "JOY_LT_UP" } ]
   },
   {
     "type": "keybinding",
     "id": "ZOOM_IN",
     "category": "OVERMAP",
     "name": "Zoom In",
-    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "z" }, { "input_method": "gamepad", "key": "JOY_LT_DOWN" } ]
   },
   {
     "type": "keybinding",
@@ -2258,13 +2258,13 @@
     "type": "keybinding",
     "name": "Zoom In",
     "id": "zoom_in",
-    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "z" }, { "input_method": "gamepad", "key": "JOY_LT_DOWN" } ]
   },
   {
     "type": "keybinding",
     "name": "Zoom Out",
     "id": "zoom_out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "Z" }, { "input_method": "gamepad", "key": "JOY_LT_UP" } ]
   },
   {
     "type": "keybinding",

@@ -141,6 +141,8 @@ static Uint64 dpad_delay =
 static bool dpad_continuous = false;  // Whether we're currently moving continuously with the dpad.
 static int lastdpad = ERR;      // Keeps track of the last dpad press.
 static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
+static constexpr int joy_left_trigger_axis = 2; // XInput-style pads report LT as axis 2.
+static bool joy_left_trigger_held = false;
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
@@ -1834,6 +1836,19 @@ static int HandleDPad()
             lc = JOY_RIGHTDOWN;
         }
 
+        // Cardinal directions chord with a held left trigger.
+        if( joy_left_trigger_held ) {
+            if( lc == JOY_LEFT ) {
+                lc = JOY_LT_LEFT;
+            } else if( lc == JOY_RIGHT ) {
+                lc = JOY_LT_RIGHT;
+            } else if( lc == JOY_UP ) {
+                lc = JOY_LT_UP;
+            } else if( lc == JOY_DOWN ) {
+                lc = JOY_LT_DOWN;
+            }
+        }
+
         if( delaydpad == std::numeric_limits<Uint64>::max() ) {
             delaydpad = SDL_GetTicks() + dpad_delay;
             queued_dpad = lc;
@@ -3394,6 +3409,10 @@ static void CheckMessages()
             case SDL_EVENT_JOYSTICK_AXIS_MOTION:
                 // on gamepads, the axes are the analog sticks
                 // TODO: somehow get the "digipad" values from the axes
+                if( ev.jaxis.axis == joy_left_trigger_axis ) {
+                    // Triggers rest at -32768; count half-pressed as held.
+                    joy_left_trigger_held = ev.jaxis.value > 0;
+                }
                 break;
             case SDL_EVENT_MOUSE_MOTION:
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||

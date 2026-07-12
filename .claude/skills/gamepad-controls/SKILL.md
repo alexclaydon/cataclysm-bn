@@ -30,6 +30,20 @@ all of it:
    "UILIST" for list menus, "OVERMAP" for the map, "INVENTORY", …).
    Decide per context what each button means; leave buttons unbound in
    contexts where they have no job yet, so they stay free.
+3. **Prefer the minimally invasive mechanism, and weigh second-order
+   effects BEFORE changing anything.** The mechanisms below are ordered
+   by cost: a binding on an existing shared entry (zero copies — scoping
+   comes free from action registration) < a category override (forks a
+   copy of the base bindings you now own) < a private uilist category
+   (forks ALL of that menu's bindings) < C++ changes. Before picking
+   one, ask: does this button already mean something in an ancestor or
+   sibling context (conflict)? Does it create UX inconsistency (same
+   button, different meaning across similar screens)? Who else resolves
+   this action id, and what happens to them (check every category that
+   overrides it)? What copies does this create, and will they drift on
+   upstream merges? If a change turns out bigger than the feature it
+   delivers, that is a signal to stop and reconsider — say so to the
+   user rather than pushing through.
 
 ## How binding resolution works (the part people get wrong)
 
@@ -80,12 +94,28 @@ overlay (`5f31bb1`), RT hold-to-repeat (`fa10f11`).
 
 **Bind a button to an action in one context** (the common case; JSON
 only): find the action's entry (`rg '"id": "map"' data/raw/keybindings/
-keybindings.json`); if you need it scoped, add a category entry that
-copies the keyboard keys and adds `{ "input_method": "gamepad", "key":
-"JOY_n" }`. Check whether other categories override the same action id —
-each override needs the button added separately (this bit the
+keybindings.json`) — and check its `category` field, which can appear
+BEFORE or AFTER the id (field order varies; three "shared" entries
+turned out to be DEFAULTMODE-scoped already, and adding an "override"
+created silent duplicates that the loader resolves last-one-wins). If
+the entry is already scoped where you need it, just add the binding to
+it. If you need it scoped, add a category entry that copies the
+keyboard keys and adds `{ "input_method": "gamepad", "key": "JOY_n" }`.
+Check whether other categories override the same action id — each
+override needs the button added separately (this bit the
 NEXT_TAB/VEH_INTERACT and UILIST UP/DOWN cases). Then
 `./build-scripts/format-json.sh <file>` before committing.
+
+**The mirror-copy tax & drift test**: every category override forks a
+copy of its base entry's bindings that will NOT track future changes
+(overrides replace, never merge). All such mirrors are pinned by
+`tests/keybinding_mirror_test.cpp` (`[keybindings]` tag; run with
+`CATA_TEST_COMPUTE_ACCELERATION=cpu` on machines without the GPU
+backend), which also rejects duplicate category/id entries file-wide.
+When you create a new mirror (category override or private uilist
+category), REGISTER IT in that test; when the test fails after a
+keybindings edit, re-sync the mirror with its base or update the
+expectation if the divergence is intentional.
 
 **Find a screen's category**: `rg 'input_context ctxt\( "' src/<file>`,
 or for uilist-based menus it's `UILIST`. To see what actions a screen

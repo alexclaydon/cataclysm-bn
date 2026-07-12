@@ -2077,13 +2077,6 @@
     "name": "Open Inventory",
     "category": "DEFAULTMODE",
     "id": "inventory",
-    "bindings": [ { "input_method": "keyboard", "key": "i" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "inventory",
-    "category": "DEFAULTMODE",
-    "name": "Open inventory",
     "bindings": [ { "input_method": "keyboard", "key": "i" }, { "input_method": "gamepad", "key": "JOY_3" } ]
   },
   {
@@ -2373,13 +2366,6 @@
     "name": "View Map",
     "category": "DEFAULTMODE",
     "id": "map",
-    "bindings": [ { "input_method": "keyboard", "key": "m" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "map",
-    "category": "DEFAULTMODE",
-    "name": "View map",
     "bindings": [ { "input_method": "keyboard", "key": "m" }, { "input_method": "gamepad", "key": "JOY_6" } ]
   },
   {
@@ -2685,13 +2671,6 @@
     "name": "Main Menu",
     "category": "DEFAULTMODE",
     "id": "main_menu",
-    "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "main_menu",
-    "category": "DEFAULTMODE",
-    "name": "Open main menu",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "gamepad", "key": "JOY_7" } ]
   },
   {

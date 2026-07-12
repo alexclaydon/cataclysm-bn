@@ -1973,8 +1973,11 @@ inventory_input inventory_selector::get_input()
     inventory_input res;
 
     res.action = ctxt.handle_input();
-    res.ch = ctxt.get_raw_input().get_first_input();
-    res.entry = find_entry_by_invlet( res.ch );
+    const input_event &evt = ctxt.get_raw_input();
+    res.ch = evt.get_first_input();
+    // Only keyboard input can be an item hotkey: gamepad keycodes must not
+    // match invlets (JOY_0's keycode is 0, which unassigned invlets share).
+    res.entry = evt.type == input_event_t::keyboard ? find_entry_by_invlet( res.ch ) : nullptr;
 
     if( res.entry != nullptr && !res.entry->is_selectable() ) {
         res.entry = nullptr;

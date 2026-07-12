@@ -117,7 +117,7 @@ cmake --build --preset linux-full --target cataclysm-bn-tiles cata_test-tiles
 ./build-scripts/lint-json.sh
 
 # Check Mods (validates mod JSON files)
-./out/build/linux-full/cataclysm-bn-tiles --check-mods
+./out/build/linux-full/src/cataclysm-bn-tiles --check-mods
 
 # Generate Lua Documentation (if conflicts with lua_annotations.lua or docs/en/mod/lua/reference/lua.md)
 deno task docs:gen

@@ -109,6 +109,12 @@
 #include "weather.h"
 #include "worldfactory.h"
 
+#if defined(TILES)
+#include "cached_options.h"
+#include "cata_tiles.h"
+#include "sdltiles.h"
+#endif
+
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
@@ -1841,6 +1847,93 @@ void game::open_consume_item_menu()
     }
 }
 
+namespace
+{
+
+// Gamepad walk controls: the left stick aims at an adjacent tile (drawn as a
+// white arrow); pulling the right trigger commits the move. Handled here, in
+// the main gameplay context only, so the raw stick/trigger events stay free
+// for other uses in other contexts.
+std::optional<action_id> gamepad_aim_act;
+shared_ptr_fast<game::draw_callback_t> gamepad_aim_cb;
+
+auto lstick_move_action( int code ) -> std::optional<action_id>
+{
+    switch( code ) {
+        case JOY_LSTICK_UP:
+            return ACTION_MOVE_FORTH;
+        case JOY_LSTICK_RIGHTUP:
+            return ACTION_MOVE_FORTH_RIGHT;
+        case JOY_LSTICK_RIGHT:
+            return ACTION_MOVE_RIGHT;
+        case JOY_LSTICK_RIGHTDOWN:
+            return ACTION_MOVE_BACK_RIGHT;
+        case JOY_LSTICK_DOWN:
+            return ACTION_MOVE_BACK;
+        case JOY_LSTICK_LEFTDOWN:
+            return ACTION_MOVE_BACK_LEFT;
+        case JOY_LSTICK_LEFT:
+            return ACTION_MOVE_LEFT;
+        case JOY_LSTICK_LEFTUP:
+            return ACTION_MOVE_FORTH_LEFT;
+        default:
+            return std::nullopt;
+    }
+}
+
+auto gamepad_aim_glyph( action_id act ) -> std::string
+{
+    switch( act ) {
+        case ACTION_MOVE_FORTH:
+            return "↑";
+        case ACTION_MOVE_FORTH_RIGHT:
+            return "↗";
+        case ACTION_MOVE_RIGHT:
+            return "→";
+        case ACTION_MOVE_BACK_RIGHT:
+            return "↘";
+        case ACTION_MOVE_BACK:
+            return "↓";
+        case ACTION_MOVE_BACK_LEFT:
+            return "↙";
+        case ACTION_MOVE_LEFT:
+            return "←";
+        case ACTION_MOVE_FORTH_LEFT:
+            return "↖";
+        default:
+            return "?";
+    }
+}
+
+auto set_gamepad_aim( const std::optional<action_id> &act ) -> void
+{
+    gamepad_aim_act = act;
+    if( act && !gamepad_aim_cb ) {
+        gamepad_aim_cb = make_shared_fast<game::draw_callback_t>( []() {
+            if( !gamepad_aim_act ) {
+                return;
+            }
+            const auto delta = get_delta_from_movement_action( *gamepad_aim_act, iso_rotate::yes );
+            const auto target = g->u.bub_pos() + delta;
+#if defined(TILES)
+            if( use_tiles ) {
+                tilecontext->init_draw_direction_indicator( target,
+                        gamepad_aim_glyph( *gamepad_aim_act ) );
+                return;
+            }
+#endif
+            mvwputch( g->w_terrain,
+                      target.xy().raw() - g->u.view_offset.xy().raw() +
+                      point( POSX - g->u.bub_pos().x(), POSY - g->u.bub_pos().y() ),
+                      c_white, gamepad_aim_glyph( *gamepad_aim_act ) );
+        } );
+        g->add_draw_callback( gamepad_aim_cb );
+    }
+    g->invalidate_main_ui_adaptor();
+}
+
+} // namespace
+
 bool game::handle_action()
 {
     ZoneScopedN( "handle_action" );
@@ -1988,6 +2081,28 @@ bool game::handle_action()
             // timeout delay.
             u.clear_destination();
             destination_preview.clear();
+        }
+    }
+
+    if( act == ACTION_NULL ) {
+        // Gamepad walk controls: stick aims, right trigger moves.
+        const input_event &stick_evt = ctxt.get_raw_input();
+        if( stick_evt.type == input_event_t::gamepad && !stick_evt.sequence.empty() ) {
+            const auto code = stick_evt.get_first_input();
+            if( const auto aim = lstick_move_action( code ) ) {
+                set_gamepad_aim( aim );
+                return false;
+            }
+            if( code == JOY_LSTICK_CENTER ) {
+                set_gamepad_aim( std::nullopt );
+                return false;
+            }
+            if( code == JOY_RTRIGGER ) {
+                if( !gamepad_aim_act ) {
+                    return false;
+                }
+                act = *gamepad_aim_act;
+            }
         }
     }
 

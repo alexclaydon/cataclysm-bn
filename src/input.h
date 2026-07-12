@@ -232,6 +232,20 @@ struct action_attributes {
 #define JOY_LT_UP       (256 + 11)
 #define JOY_LT_DOWN     (256 + 12)
 
+// Left analog stick, quantized to 8 directions; CENTER fires on release.
+#define JOY_LSTICK_LEFT      (256 + 13)
+#define JOY_LSTICK_RIGHT     (256 + 14)
+#define JOY_LSTICK_UP        (256 + 15)
+#define JOY_LSTICK_DOWN      (256 + 16)
+#define JOY_LSTICK_LEFTUP    (256 + 17)
+#define JOY_LSTICK_LEFTDOWN  (256 + 18)
+#define JOY_LSTICK_RIGHTUP   (256 + 19)
+#define JOY_LSTICK_RIGHTDOWN (256 + 20)
+#define JOY_LSTICK_CENTER    (256 + 21)
+
+// Right trigger pull (edge event, fires once when pressed past halfway).
+#define JOY_RTRIGGER         (256 + 22)
+
 /**
  * Manages the translation from action IDs to associated input.
  *

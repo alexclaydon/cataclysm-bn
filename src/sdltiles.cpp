@@ -143,6 +143,32 @@ static int lastdpad = ERR;      // Keeps track of the last dpad press.
 static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 static constexpr int joy_left_trigger_axis = 2; // XInput-style pads report LT as axis 2.
 static bool joy_left_trigger_held = false;
+static constexpr int joy_left_stick_x_axis = 0;
+static constexpr int joy_left_stick_y_axis = 1;
+static constexpr int joy_right_trigger_axis = 5; // XInput-style pads report RT as axis 5.
+static constexpr Sint16 joy_stick_deadzone = 14000;
+static Sint16 joy_lstick_x = 0;
+static Sint16 joy_lstick_y = 0;
+static bool joy_right_trigger_held = false;
+static int joy_lstick_code = JOY_LSTICK_CENTER; // Last emitted quantized stick direction.
+
+namespace
+{
+auto quantized_left_stick_code() -> int
+{
+    const auto dx = joy_lstick_x > joy_stick_deadzone ? 1 :
+                    joy_lstick_x < -joy_stick_deadzone ? -1 : 0;
+    const auto dy = joy_lstick_y > joy_stick_deadzone ? 1 :
+                    joy_lstick_y < -joy_stick_deadzone ? -1 : 0;
+    if( dy < 0 ) {
+        return dx < 0 ? JOY_LSTICK_LEFTUP : dx > 0 ? JOY_LSTICK_RIGHTUP : JOY_LSTICK_UP;
+    }
+    if( dy > 0 ) {
+        return dx < 0 ? JOY_LSTICK_LEFTDOWN : dx > 0 ? JOY_LSTICK_RIGHTDOWN : JOY_LSTICK_DOWN;
+    }
+    return dx < 0 ? JOY_LSTICK_LEFT : dx > 0 ? JOY_LSTICK_RIGHT : JOY_LSTICK_CENTER;
+}
+} // namespace
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
@@ -3407,11 +3433,26 @@ static void CheckMessages()
                 last_input = input_event( ev.jbutton.button, input_event_t::gamepad );
                 break;
             case SDL_EVENT_JOYSTICK_AXIS_MOTION:
-                // on gamepads, the axes are the analog sticks
-                // TODO: somehow get the "digipad" values from the axes
                 if( ev.jaxis.axis == joy_left_trigger_axis ) {
                     // Triggers rest at -32768; count half-pressed as held.
                     joy_left_trigger_held = ev.jaxis.value > 0;
+                } else if( ev.jaxis.axis == joy_right_trigger_axis ) {
+                    if( ev.jaxis.value > 0 && !joy_right_trigger_held ) {
+                        last_input = input_event( JOY_RTRIGGER, input_event_t::gamepad );
+                    }
+                    joy_right_trigger_held = ev.jaxis.value > 0;
+                } else if( ev.jaxis.axis == joy_left_stick_x_axis ||
+                           ev.jaxis.axis == joy_left_stick_y_axis ) {
+                    if( ev.jaxis.axis == joy_left_stick_x_axis ) {
+                        joy_lstick_x = ev.jaxis.value;
+                    } else {
+                        joy_lstick_y = ev.jaxis.value;
+                    }
+                    const auto code = quantized_left_stick_code();
+                    if( code != joy_lstick_code ) {
+                        joy_lstick_code = code;
+                        last_input = input_event( code, input_event_t::gamepad );
+                    }
                 }
                 break;
             case SDL_EVENT_MOUSE_MOTION:

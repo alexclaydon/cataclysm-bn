@@ -184,6 +184,98 @@
   },
   {
     "type": "keybinding",
+    "id": "UP",
+    "category": "DEFAULTMODE",
+    "name": "Move up",
+    "bindings": [
+      { "input_method": "keyboard", "key": "k" },
+      { "input_method": "keyboard", "key": "8" },
+      { "input_method": "keyboard", "key": "UP" },
+      { "input_method": "keyboard", "key": "NUMPAD_8" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DOWN",
+    "category": "DEFAULTMODE",
+    "name": "Move down",
+    "bindings": [
+      { "input_method": "keyboard", "key": "j" },
+      { "input_method": "keyboard", "key": "DOWN" },
+      { "input_method": "keyboard", "key": "2" },
+      { "input_method": "keyboard", "key": "NUMPAD_2" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LEFT",
+    "category": "DEFAULTMODE",
+    "name": "Move left",
+    "bindings": [
+      { "input_method": "keyboard", "key": "h" },
+      { "input_method": "keyboard", "key": "LEFT" },
+      { "input_method": "keyboard", "key": "4" },
+      { "input_method": "keyboard", "key": "NUMPAD_4" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RIGHT",
+    "category": "DEFAULTMODE",
+    "name": "Move right",
+    "bindings": [
+      { "input_method": "keyboard", "key": "l" },
+      { "input_method": "keyboard", "key": "RIGHT" },
+      { "input_method": "keyboard", "key": "6" },
+      { "input_method": "keyboard", "key": "NUMPAD_6" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LEFTUP",
+    "category": "DEFAULTMODE",
+    "name": "Move up-left",
+    "bindings": [
+      { "input_method": "keyboard", "key": "y" },
+      { "input_method": "keyboard", "key": "7" },
+      { "input_method": "keyboard", "key": "NUMPAD_7" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RIGHTUP",
+    "category": "DEFAULTMODE",
+    "name": "Move up-right",
+    "bindings": [
+      { "input_method": "keyboard", "key": "u" },
+      { "input_method": "keyboard", "key": "9" },
+      { "input_method": "keyboard", "key": "NUMPAD_9" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LEFTDOWN",
+    "category": "DEFAULTMODE",
+    "name": "Move down-left",
+    "bindings": [
+      { "input_method": "keyboard", "key": "b" },
+      { "input_method": "keyboard", "key": "1" },
+      { "input_method": "keyboard", "key": "NUMPAD_1" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RIGHTDOWN",
+    "category": "DEFAULTMODE",
+    "name": "Move down-right",
+    "bindings": [
+      { "input_method": "keyboard", "key": "n" },
+      { "input_method": "keyboard", "key": "3" },
+      { "input_method": "keyboard", "key": "NUMPAD_3" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "PAGE_UP",
     "name": "Page up",
     "bindings": [ { "input_method": "keyboard", "key": "PPAGE" } ]

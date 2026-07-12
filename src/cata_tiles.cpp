@@ -4089,7 +4089,8 @@ void cata_tiles::draw( point dest, const tripoint_bub_ms &center, int width, int
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
                    do_draw_cursor || do_draw_highlight || do_draw_weather ||
-                   do_draw_sct || do_draw_zones || do_draw_cone_aoe;
+                   do_draw_sct || do_draw_zones || do_draw_cone_aoe ||
+                   do_draw_direction_indicator;
 
     draw_footsteps_frame( center );
     if( in_animation ) {
@@ -4128,6 +4129,10 @@ void cata_tiles::draw( point dest, const tripoint_bub_ms &center, int width, int
         if( do_draw_highlight ) {
             draw_highlight();
             void_highlight();
+        }
+        if( do_draw_direction_indicator ) {
+            draw_direction_indicator_frame( overlay_strings );
+            void_direction_indicator();
         }
         if( do_draw_cone_aoe ) {
             draw_cone_aoe_frame();
@@ -6596,6 +6601,13 @@ void cata_tiles::init_draw_highlight( const tripoint_bub_ms &p )
     do_draw_highlight = true;
     highlights.emplace_back( p );
 }
+void cata_tiles::init_draw_direction_indicator( const tripoint_bub_ms &p,
+        const std::string &glyph )
+{
+    do_draw_direction_indicator = true;
+    direction_indicator_pos = p;
+    direction_indicator_glyph = glyph;
+}
 void cata_tiles::init_draw_weather( weather_printable weather, std::string name )
 {
     do_draw_weather = true;
@@ -6701,6 +6713,11 @@ void cata_tiles::void_cursor()
 {
     do_draw_cursor = false;
     cursors.clear();
+}
+void cata_tiles::void_direction_indicator()
+{
+    do_draw_direction_indicator = false;
+    direction_indicator_glyph.clear();
 }
 void cata_tiles::void_highlight()
 {
@@ -6986,6 +7003,14 @@ void cata_tiles::draw_highlight()
         lit_level::LIT, false, 0, false
         );
     }
+}
+void cata_tiles::draw_direction_indicator_frame( std::multimap<point, formatted_text>
+        &overlay_strings )
+{
+    overlay_strings.emplace( player_to_screen( direction_indicator_pos.xy() ) +
+                             point( tile_width / 2, 0 ),
+                             formatted_text( direction_indicator_glyph, catacurses::white,
+                                     text_alignment::center ) );
 }
 void cata_tiles::draw_weather_frame()
 {

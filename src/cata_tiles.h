@@ -1004,6 +1004,10 @@ class cata_tiles
         void draw_highlight();
         void void_highlight();
 
+        void init_draw_direction_indicator( const tripoint_bub_ms &p, const std::string &glyph );
+        void draw_direction_indicator_frame( std::multimap<point, formatted_text> &overlay_strings );
+        void void_direction_indicator();
+
         void init_draw_weather( weather_printable weather, std::string name );
         void draw_weather_frame();
         void void_weather();
@@ -1144,10 +1148,14 @@ class cata_tiles
         bool do_draw_line = false;
         bool do_draw_cursor = false;
         bool do_draw_highlight = false;
+        bool do_draw_direction_indicator = false;
         bool do_draw_weather = false;
         bool do_draw_sct = false;
         bool do_draw_zones = false;
         bool do_draw_cone_aoe = false;
+
+        tripoint_bub_ms direction_indicator_pos;
+        std::string direction_indicator_glyph;
 
         tripoint_bub_ms exp_pos;
         int exp_rad = 0;

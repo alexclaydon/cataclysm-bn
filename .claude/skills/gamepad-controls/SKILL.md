@@ -94,9 +94,21 @@ offers, look for its `register_action` calls.
 **Add a new raw input**: allocate the next `(256 + n)` code in
 src/input.h, register its name in `init_keycode_mapping()`, emit
 `input_event( CODE, input_event_t::gamepad )` from the SDL layer. Never
-reuse the 0–255 range (raw button numbers live there). Beware: keycode
-0 is a valid code (JOY_0) — `get_keycode` returns `std::optional<int>`
-for exactly this reason; don't reintroduce 0-as-error.
+reuse the 0–255 range (raw button numbers live there).
+
+**The keycode-0 trap** (has bitten twice; assume more lurk): `JOY_0`'s
+keycode is literally 0, and the codebase is full of "0 means none/
+error" conventions. Known instances: the keybinding loader's error
+sentinel (fixed — `get_keycode` returns `std::optional<int>`; don't
+reintroduce 0-as-error) and inventory invlet matching (fixed — entries
+without a hotkey store `invlet == 0`, so the A button "matched" the
+first letterless item; `inventory_selector::get_input` now restricts
+invlet lookup to keyboard events). When gamepad events flow into code
+that compares raw keycodes against hotkeys, invlets, or 0-defaulted
+ids, gate the comparison on `evt.type == input_event_t::keyboard` —
+a gamepad button should never act as a character hotkey. When a button
+"mysteriously" triggers the wrong thing, grep the handling screen for
+`== 0`, `get_first_input`, and hotkey/invlet lookups first.
 
 **Chorded input (modifier + input)**: track the modifier's axis/button
 state as a static in sdltiles.cpp; where the base input is translated to

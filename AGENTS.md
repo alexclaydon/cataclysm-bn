@@ -10,10 +10,16 @@
   rebuild on the Deck itself. From Nova: `make deck-local` (pushes the
   current branch to `origin`, then ssh → `build-scripts/deck-update.sh`,
   which pulls and rebuilds inside the Deck's `bn-dev` distrobox).
-- Agents MUST run `make deck-local` (and any other long remote build on
-  the Deck) as a background task, then report the result when it
-  finishes — the conversation must stay free for discussion while the
-  Deck compiles.
+- Agents SHOULD commit and push work as and when it makes sense —
+  no need to check with the user each time.
+- Agents MUST NOT start the Deck deployment/rebuild (`make deck-local`)
+  unless the user asks for it ("deploy on deck" or similar): a series
+  of small changes should batch into one Deck compile, not trigger one
+  per change.
+- When deploying, agents MUST run `make deck-local` (and any other long
+  remote build on the Deck) as a background task, then report the
+  result when it finishes — the conversation must stay free for
+  discussion while the Deck compiles.
 - **Skill upkeep**: when a session produces knowledge worth keeping —
   new conventions or principles, corrected assumptions, gotchas, or
   changed state that an existing skill in `.claude/skills/` describes —

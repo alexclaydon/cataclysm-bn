@@ -222,7 +222,9 @@ moving parts, and their gotchas:
 ## Testing & deploy
 
 JSON binding changes: relaunch only. C++ changes: `make compile` on
-Nova; deploy with `make deck-local` **as a background task** (AGENTS.md
+Nova. Commit and push freely, but deploy to the Deck (`make
+deck-local`) **only when the user asks** — small changes batch into one
+Deck compile — and run it **as a background task** (AGENTS.md
 convention). Warning: touching src/input.h rebuilds ~115 files (slow on
 the Deck). There is no way to test gamepad input on Nova headlessly —
 real verification happens on the Deck; say so rather than claiming

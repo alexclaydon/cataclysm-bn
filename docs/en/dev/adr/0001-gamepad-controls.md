@@ -61,10 +61,17 @@ pipeline the keyboard uses.** Concretely:
 
 4. **Centralized fallbacks instead of per-screen work**: screens whose
    verbs are hotkey-only get the action palette — an unbound X press
-   in `input_context::handle_input` lists the context's registered
-   actions and returns the pick as if its hotkey was pressed. This
-   made vehicle interaction, advanced inventory, zone manager, etc.
-   pad-usable with zero per-screen code.
+   in `input_context::handle_input` lists the context's actions and
+   returns the pick as if its hotkey was pressed. Entries are derived
+   from usability, not raw registrations (named, keyboard-bound in the
+   context, not already pad-bound; sorted by localized name), so the
+   list tracks rebinds with no per-screen curation. Screens that
+   register ANY_INPUT suppress the palette by default (key capture
+   must see raw presses); ones whose ANY_INPUT handling is really just
+   keyboard hotkeys can opt in via `allow_palette_with_any_input()`
+   (overmap, vehicle interaction). This made vehicle interaction,
+   advanced inventory, zone manager, etc. pad-usable with zero
+   per-screen code.
 
 5. **Prompt conventions**: on every yes/no prompt flavor A answers YES
    and B triggers whichever option carries ESC (a safe back-out, never
@@ -105,8 +112,10 @@ Negative / accepted costs:
   failure, but the edit still has to be made twice.
 - The movement/look schemes are hardcoded in C++ and not rebindable.
 - Engine traps require care and are documented for posterity:
-  `JOY_0`'s keycode is literally `0` (collides with "0 = none"
-  conventions); first-registered-action-wins shadowing (the
+  face-button keycodes are literally `0`–`3`, colliding with "0 =
+  none" conventions and raw hotkey/invlet comparisons (gate those on
+  the event being keyboard-typed); first-registered-action-wins
+  shadowing (the
   CONFIRM/JOY_0 case); synthesized input repeats must never preempt
   the SDL event poll (queue starvation → runaway input); and globals
   that outlive `g` — such as the stick-aim scheme's static draw

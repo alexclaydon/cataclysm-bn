@@ -2186,6 +2186,70 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+static void draw_gamepad_hints( avatar &, const catacurses::window &w )
+{
+    werase( w );
+    // Shown only while the pad is the active device (live gate, follows
+    // the last-touched device with no toggle). Keys are resolved from
+    // the actual DEFAULTMODE bindings on every draw so rebinds and the
+    // prompt-style option are reflected immediately; entries whose
+    // action has no pad binding just drop out.
+    if( last_input_was_gamepad() ) {
+        struct hint_entry {
+            const char *action;
+            const char *label;
+        };
+        static const std::array<hint_entry, 18> entries = { {
+                { "action_menu", translate_marker( "Act" ) },
+                { "pause", translate_marker( "Wait" ) },
+                { "examine", translate_marker( "Exam" ) },
+                { "inventory", translate_marker( "Inv" ) },
+                { "fire", translate_marker( "Fire" ) },
+                { "map", translate_marker( "Map" ) },
+                { "main_menu", translate_marker( "Sys" ) },
+                { "LEVEL_UP", translate_marker( "Up" ) },
+                { "LEVEL_DOWN", translate_marker( "Down" ) },
+                { "smash", translate_marker( "Smash" ) },
+                { "pickup_all", translate_marker( "Loot" ) },
+                { "open_movement", translate_marker( "Stance" ) },
+                { "wait", translate_marker( "Wait+" ) },
+                { "craft", translate_marker( "Craft" ) },
+                { "advinv", translate_marker( "AdvInv" ) },
+                { "throw", translate_marker( "Throw" ) },
+                { "missions", translate_marker( "Msn" ) },
+                { "player_data", translate_marker( "Char" ) },
+            }
+        };
+        const int width = getmaxx( w );
+        const int height = getmaxy( w );
+        point pos = point_zero;
+        for( const hint_entry &entry : entries ) {
+            const auto &events = inp_mngr.get_input_for_action( entry.action, "DEFAULTMODE" );
+            const auto pad = std::ranges::find_if( events, []( const input_event & evt ) {
+                return evt.type == input_event_t::gamepad && !evt.sequence.empty();
+            } );
+            if( pad == events.end() ) {
+                continue;
+            }
+            const std::string key = inp_mngr.get_keyname( pad->get_first_input(),
+                                    input_event_t::gamepad, false );
+            const std::string text = string_format( "%s %s", key, _( entry.label ) );
+            const int len = utf8_width( text ) + 2;
+            if( pos.x > 0 && pos.x + len > width ) {
+                pos = point( 0, pos.y + 1 );
+            }
+            if( pos.y >= height ) {
+                break;
+            }
+            nc_color base = c_light_gray;
+            print_colored_text( w, pos, base, base,
+                                string_format( "<color_light_green>%s</color> %s", key, _( entry.label ) ) );
+            pos.x += len;
+        }
+    }
+    wnoutrefresh( w );
+}
+
 static void draw_location_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -2418,6 +2482,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
                       false );
     ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
 
+    ret.emplace_back( draw_gamepad_hints, translate_marker( "Gamepad" ), 4, 44, true );
     ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 44, true );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
@@ -2444,6 +2509,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
                       true );
     ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 32, false );
     ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
+    ret.emplace_back( draw_gamepad_hints, translate_marker( "Gamepad" ), 6, 32, true );
     ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 32, true );
     ret.emplace_back( draw_compass, translate_marker( "Compass" ), 8, 32, true );
     ret.emplace_back( draw_compass, translate_marker( "Comp.Compass" ), 3, 32, false );
@@ -2475,6 +2541,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                       true );
     ret.emplace_back( draw_needs_narrow, translate_marker( "Needs" ), 5, 32, true );
     ret.emplace_back( draw_sound_narrow, translate_marker( "Sound" ), 1, 32, true );
+    ret.emplace_back( draw_gamepad_hints, translate_marker( "Gamepad" ), 6, 32, true );
     ret.emplace_back( draw_messages, translate_marker( "Log" ), -2, 32, true );
     ret.emplace_back( draw_moon_narrow, translate_marker( "Moon" ), 2, 32, false );
     ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false );
@@ -2512,6 +2579,7 @@ static std::vector<window_panel> initialize_default_label_panels()
                       true );
     ret.emplace_back( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true );
     ret.emplace_back( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true );
+    ret.emplace_back( draw_gamepad_hints, translate_marker( "Gamepad" ), 4, 44, true );
     ret.emplace_back( draw_messages, translate_marker( "Log" ), -2, 44, true );
     ret.emplace_back( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false );
     ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false );

@@ -149,8 +149,12 @@ static constexpr int joy_right_stick_x_axis = 3;
 static constexpr int joy_right_stick_y_axis = 4;
 static constexpr int joy_right_trigger_axis = 5; // XInput-style pads report RT as axis 5.
 static constexpr Sint16 joy_stick_deadzone = 7000;
-// Triggers rest at -32768 and max at 32767; count as pulled at 25% travel.
-static constexpr Sint16 joy_trigger_threshold = -16384;
+// Triggers rest at -32768 and max at 32767; count as pulled at 25%
+// travel but released only below 15%. The gap (hysteresis) keeps analog
+// jitter around a single boundary from re-arming the press edge mid-pull
+// and double-stepping.
+static constexpr Sint16 joy_trigger_press = -16384;
+static constexpr Sint16 joy_trigger_release = -22938;
 static Sint16 joy_lstick_x = 0;
 static Sint16 joy_lstick_y = 0;
 static Sint16 joy_rstick_x = 0;
@@ -3554,12 +3558,15 @@ static void CheckMessages()
             }
             case SDL_EVENT_JOYSTICK_AXIS_MOTION:
                 if( ev.jaxis.axis == joy_left_trigger_axis ) {
-                    joy_left_trigger_held = ev.jaxis.value > joy_trigger_threshold;
+                    joy_left_trigger_held = ev.jaxis.value >
+                                            ( joy_left_trigger_held ? joy_trigger_release : joy_trigger_press );
                 } else if( ev.jaxis.axis == joy_right_trigger_axis ) {
-                    if( ev.jaxis.value > joy_trigger_threshold && !joy_right_trigger_held ) {
+                    const bool now_held = ev.jaxis.value >
+                                          ( joy_right_trigger_held ? joy_trigger_release : joy_trigger_press );
+                    if( now_held && !joy_right_trigger_held ) {
                         last_input = input_event( JOY_RTRIGGER, input_event_t::gamepad );
                     }
-                    joy_right_trigger_held = ev.jaxis.value > joy_trigger_threshold;
+                    joy_right_trigger_held = now_held;
                 } else if( ev.jaxis.axis == joy_left_stick_x_axis ||
                            ev.jaxis.axis == joy_left_stick_y_axis ) {
                     if( ev.jaxis.axis == joy_left_stick_x_axis ) {

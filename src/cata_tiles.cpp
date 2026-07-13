@@ -7018,7 +7018,7 @@ void cata_tiles::draw_direction_indicator_frame()
                                    static_cast<float>( direction_indicator_dir.y ) );
     const float ux = direction_indicator_dir.x / norm;
     const float uy = direction_indicator_dir.y / norm;
-    const float side = std::min( tile_width, tile_height );
+    const float side = std::min( tile_width, tile_height ) * 0.8f;
 
     const auto draw_arrow = [&]( const float scale, const SDL_FColor & color ) {
         // Tip, then the two base corners on either side of the shaft axis.

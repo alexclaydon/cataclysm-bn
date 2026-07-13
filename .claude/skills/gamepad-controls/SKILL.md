@@ -180,7 +180,14 @@ dequeued, and the input repeats forever after release (the runaway-
 movement bug). Any repeat handler MUST verify the input is still held
 against live device state — `SDL_UpdateJoysticks()` +
 `SDL_GetJoystickAxis()` — exactly like `HandleDPad` polls the hat,
-never by trusting the held-flag set from queued events alone.
+never by trusting the held-flag set from queued events alone. BUT the
+live check may only GATE the repeat (and disarm its timer) — never
+write the held-flag/last-code state from live values. That state
+drives press-edge detection on the *queued* event stream; flipping it
+early makes stale queued values from the same pull read as a fresh
+press edge, double-firing a single pull (the two-tiles-per-trigger
+bug). Returning 0 is enough: the event poll then runs and clears the
+state through the normal path.
 
 **Stateful schemes beyond bindings** (e.g. stick aims → trigger
 commits): keybindings can't express state, so intercept the raw events

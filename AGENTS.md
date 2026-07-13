@@ -174,6 +174,15 @@ rg -C2 -i '<<TARGET>>' lang/po/<<LANG>>.po | rg -v '^(#:|--)' | head -n 20
 rg -C2 -i 'speedway' lang/po/ko.po | rg -v '^(#:|--)' | head -n 20
 ```
 
+## Journal
+
+- Journal entries for this repo live in `docs/en/dev/journal/`, named
+  `YYYYMMDD-HHmmss_<topic-slug>_ai_generated.md`.
+- Prefer writing a journal entry over creating an agent memory:
+  entries are versioned with the repo, readable by humans and future
+  agents alike, and survive tooling changes. Reserve memories for
+  cross-repo or user-preference facts that don't belong in the tree.
+
 ## References
 
 - **Docs**: [Building](./docs/en/dev/guides/building/cmake.md), [Formatting](./docs/en/dev/guides/formatting.md), [Dev Index](./docs/en/dev/).

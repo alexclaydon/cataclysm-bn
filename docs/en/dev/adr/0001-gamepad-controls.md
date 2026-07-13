@@ -92,7 +92,11 @@ pipeline the keyboard uses.** Concretely:
    selection cursor while on gamepad; the central hint generators
    (`input_context::get_desc`, `press_x`) prefer the active device's
    bindings, so hint text game-wide follows the device without
-   per-screen work.
+   per-screen work. Text-entry prompts are pad-survivable everywhere:
+   A confirms and B cancels any string input, digits-only prompts are
+   d-pad spinners (±1, LT for ±10) that advertise their controls and
+   suppress the on-screen keyboard when opened from the pad, and
+   "press any key" accepts pad buttons.
 
 7. **Button placement follows Caves of Qud's Steam Deck layout** where
    an equivalent exists (stick-aim + RT-step, wait on B, fire on RB,

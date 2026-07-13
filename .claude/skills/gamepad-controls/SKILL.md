@@ -232,8 +232,11 @@ in `game::handle_action()` — check `ctxt.get_raw_input()` for
 in file-local statics, and `return false` to consume without passing a
 turn. To commit a move, set `act` to the real `ACTION_*` and fall
 through so all normal movement handling (vehicles, prompts) applies.
-Consume unknown *gamepad* events silently rather than letting them hit
-the "Unknown command" message when they're part of your scheme.
+Unknown *gamepad* events are consumed silently as a blanket rule —
+`handle_action`'s unknown-command fallback early-returns on gamepad
+events, since a free button is a deliberate empty slot, not a typo.
+(The message also lingered in the log atop half-width screens like AIM,
+reading as their error.) Keyboard mispresses keep the message.
 
 ## Text input & the on-screen keyboard (SDL3 lifecycle)
 
@@ -434,7 +437,10 @@ fallback needs verifying on the Deck.
   swap source/destination pane, LT+D-pad up/down = page up/down,
   LT+B = toggle favorite; "move all" and pane sources stay palette-only
   (move-all is too destructive for a misprfess; X must stay unbound for
-  the palette to fire)
+  the palette to fire). Save/restore default pane layout are on the
+  palette too (keyboard o / Shift+O — they shipped with NO binding at
+  all, which also hid them from the palette; an action must be
+  keyboard-bound to be palette-reachable)
 - Left stick: 8-way aim with a white triangle indicator (geometry-drawn,
   zoom-scaled, 60% tile size, anchored in the tile corner nearest the
   player so the target tile's occupant stays visible); RT steps that way,

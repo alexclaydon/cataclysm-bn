@@ -21,7 +21,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -32,7 +34,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -71,7 +75,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -82,7 +88,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -132,7 +140,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -143,7 +153,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -169,7 +181,9 @@
       { "input_method": "keyboard", "key": "8" },
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -181,7 +195,9 @@
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "2" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -355,7 +371,8 @@
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
       { "input_method": "gamepad", "key": "JOY_UP" },
-      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" }
     ]
   },
   {
@@ -369,7 +386,8 @@
       { "input_method": "keyboard", "key": "2" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
       { "input_method": "gamepad", "key": "JOY_DOWN" },
-      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" }
     ]
   },
   {
@@ -506,7 +524,9 @@
       { "input_method": "keyboard", "key": "k" },
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -518,7 +538,9 @@
       { "input_method": "keyboard", "key": "j" },
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -2301,7 +2323,8 @@
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
       { "input_method": "gamepad", "key": "JOY_UP" },
-      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" }
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -2315,7 +2338,8 @@
       { "input_method": "keyboard", "key": "2" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
       { "input_method": "gamepad", "key": "JOY_DOWN" },
-      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -3361,7 +3385,9 @@
       { "input_method": "keyboard", "key": "8" },
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -3373,7 +3399,9 @@
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "2" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -3392,7 +3420,9 @@
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "8" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -3404,7 +3434,9 @@
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "2" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -3423,7 +3455,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -3434,7 +3468,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -3550,7 +3586,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "k" },
       { "input_method": "keyboard", "key": "UP" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -3561,7 +3599,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "j" },
       { "input_method": "keyboard", "key": "DOWN" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -3827,7 +3867,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -3838,7 +3880,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {
@@ -4161,7 +4205,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "UP" },
       { "input_method": "keyboard", "key": "NUMPAD_8" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
     ]
   },
   {
@@ -4172,7 +4218,9 @@
     "bindings": [
       { "input_method": "keyboard", "key": "DOWN" },
       { "input_method": "keyboard", "key": "NUMPAD_2" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
     ]
   },
   {

@@ -458,8 +458,16 @@ fallback needs verifying on the Deck.
   reload UI opens on exit), LB/RB cycle targets, LT+RB switches firing
   mode, B or Y backs out (shared QUIT). AIM/aimed-shot actions are
   keyboard-only so far
-- Unused so far: R3, LT+A, LT+LB, LT+d-pad up/down, LT alone, stick
-  input in menus
+- Sticks in menus: both sticks scroll every list vertically (shared
+  UP/DOWN + the UILIST/menu-category mirrors carry the stick octant
+  codes; right stick glides via its repeat). Deliberately vertical-only:
+  stick left/right would mis-adjust value-editing menus like options
+- Gamepad hint panel: a "Gamepad" sidebar panel (all four layouts,
+  default on, toggleable in panel management) lists the DEFAULTMODE
+  bindings while the pad is the active device — keys resolved live from
+  bindings each draw (rebind- and prompt-style-safe), blank on keyboard
+- Unused so far: R3, LT+A, LT+LB, LT alone (LT+d-pad up/down now pages
+  in AIM)
 
 ## Testing & deploy
 

@@ -70,7 +70,7 @@ diverge only where the games differ.
 | LB / RB | target self / fire | prev tab / RB = fire |
 | LT+RB | throw | same |
 | LT+D-pad L/R | zoom out / in | same |
-| Select / Start | main menu / character info | map / main menu (pre-existing divergence); LT+Start = player info |
+| Select / Start | main menu / character info | map / main menu (pre-existing divergence); LT+Select = missions, LT+Start = player info |
 
 ## How binding resolution works (the part people get wrong)
 
@@ -389,8 +389,9 @@ fallback needs verifying on the Deck.
 - LT+d-pad left/right: zoom out/in (gameplay `zoom_in/out` + OVERMAP;
   Qud convention). LT+up/down chords exist but are now unbound
 - LT+buttons (DEFAULTMODE): LT+B = wait menu, LT+X = crafting menu,
-  LT+Y = advanced inventory, LT+RB = throw, LT+Start = player info;
-  LT+RB = switch firing mode (TARGET); other `JOY_LT_n` codes free
+  LT+Y = advanced inventory, LT+RB = throw, LT+Select = missions,
+  LT+Start = player info; LT+RB = switch firing mode (TARGET); other
+  `JOY_LT_n` codes free
 - Left stick: 8-way aim with a white triangle indicator (geometry-drawn,
   zoom-scaled, 60% tile size, anchored in the tile corner nearest the
   player so the target tile's occupant stays visible); RT steps that way,
@@ -408,8 +409,8 @@ fallback needs verifying on the Deck.
   reload UI opens on exit), LB/RB cycle targets, LT+RB switches firing
   mode, B or Y backs out (shared QUIT). AIM/aimed-shot actions are
   keyboard-only so far
-- Unused so far: R3, LT+A, LT+LB, LT+Select, LT+d-pad up/down, LT
-  alone, stick input in menus
+- Unused so far: R3, LT+A, LT+LB, LT+d-pad up/down, LT alone, stick
+  input in menus
 
 ## Testing & deploy
 

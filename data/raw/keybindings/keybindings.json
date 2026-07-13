@@ -2877,7 +2877,7 @@
     "name": "View Missions",
     "category": "DEFAULTMODE",
     "id": "missions",
-    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "M" }, { "input_method": "gamepad", "key": "JOY_LT_6" } ]
   },
   {
     "type": "keybinding",

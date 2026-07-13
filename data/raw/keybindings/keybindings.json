@@ -3795,13 +3795,15 @@
     "type": "keybinding",
     "id": "ITEMS_DEFAULT",
     "category": "ADVANCED_INVENTORY",
-    "name": "Restore default layout"
+    "name": "Restore default layout",
+    "bindings": [ { "input_method": "keyboard", "key": "o" } ]
   },
   {
     "type": "keybinding",
     "id": "SAVE_DEFAULT",
     "category": "ADVANCED_INVENTORY",
-    "name": "Save default layout"
+    "name": "Save default layout",
+    "bindings": [ { "input_method": "keyboard", "key": "O" } ]
   },
   {
     "type": "keybinding",

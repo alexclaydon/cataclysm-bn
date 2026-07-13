@@ -1828,6 +1828,18 @@ bool game::cleanup_at_end()
     kept_pocket_dimension_id_ = dimension_id();
     loaded_dimensions_.clear();
 
+    // NPCs and stair-climbing monsters are otherwise cleared only by the
+    // next game::setup(). Left alive here, their activities' and
+    // ammo_location's safe_references outlive cleanup_references() below
+    // ("Found a safe_reference entry with a mem_count") and their
+    // inventories outlive unload_data().
+    for( const auto &guy : active_npc ) {
+        guy->get_mapbuffer().remove_active_npc( *guy );
+    }
+    active_npc.clear();
+    coming_to_stairs.clear();
+    clear_zombies();
+
     // Clear all registered dimension slots.  With multiple simultaneous dimensions
     // (overworld + pocket + nether, etc.) there may be more than two active buffers,
     // so clearing only primary and the player's current dimension would leave orphaned

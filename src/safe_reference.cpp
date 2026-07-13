@@ -170,7 +170,23 @@ void safe_reference<T>::cleanup()
     }
     for( record *rec : records ) {
         if( rec->mem_count > 0 ) {
-            debugmsg( "Found a safe_reference entry with a mem_count.  It's advised to fully restart the game now in case of crashes." );
+            const bool redirected = rec->id & REDIRECTED_MASK;
+            const bool destroyed = rec->id & DESTROYED_MASK;
+            std::string target_desc = _( "target gone" );
+            if( !redirected && rec->target.p != nullptr ) {
+                if( destroyed ) {
+                    target_desc = _( "target destroyed, not yet deallocated" );
+                } else if constexpr( std::is_same_v<T, item> ) {
+                    target_desc = string_format( "target: %s", rec->target.p->tname() );
+                } else {
+                    target_desc = _( "target alive" );
+                }
+            }
+            debugmsg( "Found a safe_reference entry with a mem_count of %u "
+                      "(id %016llX, json_count %u, %s).  It's advised to fully "
+                      "restart the game now in case of crashes.",
+                      rec->mem_count, static_cast<unsigned long long>( rec->id ),
+                      rec->json_count, target_desc );
         }
         delete rec;
     }

@@ -2968,7 +2968,7 @@ void android_vibrate()
 // are never starved by a stream of synthesized repeats.
 static Uint64 rtrigger_repeat_at = std::numeric_limits<Uint64>::max();
 static constexpr Uint64 rtrigger_initial_delay = 250;
-static constexpr Uint64 rtrigger_repeat_interval = 75;
+static constexpr Uint64 rtrigger_repeat_interval = 60;
 
 namespace
 {

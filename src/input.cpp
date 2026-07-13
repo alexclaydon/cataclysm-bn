@@ -512,10 +512,138 @@ auto input_manager::get_keycode( const std::string &name ) const -> std::optiona
 
 namespace
 {
-/// Player-facing names for gamepad inputs (Xbox-style labels). The
+enum class prompt_style { sony, xbox, text };
+
+auto gamepad_prompt_style() -> prompt_style
+{
+#if defined(TILES)
+    const std::string opt = get_option<std::string>( "GAMEPAD_PROMPT_STYLE" );
+    if( opt == "xbox" ) {
+        return prompt_style::xbox;
+    }
+    if( opt == "text" ) {
+        return prompt_style::text;
+    }
+    return prompt_style::sony;
+#else
+    // The bundled prompt glyph font only exists in the SDL build;
+    // terminals would render tofu.
+    return prompt_style::text;
+#endif
+}
+
+/// Controller glyphs from the bundled PromptFont subset
+/// (data/font/promptfont.ttf holds exactly these codepoints and sits
+/// first in the UI font fallback list). Chords render as trigger glyph +
+/// input glyph. Returns nullopt in text style so callers fall back to
+/// the spelled-out names.
+auto gamepad_prompt_glyph( const int ch, const prompt_style style ) -> std::optional<std::string>
+{
+    if( style == prompt_style::text ) {
+        return std::nullopt;
+    }
+    const bool xbox = style == prompt_style::xbox;
+    const std::string lt = xbox ? "⇜" : "↲";
+    if( ch >= JOY_LT_0 && ch <= JOY_LT_7 ) {
+        // Buttons 0-7 are literally keycodes 0-7.
+        return lt + *gamepad_prompt_glyph( ch - JOY_LT_0, style );
+    }
+    switch( ch ) {
+        case JOY_0:
+            return xbox ? "⇓" : "⇣";
+        case JOY_1:
+            return xbox ? "⇒" : "⇢";
+        case JOY_2:
+            return xbox ? "⇐" : "⇠";
+        case JOY_3:
+            return xbox ? "⇑" : "⇡";
+        case JOY_4:
+            return xbox ? "↘" : "↰";
+        case JOY_5:
+            return xbox ? "↙" : "↱";
+        case JOY_6:
+            return xbox ? "⇺" : "⇦";
+        case JOY_7:
+            return xbox ? "⇻" : "⇨";
+        case JOY_UP:
+            return "↟";
+        case JOY_DOWN:
+            return "↡";
+        case JOY_LEFT:
+            return "↞";
+        case JOY_RIGHT:
+            return "↠";
+        case JOY_LEFTUP:
+            return "⇟";
+        case JOY_RIGHTUP:
+            return "↵";
+        case JOY_LEFTDOWN:
+            return "↴";
+        case JOY_RIGHTDOWN:
+            return "⇞";
+        case JOY_LT_UP:
+            return lt + "↟";
+        case JOY_LT_DOWN:
+            return lt + "↡";
+        case JOY_LT_LEFT:
+            return lt + "↞";
+        case JOY_LT_RIGHT:
+            return lt + "↠";
+        case JOY_RTRIGGER:
+            return xbox ? "⇝" : "↳";
+        case JOY_L3:
+            return "↺";
+        case JOY_R3:
+            return "↻";
+        case JOY_LSTICK_UP:
+            return "↾";
+        case JOY_LSTICK_DOWN:
+            return "⇂";
+        case JOY_LSTICK_LEFT:
+            return "↼";
+        case JOY_LSTICK_RIGHT:
+            return "⇀";
+        case JOY_LSTICK_LEFTUP:
+            return "⇖";
+        case JOY_LSTICK_RIGHTUP:
+            return "⇗";
+        case JOY_LSTICK_LEFTDOWN:
+            return "⇙";
+        case JOY_LSTICK_RIGHTDOWN:
+            return "⇘";
+        case JOY_LSTICK_CENTER:
+            return "⇋";
+        case JOY_RSTICK_UP:
+            return "↿";
+        case JOY_RSTICK_DOWN:
+            return "⇃";
+        case JOY_RSTICK_LEFT:
+            return "↽";
+        case JOY_RSTICK_RIGHT:
+            return "⇁";
+        case JOY_RSTICK_LEFTUP:
+            return "⇖";
+        case JOY_RSTICK_RIGHTUP:
+            return "⇗";
+        case JOY_RSTICK_LEFTDOWN:
+            return "⇙";
+        case JOY_RSTICK_RIGHTDOWN:
+            return "⇘";
+        case JOY_RSTICK_CENTER:
+            return "⇌";
+        default:
+            return std::nullopt;
+    }
+}
+
+/// Player-facing names for gamepad inputs: PromptFont controller glyphs
+/// when a glyph style is active, Xbox-style text labels otherwise. The
 /// portable JOY_* identifiers remain the config/serialization names.
 auto gamepad_display_name( const int ch ) -> std::optional<std::string>
 {
+    if( const auto glyph = gamepad_prompt_glyph( ch, gamepad_prompt_style() ) ) {
+        return glyph;
+    }
     switch( ch ) {
         case JOY_0:
             return pgettext( "gamepad input name", "Pad A" );
@@ -1309,19 +1437,25 @@ auto last_input_was_gamepad() -> bool
 
 auto gamepad_hint_glyph( const int keycode ) -> std::optional<std::string>
 {
-    // Xbox-convention face button colors; other inputs have no glyph form.
-    switch( keycode ) {
-        case JOY_0:
-            return colorize( "(A)", c_light_green );
-        case JOY_1:
-            return colorize( "(B)", c_light_red );
-        case JOY_2:
-            return colorize( "(X)", c_light_blue );
-        case JOY_3:
-            return colorize( "(Y)", c_yellow );
-        default:
-            return std::nullopt;
+    // Face buttons only; other inputs have no short hint form.
+    if( keycode < JOY_0 || keycode > JOY_3 ) {
+        return std::nullopt;
     }
+    const auto style = gamepad_prompt_style();
+    if( style == prompt_style::text ) {
+        static const std::array<std::string, 4> letters = { "(A)", "(B)", "(X)", "(Y)" };
+        const std::array<nc_color, 4> colors = {
+            c_light_green, c_light_red, c_light_blue, c_yellow
+        };
+        return colorize( letters[keycode], colors[keycode] );
+    }
+    // Each maker's face-button colors: Xbox A green / B red / X blue /
+    // Y yellow; Sony cross blue / circle red / square pink / triangle
+    // green.
+    const auto colors = style == prompt_style::xbox
+                        ? std::array<nc_color, 4> { c_light_green, c_light_red, c_light_blue, c_yellow }
+                        : std::array<nc_color, 4> { c_light_blue, c_light_red, c_pink, c_light_green };
+    return colorize( *gamepad_prompt_glyph( keycode, style ), colors[keycode] );
 }
 
 // dx and dy are -1, 0, or +1. Rotate the indicated direction 1/8 turn clockwise.

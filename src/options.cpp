@@ -1940,6 +1940,16 @@ void options_manager::add_options_interface()
          true, COPT_CURSES_HIDE
        );
 
+    add( "GAMEPAD_PROMPT_STYLE", interface, translate_marker( "Gamepad button prompt style" ),
+         translate_marker( "Which controller's glyphs to use for gamepad button hints.  Text spells the buttons out (\"Pad A\") instead." ),
+    {   { "sony", translate_marker( "PlayStation" ) },
+        { "xbox", translate_marker( "Xbox" ) },
+        //~ gamepad prompts rendered as plain text rather than glyphs
+        { "text", translate_marker( "Text" ) }
+    },
+    "sony", COPT_CURSES_HIDE
+       );
+
     add( "HIDE_CURSOR", interface, translate_marker( "Hide mouse cursor" ),
          translate_marker( "Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement." ),
          //~ show mouse cursor

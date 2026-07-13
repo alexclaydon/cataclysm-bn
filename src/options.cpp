@@ -1941,7 +1941,7 @@ void options_manager::add_options_interface()
        );
 
     add( "GAMEPAD_PROMPT_STYLE", interface, translate_marker( "Gamepad button prompt style" ),
-         translate_marker( "How face buttons appear in gamepad hints: PlayStation shows their shapes (✕ ○ □ △), Xbox shows letters, Text spells them out (\"Pad A\").  Other inputs always use short text names." ),
+         translate_marker( "How face buttons appear in gamepad hints: PlayStation shows their shapes (☓ ◯ □ △), Xbox shows letters, Text spells them out (\"Pad A\").  Other inputs always use short text names." ),
     {   { "sony", translate_marker( "PlayStation" ) },
         { "xbox", translate_marker( "Xbox" ) },
         //~ gamepad prompts rendered as plain text rather than glyphs

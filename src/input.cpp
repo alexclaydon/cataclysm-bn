@@ -547,12 +547,16 @@ auto gamepad_prompt_glyph( const int ch, const prompt_style style ) -> std::opti
         // Buttons 0-7 are literally keycodes 0-7.
         return "LT+" + *gamepad_prompt_glyph( ch - JOY_LT_0, style );
     }
+    // Sony shapes are picked so ALL of them are absent from Terminus and
+    // render from unifont: the fallback chain serves each codepoint from
+    // the first font providing it, and mixing fonts gave a thick cross
+    // next to a tiny circle. Change one, re-check coverage of all four.
     const bool xbox = style == prompt_style::xbox;
     switch( ch ) {
         case JOY_0:
-            return xbox ? "A" : "✕";
+            return xbox ? "A" : "☓";
         case JOY_1:
-            return xbox ? "B" : "○";
+            return xbox ? "B" : "◯";
         case JOY_2:
             return xbox ? "X" : "□";
         case JOY_3:

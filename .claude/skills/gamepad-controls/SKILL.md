@@ -322,9 +322,12 @@ misplaces buttons).
 **Controller prompt style**: the `GAMEPAD_PROMPT_STYLE` option
 (PlayStation default / Xbox / Text) shapes how face buttons render in
 hints via `gamepad_prompt_glyph` (src/input.cpp): Sony style shows the
-buttons' geometric shapes (✕ ○ □ △ — ordinary Unicode, crisp from the
-existing fonts), Xbox style bare letters, Text the spelled-out names
-("Pad A"). Non-face inputs always use the short text names, and LT
+buttons' geometric shapes (☓ ◯ □ △ — codepoints chosen so ALL four are
+absent from Terminus and render from unifont; the fallback chain
+serves each glyph from the first font providing it, and a mixed-font
+set gave a thick cross next to a tiny circle — re-check coverage of
+all four when changing any), Xbox style bare letters, Text the
+spelled-out names ("Pad A"). Non-face inputs always use the short text names, and LT
 chords compose as "LT+" + face form. Curses builds force text style.
 **Trap — button-icon fonts don't survive terminal cells**: a bundled
 PromptFont subset (proper Xbox/PS button icon glyphs, prepended to the

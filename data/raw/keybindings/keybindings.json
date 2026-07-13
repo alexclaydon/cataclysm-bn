@@ -952,6 +952,28 @@
   },
   {
     "type": "keybinding",
+    "id": "LEVEL_UP",
+    "category": "DEFAULTMODE",
+    "name": "Go Up",
+    "bindings": [
+      { "input_method": "keyboard", "key": "PPAGE" },
+      { "input_method": "keyboard", "key": "<" },
+      { "input_method": "gamepad", "key": "JOY_UP" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LEVEL_DOWN",
+    "category": "DEFAULTMODE",
+    "name": "Go Down",
+    "bindings": [
+      { "input_method": "keyboard", "key": "NPAGE" },
+      { "input_method": "keyboard", "key": ">" },
+      { "input_method": "gamepad", "key": "JOY_DOWN" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "NEXT",
     "category": "SOKOBAN",
     "name": "Next level",
@@ -1109,14 +1131,14 @@
     "id": "ZOOM_OUT",
     "category": "OVERMAP",
     "name": "Zoom Out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" }, { "input_method": "gamepad", "key": "JOY_LT_UP" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "Z" }, { "input_method": "gamepad", "key": "JOY_LT_LEFT" } ]
   },
   {
     "type": "keybinding",
     "id": "ZOOM_IN",
     "category": "OVERMAP",
     "name": "Zoom In",
-    "bindings": [ { "input_method": "keyboard", "key": "z" }, { "input_method": "gamepad", "key": "JOY_LT_DOWN" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "z" }, { "input_method": "gamepad", "key": "JOY_LT_RIGHT" } ]
   },
   {
     "type": "keybinding",
@@ -2005,7 +2027,8 @@
     "bindings": [
       { "input_method": "keyboard", "key": "." },
       { "input_method": "keyboard", "key": "5" },
-      { "input_method": "keyboard", "key": "NUMPAD_5" }
+      { "input_method": "keyboard", "key": "NUMPAD_5" },
+      { "input_method": "gamepad", "key": "JOY_1" }
     ]
   },
   {
@@ -2195,7 +2218,7 @@
     "name": "Smash Nearby Terrain",
     "category": "DEFAULTMODE",
     "id": "smash",
-    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "gamepad", "key": "JOY_RIGHT" } ]
   },
   {
     "type": "keybinding",
@@ -2223,7 +2246,7 @@
     "name": "Pick up items from all nearby tiles",
     "category": "DEFAULTMODE",
     "id": "pickup_all",
-    "bindings": [ { "input_method": "keyboard", "key": "," } ]
+    "bindings": [ { "input_method": "keyboard", "key": "," }, { "input_method": "gamepad", "key": "JOY_LEFT" } ]
   },
   {
     "type": "keybinding",
@@ -2427,7 +2450,7 @@
     "name": "Fire Wielded Item",
     "category": "DEFAULTMODE",
     "id": "fire",
-    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "f" }, { "input_method": "gamepad", "key": "JOY_5" } ]
   },
   {
     "type": "keybinding",
@@ -2662,13 +2685,13 @@
     "type": "keybinding",
     "name": "Zoom In",
     "id": "zoom_in",
-    "bindings": [ { "input_method": "keyboard", "key": "z" }, { "input_method": "gamepad", "key": "JOY_LT_DOWN" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "z" }, { "input_method": "gamepad", "key": "JOY_LT_RIGHT" } ]
   },
   {
     "type": "keybinding",
     "name": "Zoom Out",
     "id": "zoom_out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" }, { "input_method": "gamepad", "key": "JOY_LT_UP" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "Z" }, { "input_method": "gamepad", "key": "JOY_LT_LEFT" } ]
   },
   {
     "type": "keybinding",

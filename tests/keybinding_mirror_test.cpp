@@ -138,6 +138,22 @@ TEST_CASE( "keybinding_mirror_categories_track_their_base", "[keybindings]" )
         }
     }
 
+    SECTION( "DEFAULTMODE stairs overrides keep base keys and add the d-pad" ) {
+        // Qud convention: d-pad up/down ascend/descend in-world. The base
+        // entries stay pad-free so LOOK etc. keep the d-pad for the cursor.
+        const std::vector<std::pair<std::string, std::string>> stairs = {
+            { "LEVEL_UP", "JOY_UP" },
+            { "LEVEL_DOWN", "JOY_DOWN" },
+        };
+        for( const auto &[id, button] : stairs ) {
+            INFO( "action id: " << id );
+            const auto &base = get_set( bindings, "default", id );
+            const auto &mirror = get_set( bindings, "DEFAULTMODE", id );
+            CHECK( mirror.keyboard == base.keyboard );
+            CHECK( mirror.gamepad.contains( button ) );
+        }
+    }
+
     SECTION( "LOOK direction overrides keep base keys and extend gamepad" ) {
         // Look mode adds right-stick cursor movement on top of the shared
         // direction bindings (keyboard + d-pad).

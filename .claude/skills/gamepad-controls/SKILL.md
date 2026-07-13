@@ -64,7 +64,7 @@ diverge only where the games differ.
 | B / LT+B | wait a turn / wait menu | same |
 | X / LT+X | use ability / ability menu | X = examine + palette; LT+X = crafting |
 | Y / LT+Y | move to edge / auto-explore | Y = inventory; LT+Y = advanced inventory |
-| D-pad L/R | select ability | pick up all / smash |
+| D-pad L/R | select ability | smash / pick up all |
 | D-pad U/D | level up / level down | same (ascend/descend stairs) |
 | L3 | points of interest | movement mode menu |
 | LB / RB | target self / fire | prev tab / RB = fire |
@@ -404,7 +404,7 @@ fallback needs verifying on the Deck.
   Guide: unavailable (swallowed; Steam owns it)
 - D-pad: menu navigation (shared + UILIST up/down, dialogue, item
   actions, melee picker, keybindings help); in DEFAULTMODE left/right =
-  pick up all / smash, up/down = ascend/descend stairs (Qud convention;
+  smash / pick up all, up/down = ascend/descend stairs (Qud convention;
   cardinal *movement* stays unmapped via the keyboard-only overrides,
   and d-pad diagonals stay unbound in-world so mispresses no-op). B
   backs out of trade/prompts/dialogs; A or B dismisses wait popups;

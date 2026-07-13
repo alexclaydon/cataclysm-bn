@@ -29,6 +29,7 @@ Push to both `forgejo` and `origin` to keep them in sync.
 | `make shaders-force` | Re-download precompiled shaders from upstream CI       |
 | `make deck`       | CI route: push branch → dispatch fork CI → download self-contained `linux-tiles-x64` tarball to `out/deck/` |
 | `make deck-local` | Native Deck route: push origin → ssh to Deck → pull + incremental rebuild in its distrobox |
+| `make deck-dda`   | Update + rebuild the from-source Cataclysm-DDA build on the Deck (copies scripts over first) |
 | `make clean`      | Remove the preset's build directory                       |
 
 Override preset: `make PRESET=osx-arm-dist`.
@@ -56,6 +57,29 @@ Only re-fetch when `src/shaders/*.hlsl` changes.
 - `build-scripts/deck-bootstrap.sh` — full environment from a fresh
   clone. `deck-update.sh` — pull + rebuild. `deck-run.sh` — launcher
   (the Steam shortcut "Cataclysm BN (dev)" points at it for Game Mode).
+
+## Cataclysm-DDA from source on the Deck (sibling install)
+
+Upstream DDA (github.com/CleverRaven/Cataclysm-DDA, `master`) also runs
+from source on the Deck, fully separate from both the Steam-installed
+DDA and the BN build:
+
+- Clone at `~/cataclysm-dda` on the Deck (shallow); saves/config live in
+  the clone dir (no USE_HOME_DIR), so nothing collides with Steam's DDA.
+- Builds in the same `bn-dev` distrobox but with DDA's own Makefile
+  (`CLANG=1 RELEASE=1 TILES=1 SOUND=1 LANGUAGES=none`), not CMake. DDA
+  master uses SDL3; Ubuntu has no libsdl3-mixer package, so SDL3_mixer
+  3.2.0 is built from source at `~/build-deps/SDL_mixer` and installed
+  to the distrobox's /usr/local (redo after recreating the distrobox).
+- `build-scripts/deck-dda-update.sh` / `deck-dda-run.sh` live in THIS
+  repo (its config home) and `make deck-dda` scp's them over before
+  running the update, so edits propagate automatically.
+- Steam shortcut "Cataclysm DDA (dev)": a wrapper script with that
+  literal filename in `~/cataclysm-dda/` (steamos-add-to-steam names
+  shortcuts after the file) exec's deck-dda-run.sh; it was added live
+  via `steamos-add-to-steam` — that works over ssh while Steam runs,
+  no Steam restart or desktop mode needed, unlike the shortcuts.vdf
+  binary edit used for the BN shortcut.
 
 ## Fork CI
 

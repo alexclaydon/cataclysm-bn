@@ -13,8 +13,14 @@ release tarball for the exact commit you built (assets like
 folder(s) you want. Composed tilesets are small (UltimateCataclysm =
 5.8 MB).
 
-Installed `gfx/UltimateCataclysm` into `~/cataclysm-dda/gfx/` on the
-Deck (untracked → upstream pulls unaffected). The in-game "Choose
+Installed the release tarball's ENTIRE tileset set into
+`~/cataclysm-dda/gfx/` on the Deck (all ~61 MB: UltimateCataclysm,
+Altica, Ultica_iso, ChibiUltica, Cuteclysm, BrownLikeBears, GiantDays,
+HollowMoon, MShockXotto+, NeoDays, PenAndPaper, Retrodays,
+SmashButton_iso, plus ASCII_Overmap and SurveyorsMap overmap tilesets).
+All are untracked → upstream pulls unaffected; dirs already tracked
+in-tree (ASCIITileset, Larwick_Overmap, loading_screens) were left
+alone so git stays clean. The in-game "Choose
 tileset" option (`TILES` in src/options.cpp) defaults to
 `UltimateCataclysm`, so it activates automatically once present;
 manual path is Options → Graphics → Choose tileset.

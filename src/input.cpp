@@ -1773,6 +1773,17 @@ void input_manager::wait_for_any_key()
                     return;
                 }
                 break;
+            case input_event_t::gamepad:
+                // Any pad *button* dismisses. Quantized stick motion and
+                // the right trigger do not: a drifting/held stick or the
+                // RT hold-to-repeat would dismiss the prompt unread.
+                if( !evt.sequence.empty() ) {
+                    const int code = evt.get_first_input();
+                    if( code < JOY_LSTICK_LEFT || code > JOY_RSTICK_CENTER ) {
+                        return;
+                    }
+                }
+                break;
             // errors are accepted as well to avoid an infinite loop
             case input_event_t::error:
                 return;

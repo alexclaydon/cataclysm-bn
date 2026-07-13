@@ -385,7 +385,10 @@ fallback needs verifying on the Deck.
   and d-pad diagonals stay unbound in-world so mispresses no-op). B
   backs out of trade/prompts/dialogs; A or B dismisses wait popups;
   dialogue is a raw-input loop with explicit pad translation in
-  npctalk.cpp (`7456baa`)
+  npctalk.cpp (`7456baa`); "press any key" prompts
+  (`inp_mngr.wait_for_any_key`, e.g. computer terminals) dismiss on any
+  pad *button* — deliberately not on stick motion or the trigger, which
+  would dismiss unread via drift or the RT repeat
 - LT+d-pad left/right: zoom out/in (gameplay `zoom_in/out` + OVERMAP;
   Qud convention). LT+up/down chords exist but are now unbound
 - LT+buttons (DEFAULTMODE): LT+B = wait menu, LT+X = crafting menu,

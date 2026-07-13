@@ -138,12 +138,14 @@ TEST_CASE( "keybinding_mirror_categories_track_their_base", "[keybindings]" )
         }
     }
 
-    SECTION( "DEFAULTMODE stairs overrides keep base keys and add the d-pad" ) {
-        // Qud convention: d-pad up/down ascend/descend in-world. The base
+    SECTION( "DEFAULTMODE stairs overrides keep base keys and add LT+d-pad" ) {
+        // CDDA convention (adopted 2026-07-14): plain d-pad up/down are
+        // high-frequency verbs (eat/drop); stairs ride the LT layer, which
+        // reads as "d-pad moves, LT+d-pad moves vertically". The base
         // entries stay pad-free so LOOK etc. keep the d-pad for the cursor.
         const std::vector<std::pair<std::string, std::string>> stairs = {
-            { "LEVEL_UP", "JOY_UP" },
-            { "LEVEL_DOWN", "JOY_DOWN" },
+            { "LEVEL_UP", "JOY_LT_UP" },
+            { "LEVEL_DOWN", "JOY_LT_DOWN" },
         };
         for( const auto &[id, button] : stairs ) {
             INFO( "action id: " << id );

@@ -64,8 +64,8 @@ diverge only where the games differ.
 | B / LT+B | wait a turn / wait menu | same |
 | X / LT+X | use ability / ability menu | X = examine + palette; LT+X = crafting |
 | Y / LT+Y | move to edge / auto-explore | Y = inventory; LT+Y = advanced inventory |
-| D-pad L/R | select ability | smash / pick up all |
-| D-pad U/D | level up / level down | same (ascend/descend stairs) |
+| D-pad L/R | select ability | wield / pick up all |
+| D-pad U/D | level up / level down | eat / drop; stairs moved to LT+U/D (CDDA convention, adopted 2026-07-14 — high-frequency verbs deserve the unmodified slots) |
 | L3 | points of interest | movement mode menu |
 | LB / RB | target self / fire | prev tab / RB = fire |
 | LT+RB | throw | same |
@@ -410,7 +410,9 @@ fallback needs verifying on the Deck.
   Guide: unavailable (swallowed; Steam owns it)
 - D-pad: menu navigation (shared + UILIST up/down, dialogue, item
   actions, melee picker, keybindings help); in DEFAULTMODE left/right =
-  smash / pick up all, up/down = ascend/descend stairs (Qud convention;
+  wield / pick up all, up/down = eat / drop (CDDA-default verbs; smash
+  lost its pad slot and is action-menu/keyboard-only for now — LT+A is
+  the obvious home if it earns one back), stairs = LT+up/down (
   cardinal *movement* stays unmapped via the keyboard-only overrides,
   and d-pad diagonals stay unbound in-world so mispresses no-op). B
   backs out of trade/prompts/dialogs; A or B dismisses wait popups;
@@ -428,7 +430,8 @@ fallback needs verifying on the Deck.
   pad *button* — deliberately not on stick motion or the trigger, which
   would dismiss unread via drift or the RT repeat
 - LT+d-pad left/right: zoom out/in (gameplay `zoom_in/out` + OVERMAP;
-  Qud convention). LT+up/down chords exist but are now unbound
+  Qud convention). LT+up/down = ascend/descend stairs in DEFAULTMODE
+  (category-scoped, so AIM paging and spinner ±10 keep them elsewhere)
 - LT+buttons (DEFAULTMODE): LT+B = wait menu, LT+X = crafting menu,
   LT+Y = advanced inventory, LT+RB = throw, LT+Select = missions,
   LT+Start = player info; LT+RB = switch firing mode (TARGET); other
@@ -466,8 +469,9 @@ fallback needs verifying on the Deck.
   default on, toggleable in panel management) lists the DEFAULTMODE
   bindings while the pad is the active device — keys resolved live from
   bindings each draw (rebind- and prompt-style-safe), blank on keyboard
-- Unused so far: R3, LT+A, LT+LB, LT alone (LT+d-pad up/down now pages
-  in AIM)
+- Unused so far: R3, LT+A, LT+LB, LT alone; `smash` is currently
+  pad-unbound in DEFAULTMODE (displaced by wield when the d-pad went
+  CDDA-style)
 
 ## Testing & deploy
 

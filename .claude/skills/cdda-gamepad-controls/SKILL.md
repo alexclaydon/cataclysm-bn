@@ -154,8 +154,11 @@ It rebinds the pad to match our BN scheme wherever JSON allows:
 
 - Face: A=action_menu, B=pause (wait), X=examine, Y=inventory
 - RB=fire, LB=autoattack (BN leaves LB free; kept as bonus)
-- D-pad: up/down=stairs (LEVEL_UP/DOWN, shared), left=smash,
-  right=pickup_all (stock body-verb d-pad traded away deliberately)
+- D-pad: up=eat, down=drop, left=wield, right=pickup_all — stock CDDA
+  verbs except wield-for-wear on left and pickup_all on right; stairs
+  stay on stock ALT_UP/ALT_DOWN (2026-07-14: BN adopted this CDDA
+  convention back, so both games now agree). smash is pad-unbound
+  (keyboard s / action menu).
 - LT layer, mirroring BN chords: ALT_B=wait menu, ALT_X=craft,
   ALT_Y=advinv, ALT_RB=throw, ALT_START=player_data, ALT_BACK=missions,
   ALT_LEFT/RIGHT=zoom out/in, ALT_A=interact (CDDA's context action),
@@ -164,7 +167,8 @@ It rebinds the pad to match our BN scheme wherever JSON allows:
 - RT alone still also waits (kept alongside B — harmless)
 - Re-curated radials: LEFT N=grab NE=read E=chat SE=haul S=construct
   SW=sleep W=disassemble NW=unload; RIGHT N=eat NE=medical E=factions
-  SE=wield S=drop SW=bodystatus W=wear NW=morale
+  SE=wield S=drop SW=bodystatus W=wear NW=morale (eat/wield/drop also
+  live on the d-pad; the radial slots are a deliberate second route)
 - Dropped off the pad (keyboard/action-menu only): take_off,
   apply_wielded, item_action_menu, cast_spell, pick_style, ignore_enemy
 

@@ -2199,7 +2199,7 @@ static void draw_gamepad_hints( avatar &, const catacurses::window &w )
             const char *action;
             const char *label;
         };
-        static const std::array<hint_entry, 18> entries = { {
+        static const std::array<hint_entry, 20> entries = { {
                 { "action_menu", translate_marker( "Act" ) },
                 { "pause", translate_marker( "Wait" ) },
                 { "examine", translate_marker( "Exam" ) },
@@ -2209,7 +2209,9 @@ static void draw_gamepad_hints( avatar &, const catacurses::window &w )
                 { "main_menu", translate_marker( "Sys" ) },
                 { "LEVEL_UP", translate_marker( "Up" ) },
                 { "LEVEL_DOWN", translate_marker( "Down" ) },
-                { "smash", translate_marker( "Smash" ) },
+                { "eat", translate_marker( "Eat" ) },
+                { "drop", translate_marker( "Drop" ) },
+                { "wield", translate_marker( "Wield" ) },
                 { "pickup_all", translate_marker( "Loot" ) },
                 { "open_movement", translate_marker( "Stance" ) },
                 { "wait", translate_marker( "Wait+" ) },

@@ -980,7 +980,7 @@
     "bindings": [
       { "input_method": "keyboard", "key": "PPAGE" },
       { "input_method": "keyboard", "key": "<" },
-      { "input_method": "gamepad", "key": "JOY_UP" }
+      { "input_method": "gamepad", "key": "JOY_LT_UP" }
     ]
   },
   {
@@ -991,7 +991,7 @@
     "bindings": [
       { "input_method": "keyboard", "key": "NPAGE" },
       { "input_method": "keyboard", "key": ">" },
-      { "input_method": "gamepad", "key": "JOY_DOWN" }
+      { "input_method": "gamepad", "key": "JOY_LT_DOWN" }
     ]
   },
   {
@@ -2489,7 +2489,7 @@
     "name": "Smash Nearby Terrain",
     "category": "DEFAULTMODE",
     "id": "smash",
-    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "gamepad", "key": "JOY_LEFT" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
   },
   {
     "type": "keybinding",
@@ -2648,7 +2648,7 @@
     "name": "Eat",
     "category": "DEFAULTMODE",
     "id": "eat",
-    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "E" }, { "input_method": "gamepad", "key": "JOY_UP" } ]
   },
   {
     "type": "keybinding",
@@ -2668,7 +2668,7 @@
     "name": "Wield",
     "category": "DEFAULTMODE",
     "id": "wield",
-    "bindings": [ { "input_method": "keyboard", "key": "w" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "w" }, { "input_method": "gamepad", "key": "JOY_LEFT" } ]
   },
   {
     "type": "keybinding",
@@ -2742,7 +2742,7 @@
     "name": "Drop Item",
     "category": "DEFAULTMODE",
     "id": "drop",
-    "bindings": [ { "input_method": "keyboard", "key": "d" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "gamepad", "key": "JOY_DOWN" } ]
   },
   {
     "type": "keybinding",

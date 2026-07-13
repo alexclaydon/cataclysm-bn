@@ -61,8 +61,8 @@ diverge only where the games differ.
 | Left stick + RT | point direction, RT takes the step | same |
 | Right stick | look around | same |
 | A / LT+A | use (dynamic interact) / use direction | A = confirm / action menu; LT+A free |
-| B / LT+B | wait a turn / wait menu | B = wait (DEFAULTMODE); LT+B free |
-| X / LT+X | use ability / ability menu | X = examine + palette; LT+X free |
+| B / LT+B | wait a turn / wait menu | same |
+| X / LT+X | use ability / ability menu | X = examine + palette; LT+X = crafting |
 | Y / LT+Y | move to edge / auto-explore | Y = inventory; LT+Y = advanced inventory |
 | D-pad L/R | select ability | pick up all / smash |
 | D-pad U/D | level up / level down | same (ascend/descend stairs) |
@@ -70,7 +70,7 @@ diverge only where the games differ.
 | LB / RB | target self / fire | prev tab / RB = fire |
 | LT+RB | throw | same |
 | LT+D-pad L/R | zoom out / in | same |
-| Select / Start | main menu / character info | map / main menu (pre-existing divergence) |
+| Select / Start | main menu / character info | map / main menu (pre-existing divergence); LT+Start = player info |
 
 ## How binding resolution works (the part people get wrong)
 
@@ -388,23 +388,28 @@ fallback needs verifying on the Deck.
   npctalk.cpp (`7456baa`)
 - LT+d-pad left/right: zoom out/in (gameplay `zoom_in/out` + OVERMAP;
   Qud convention). LT+up/down chords exist but are now unbound
-- LT+buttons: LT+Y = advanced inventory, LT+RB = throw (DEFAULTMODE);
+- LT+buttons (DEFAULTMODE): LT+B = wait menu, LT+X = crafting menu,
+  LT+Y = advanced inventory, LT+RB = throw, LT+Start = player info;
   LT+RB = switch firing mode (TARGET); other `JOY_LT_n` codes free
-- Left stick: 8-way aim with a white triangle indicator (geometry-drawn:
-  tile-centered, zoom-scaled, 80% tile size); RT steps that way,
+- Left stick: 8-way aim with a white triangle indicator (geometry-drawn,
+  zoom-scaled, 60% tile size, anchored in the tile corner nearest the
+  player so the target tile's occupant stays visible); RT steps that way,
   auto-repeats while held (Qud-style; hardcoded in handle_action, not
   JSON-rebindable); also answers direction prompts (CHOOSE_DIRECTION)
 - Right stick: opens look-around from the viewport (first tilt = first
   cursor step via gamepad_look pending-step handoff) and drives the
   look cursor with hold-to-repeat (LOOK direction overrides)
+- Overmap: cursor moves on the d-pad or either stick (OVERMAP direction
+  mirrors; the right stick glides via its global repeat, the left stick
+  steps once per tilt)
 - Firing mode (TARGET): either stick or the d-pad moves the aim cursor
   (direction mirrors; right stick repeats via the global rstick repeat),
   A or RT fires, X reloads (aborts aiming through ExitCode::Reload,
   reload UI opens on exit), LB/RB cycle targets, LT+RB switches firing
   mode, B or Y backs out (shared QUIT). AIM/aimed-shot actions are
   keyboard-only so far
-- Unused so far: R3, LT+A/B/X/LB/Select/Start, LT alone, stick input
-  in menus
+- Unused so far: R3, LT+A, LT+LB, LT+Select, LT+d-pad up/down, LT
+  alone, stick input in menus
 
 ## Testing & deploy
 

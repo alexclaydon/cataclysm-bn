@@ -172,22 +172,25 @@ initial-delay-then-interval state machine (`HandleRightTriggerRepeat`,
 250ms/75ms). Repeats self-throttle because `last_input` is single-slot
 and only consumed when the game asks for input.
 
-**The repeat event-starvation trap**: emitting a repeat returns from
-`CheckMessages()` BEFORE the SDL event poll. If repeats come due more
-often than the game consumes input (heavy render/turn processing),
-every call takes the repeat path, the queued release event is never
-dequeued, and the input repeats forever after release (the runaway-
-movement bug). Any repeat handler MUST verify the input is still held
-against live device state — `SDL_UpdateJoysticks()` +
-`SDL_GetJoystickAxis()` — exactly like `HandleDPad` polls the hat,
-never by trusting the held-flag set from queued events alone. BUT the
-live check may only GATE the repeat (and disarm its timer) — never
-write the held-flag/last-code state from live values. That state
-drives press-edge detection on the *queued* event stream; flipping it
-early makes stale queued values from the same pull read as a fresh
-press edge, double-firing a single pull (the two-tiles-per-trigger
-bug). Returning 0 is enough: the event poll then runs and clears the
-state through the normal path.
+**The repeat event-starvation trap**: synthesized repeats must NEVER
+preempt the SDL event poll. The RT/right-stick repeat handlers
+originally ran before the poll and returned early; when repeats came
+due more often than the game consumed input, the poll never ran, the
+queued release event was never dequeued, and movement repeated forever
+(the runaway bug). Patching that with live-axis checks
+(`SDL_UpdateJoysticks` + `SDL_GetJoystickAxis`) spawned worse bugs:
+writing the held-flag from live state desynced press-edge detection
+from the queued event stream (single pull stepped twice), and gating
+on a jittery half-pulled trigger kept disarming the repeat timer
+(sluggish repeat), while the starved queue also ate stick direction
+changes (couldn't re-aim while holding RT). The correct shape, now
+implemented: `CheckMessages()` runs the full event poll FIRST, then
+synthesizes a repeat only if `last_input` is still empty. Real events
+always win — releases stop the repeat, direction changes land while
+held — and the handlers stay pure event-driven timer machines with no
+live polling. Put any future repeat synthesis in that same post-poll
+slot. (`HandleDPad` still runs pre-poll; it reads live hat state,
+which is safe, and is upstream code.)
 
 **Stateful schemes beyond bindings** (e.g. stick aims → trigger
 commits): keybindings can't express state, so intercept the raw events

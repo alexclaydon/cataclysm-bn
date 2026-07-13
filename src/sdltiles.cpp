@@ -2963,6 +2963,9 @@ void android_vibrate()
 // Repeat right-trigger events while it stays held (after a short initial
 // delay), so e.g. held-trigger movement keeps stepping without re-pulls.
 // The first event fires on the press edge in the axis-motion handler.
+// Both repeat handlers run AFTER the SDL event poll and only when it
+// produced no input, so real events (releases, stick direction changes)
+// are never starved by a stream of synthesized repeats.
 static Uint64 rtrigger_repeat_at = std::numeric_limits<Uint64>::max();
 static constexpr Uint64 rtrigger_initial_delay = 250;
 static constexpr Uint64 rtrigger_repeat_interval = 75;
@@ -2972,20 +2975,6 @@ namespace
 auto HandleRightTriggerRepeat() -> int
 {
     if( !joy_right_trigger_held ) {
-        rtrigger_repeat_at = std::numeric_limits<Uint64>::max();
-        return 0;
-    }
-    // Emitting a repeat returns before the SDL event poll below, so when
-    // repeats are due more often than the game consumes them, the queued
-    // release event is never dequeued and the trigger would repeat forever.
-    // Poll the live axis instead, like HandleDPad does with the hat. Only
-    // GATE on it though — joy_right_trigger_held must stay event-driven, or
-    // stale queued positive values from the same pull read as a fresh press
-    // edge once the flag flips and a single pull steps twice. Returning 0
-    // lets the poll below drain the queue and clear the flag properly.
-    SDL_UpdateJoysticks();
-    if( SDL_GetJoystickAxis( joystick, joy_right_trigger_axis ) <= 0 ) {
-        // Disarm so a quick re-pull starts from the initial delay again.
         rtrigger_repeat_at = std::numeric_limits<Uint64>::max();
         return 0;
     }
@@ -3008,19 +2997,6 @@ auto HandleRightStickRepeat() -> int
     if( joy_rstick_code == JOY_RSTICK_CENTER ) {
         return 0;
     }
-    // Same event-starvation hazard as the right trigger above: check the
-    // live stick position so releasing it always stops the glide. As above,
-    // only gate on it — joy_rstick_code stays event-driven so the queued
-    // events' edge detection isn't fooled; returning 0 lets the poll below
-    // drain the queue and recenter the code properly.
-    SDL_UpdateJoysticks();
-    const auto live_code = quantized_stick_code(
-                               SDL_GetJoystickAxis( joystick, joy_right_stick_x_axis ),
-                               SDL_GetJoystickAxis( joystick, joy_right_stick_y_axis ),
-                               rstick_codes );
-    if( live_code == JOY_RSTICK_CENTER ) {
-        return 0;
-    }
     if( SDL_GetTicks() >= rstick_repeat_at ) {
         rstick_repeat_at = SDL_GetTicks() + rstick_repeat_interval;
         last_input = input_event( joy_rstick_code, input_event_t::gamepad );
@@ -3040,12 +3016,8 @@ static void CheckMessages()
     if( HandleDPad() ) {
         return;
     }
-    if( HandleRightTriggerRepeat() ) {
-        return;
-    }
-    if( HandleRightStickRepeat() ) {
-        return;
-    }
+    // Hold-to-repeat synthesis happens AFTER the event poll below, and only
+    // when the poll produced nothing — see the comment there.
 
 #if defined(__ANDROID__)
     if( visible_display_frame_dirty ) {
@@ -3780,6 +3752,13 @@ static void CheckMessages()
         if( text_refresh && !is_repeat ) {
             break;
         }
+    }
+    // Synthesize hold-to-repeat inputs only when the poll above produced no
+    // real input this call. Real events therefore always win: releases stop
+    // the repeat (no runaway) and stick direction changes take effect while
+    // the trigger stays held.
+    if( last_input.type == input_event_t::error && !HandleRightTriggerRepeat() ) {
+        HandleRightStickRepeat();
     }
     bool resized = false;
     if( resize_dims.has_value() ) {

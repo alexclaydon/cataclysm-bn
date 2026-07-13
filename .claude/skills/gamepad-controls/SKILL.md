@@ -417,7 +417,10 @@ fallback needs verifying on the Deck.
   vehicle charges, wait turns, debug menu, Lua prompts) are d-pad
   spinners: up/down steps ±1, LT+up/down ±10, clamped at 0, handled as
   raw gamepad events in the query loop so keyboard entry is untouched
-  by construction; "press any key" prompts
+  by construction; when such a prompt opens off gamepad input it also
+  shows a spinner hint line and opens its ime_sentry in disable mode so
+  the SteamOS OSK stays closed (keyboard-opened prompts unchanged);
+  "press any key" prompts
   (`inp_mngr.wait_for_any_key`, e.g. computer terminals) dismiss on any
   pad *button* — deliberately not on stick motion or the trigger, which
   would dismiss unread via drift or the RT repeat

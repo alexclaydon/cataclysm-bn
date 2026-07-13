@@ -34,9 +34,12 @@ pipeline the keyboard uses.** Concretely:
    `JOY_*` keycodes — face/shoulder/system buttons, d-pad (hat),
    LT+d-pad chords, quantized 8-way stick octants plus center codes
    for both sticks, and the right trigger. Hold-to-repeat timing for
-   d-pad, RT, and right stick lives here too. New physical inputs are
-   added by allocating a keycode and emitting it; everything above
-   this layer treats them like any other input.
+   d-pad, RT, and right stick lives here too; synthesized repeats run
+   AFTER the SDL event poll and only when it produced nothing, so real
+   events (releases, direction changes) always win — repeats that
+   preempt the poll starve the queue and caused runaway movement. New
+   physical inputs are added by allocating a keycode and emitting it;
+   everything above this layer treats them like any other input.
 
 2. **Binding layer** (`data/raw/keybindings/keybindings.json`):
    buttons are bound to action ids, in the `default` (shared) context
@@ -101,10 +104,15 @@ Negative / accepted costs:
   entry; the drift test converts silent divergence into a test
   failure, but the edit still has to be made twice.
 - The movement/look schemes are hardcoded in C++ and not rebindable.
-- Two engine traps require care and are documented for posterity:
+- Engine traps require care and are documented for posterity:
   `JOY_0`'s keycode is literally `0` (collides with "0 = none"
-  conventions), and first-registered-action-wins shadowing (the
-  CONFIRM/JOY_0 case).
+  conventions); first-registered-action-wins shadowing (the
+  CONFIRM/JOY_0 case); synthesized input repeats must never preempt
+  the SDL event poll (queue starvation → runaway input); and globals
+  that outlive `g` — such as the stick-aim scheme's static draw
+  callback — must not dereference it in destructors, since
+  `exit_handler` resets `g` before static destruction (the
+  segfault-on-quit case; `~draw_callback_t` now guards).
 - `src/input.h` edits rebuild ~115 translation units.
 
 ## References

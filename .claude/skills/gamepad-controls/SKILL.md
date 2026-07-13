@@ -336,7 +336,8 @@ fallback needs verifying on the Deck.
   translation in npctalk.cpp (`7456baa`)
 - LT+d-pad up/down: zoom out/in (gameplay `zoom_in/out` + OVERMAP);
   LT+left/right chords exist but are unbound
-- Left stick: 8-way aim with white arrow overlay; RT steps that way,
+- Left stick: 8-way aim with a white triangle indicator (geometry-drawn:
+  tile-centered, zoom-scaled, 80% tile size); RT steps that way,
   auto-repeats while held (Qud-style; hardcoded in handle_action, not
   JSON-rebindable); also answers direction prompts (CHOOSE_DIRECTION)
 - Right stick: opens look-around from the viewport (first tilt = first

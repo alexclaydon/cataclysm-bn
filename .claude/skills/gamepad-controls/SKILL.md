@@ -16,8 +16,8 @@ description: >-
 # Gamepad controls for Cataclysm BN
 
 This fork is building first-class gamepad support (primary target: Steam
-Deck via Steam Input's virtual Xbox pad). Two hard-won principles govern
-all of it:
+Deck via Steam Input's virtual Xbox pad). These hard-won principles
+govern all of it:
 
 1. **Bind actions, not keys.** Never make a button synthesize a keyboard
    keypress. Buttons bind to *action ids* ("Go to next tab", "CONFIRM",
@@ -44,6 +44,33 @@ all of it:
    upstream merges? If a change turns out bigger than the feature it
    delivers, that is a signal to stop and reconsider — say so to the
    user rather than pushing through.
+4. **Follow Caves of Qud's Steam Deck conventions when picking button
+   placements.** Qud has the best gamepad reputation among traditional
+   roguelikes, and this fork's whole movement scheme (stick aims, RT
+   commits) is copied from it. When a new binding decision has a Qud
+   equivalent, take Qud's answer unless there's a concrete conflict —
+   and check its layout table (below) before inventing a placement.
+
+## Caves of Qud Steam Deck layout (the reference convention)
+
+From the Qud wiki Controls page (Steam Deck section). Our equivalents
+diverge only where the games differ.
+
+| Qud control | Qud action | Us |
+| --- | --- | --- |
+| Left stick + RT | point direction, RT takes the step | same |
+| Right stick | look around | same |
+| A / LT+A | use (dynamic interact) / use direction | A = confirm / action menu; LT+A free |
+| B / LT+B | wait a turn / wait menu | B = wait (DEFAULTMODE); LT+B free |
+| X / LT+X | use ability / ability menu | X = examine + palette; LT+X free |
+| Y / LT+Y | move to edge / auto-explore | Y = inventory; LT+Y = advanced inventory |
+| D-pad L/R | select ability | pick up all / smash |
+| D-pad U/D | level up / level down | same (ascend/descend stairs) |
+| L3 | points of interest | movement mode menu |
+| LB / RB | target self / fire | prev tab / RB = fire |
+| LT+RB | throw | same |
+| LT+D-pad L/R | zoom out / in | same |
+| Select / Start | main menu / character info | map / main menu (pre-existing divergence) |
 
 ## How binding resolution works (the part people get wrong)
 
@@ -65,7 +92,10 @@ all of it:
 ## Hardware map (Steam Deck / XInput-style, raw SDL joystick API)
 
 Buttons: A=0 B=1 X=2 Y=3 LB=4 RB=5 Back/Select=6 Start=7 Guide=8
-L3=9 R3=10. In JSON these are `JOY_0` … `JOY_7` (8+ have no names yet).
+L3=9 R3=10. In JSON these are `JOY_0` … `JOY_7`; the stick clicks are
+remapped at the SDL layer to `JOY_L3`/`JOY_R3` (256+n codes), and the
+Guide button is swallowed there (Steam owns it in Game Mode). Buttons
+0–7 pressed while LT is held emit `JOY_LT_0` … `JOY_LT_7` instead.
 Axes: LX=0 LY=1 **LT=2** RX=3 RY=4 **RT=5**; sticks idle near 0,
 triggers rest at -32768 (so "pulled" = value > 0). D-pad arrives as a
 hat, not buttons (handled by `HandleDPad()` in src/sdltiles.cpp).
@@ -164,8 +194,9 @@ a gamepad button should never act as a character hotkey. When a button
 **Chorded input (modifier + input)**: track the modifier's axis/button
 state as a static in sdltiles.cpp; where the base input is translated to
 a keycode, substitute the chord code when the modifier is held (see the
-`joy_left_trigger_held` handling in `HandleDPad()`). Chord codes are
-ordinary bindable keys after that.
+`joy_left_trigger_held` handling in `HandleDPad()` for the d-pad and in
+the `SDL_EVENT_JOYSTICK_BUTTON_DOWN` case for buttons — `JOY_LT_0` …
+`JOY_LT_7`). Chord codes are ordinary bindable keys after that.
 
 **Hold-to-repeat**: poll at the top of `CheckMessages()` with an
 initial-delay-then-interval state machine (`HandleRightTriggerRepeat`,
@@ -333,24 +364,32 @@ fallback needs verifying on the Deck.
   bindings and press_x shows only the active device's bindings when
   the last input was gamepad (see Device-gated dynamic UI consumers)
 - A `JOY_0`: Confirm (shared) · Action Menu (DEFAULTMODE) · YES on
-  prompts
-- B `JOY_1`: Exit screen (shared) · cancel in UILIST, OVERMAP,
-  chargen/worldgen/melee-picker dialogs · NO/ABORT on prompts
-- X `JOY_2`: Examine (DEFAULTMODE) · action palette anywhere it is
-  otherwise unbound
+  prompts · Fire (TARGET)
+- B `JOY_1`: Exit screen (shared) · **wait a turn (DEFAULTMODE, Qud
+  convention)** · cancel in UILIST, OVERMAP, chargen/worldgen/
+  melee-picker dialogs · NO/ABORT on prompts
+- X `JOY_2`: Examine (DEFAULTMODE) · Reload-and-abort-aiming (TARGET) ·
+  action palette anywhere it is otherwise unbound
 - Y `JOY_3`: Exit screen (shared) · Inventory (DEFAULTMODE)
-- LB/RB `JOY_4/5`: Prev/Next tab (shared + VEH_INTERACT)
+- LB/RB `JOY_4/5`: Prev/Next tab (shared + VEH_INTERACT) · Fire on RB
+  (DEFAULTMODE) · Prev/Next target (TARGET)
 - Select `JOY_6`: View map (DEFAULTMODE) · close map (OVERMAP) — a toggle
 - Start `JOY_7`: Main menu (DEFAULTMODE) · close it (INGAME_MAIN_MENU) —
   a toggle
+- L3 `JOY_L3`: Movement mode menu (DEFAULTMODE). R3 `JOY_R3`: free.
+  Guide: unavailable (swallowed; Steam owns it)
 - D-pad: menu navigation (shared + UILIST up/down, dialogue, item
-  actions, melee picker, keybindings help); **unmapped for in-world
-  movement** (DEFAULTMODE keyboard-only overrides) — free for future
-  in-game bindings. B backs out of trade/prompts/dialogs; A or B
-  dismisses wait popups; dialogue is a raw-input loop with explicit pad
-  translation in npctalk.cpp (`7456baa`)
-- LT+d-pad up/down: zoom out/in (gameplay `zoom_in/out` + OVERMAP);
-  LT+left/right chords exist but are unbound
+  actions, melee picker, keybindings help); in DEFAULTMODE left/right =
+  pick up all / smash, up/down = ascend/descend stairs (Qud convention;
+  cardinal *movement* stays unmapped via the keyboard-only overrides,
+  and d-pad diagonals stay unbound in-world so mispresses no-op). B
+  backs out of trade/prompts/dialogs; A or B dismisses wait popups;
+  dialogue is a raw-input loop with explicit pad translation in
+  npctalk.cpp (`7456baa`)
+- LT+d-pad left/right: zoom out/in (gameplay `zoom_in/out` + OVERMAP;
+  Qud convention). LT+up/down chords exist but are now unbound
+- LT+buttons: LT+Y = advanced inventory, LT+RB = throw (DEFAULTMODE);
+  LT+RB = switch firing mode (TARGET); other `JOY_LT_n` codes free
 - Left stick: 8-way aim with a white triangle indicator (geometry-drawn:
   tile-centered, zoom-scaled, 80% tile size); RT steps that way,
   auto-repeats while held (Qud-style; hardcoded in handle_action, not
@@ -358,8 +397,14 @@ fallback needs verifying on the Deck.
 - Right stick: opens look-around from the viewport (first tilt = first
   cursor step via gamepad_look pending-step handoff) and drives the
   look cursor with hold-to-repeat (LOOK direction overrides)
-- Unused so far: L3/R3/Guide (no keynames yet for buttons 8+), LT
-  alone, stick input in menus
+- Firing mode (TARGET): either stick or the d-pad moves the aim cursor
+  (direction mirrors; right stick repeats via the global rstick repeat),
+  A or RT fires, X reloads (aborts aiming through ExitCode::Reload,
+  reload UI opens on exit), LB/RB cycle targets, LT+RB switches firing
+  mode, B or Y backs out (shared QUIT). AIM/aimed-shot actions are
+  keyboard-only so far
+- Unused so far: R3, LT+A/B/X/LB/Select/Start, LT alone, stick input
+  in menus
 
 ## Testing & deploy
 

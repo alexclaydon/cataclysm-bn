@@ -92,6 +92,14 @@ pipeline the keyboard uses.** Concretely:
    bindings, so hint text game-wide follows the device without
    per-screen work.
 
+7. **Button placement follows Caves of Qud's Steam Deck layout** where
+   an equivalent exists (stick-aim + RT-step, wait on B, fire on RB,
+   throw on LT+RB, stairs on d-pad up/down, zoom on LT+d-pad
+   left/right, LT as the alternate-verb modifier). Qud is the reference
+   pad-native traditional roguelike; borrowing its conventions buys
+   transferable muscle memory and pre-validated ergonomics. The layout
+   table lives in the gamepad-controls skill.
+
 ## Consequences
 
 Positive:

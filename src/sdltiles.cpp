@@ -148,7 +148,9 @@ static constexpr int joy_left_stick_y_axis = 1;
 static constexpr int joy_right_stick_x_axis = 3;
 static constexpr int joy_right_stick_y_axis = 4;
 static constexpr int joy_right_trigger_axis = 5; // XInput-style pads report RT as axis 5.
-static constexpr Sint16 joy_stick_deadzone = 14000;
+static constexpr Sint16 joy_stick_deadzone = 7000;
+// Triggers rest at -32768 and max at 32767; count as pulled at 25% travel.
+static constexpr Sint16 joy_trigger_threshold = -16384;
 static Sint16 joy_lstick_x = 0;
 static Sint16 joy_lstick_y = 0;
 static Sint16 joy_rstick_x = 0;
@@ -3531,13 +3533,12 @@ static void CheckMessages()
             }
             case SDL_EVENT_JOYSTICK_AXIS_MOTION:
                 if( ev.jaxis.axis == joy_left_trigger_axis ) {
-                    // Triggers rest at -32768; count half-pressed as held.
-                    joy_left_trigger_held = ev.jaxis.value > 0;
+                    joy_left_trigger_held = ev.jaxis.value > joy_trigger_threshold;
                 } else if( ev.jaxis.axis == joy_right_trigger_axis ) {
-                    if( ev.jaxis.value > 0 && !joy_right_trigger_held ) {
+                    if( ev.jaxis.value > joy_trigger_threshold && !joy_right_trigger_held ) {
                         last_input = input_event( JOY_RTRIGGER, input_event_t::gamepad );
                     }
-                    joy_right_trigger_held = ev.jaxis.value > 0;
+                    joy_right_trigger_held = ev.jaxis.value > joy_trigger_threshold;
                 } else if( ev.jaxis.axis == joy_left_stick_x_axis ||
                            ev.jaxis.axis == joy_left_stick_y_axis ) {
                     if( ev.jaxis.axis == joy_left_stick_x_axis ) {

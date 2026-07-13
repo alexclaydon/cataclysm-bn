@@ -15,10 +15,6 @@
 // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
 void ensure_unifont_loaded( std::vector<std::string> &font_list );
 
-// Prepend the controller-prompt glyph font (a PromptFont subset holding
-// ONLY the gamepad codepoints, so first place can't affect real text).
-void ensure_promptfont_loaded( std::vector<std::string> &font_list );
-
 class font_loader
 {
     public:

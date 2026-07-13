@@ -532,105 +532,31 @@ auto gamepad_prompt_style() -> prompt_style
 #endif
 }
 
-/// Controller glyphs from the bundled PromptFont subset
-/// (data/font/promptfont.ttf holds exactly these codepoints and sits
-/// first in the UI font fallback list). Chords render as trigger glyph +
-/// input glyph. Returns nullopt in text style so callers fall back to
-/// the spelled-out names.
+/// Compact prompt forms for gamepad face buttons. Sony style uses the
+/// buttons' geometric shapes, Xbox style bare letters — both stay crisp
+/// at terminal cell size, where detailed button-icon fonts (a bundled
+/// PromptFont subset was tried) render unreadably. Everything that
+/// isn't a face button returns nullopt so callers fall back to the
+/// short text names, which were always legible.
 auto gamepad_prompt_glyph( const int ch, const prompt_style style ) -> std::optional<std::string>
 {
     if( style == prompt_style::text ) {
         return std::nullopt;
     }
-    const bool xbox = style == prompt_style::xbox;
-    const std::string lt = xbox ? "⇜" : "↲";
-    if( ch >= JOY_LT_0 && ch <= JOY_LT_7 ) {
+    if( ch >= JOY_LT_0 && ch <= JOY_LT_3 ) {
         // Buttons 0-7 are literally keycodes 0-7.
-        return lt + *gamepad_prompt_glyph( ch - JOY_LT_0, style );
+        return "LT+" + *gamepad_prompt_glyph( ch - JOY_LT_0, style );
     }
+    const bool xbox = style == prompt_style::xbox;
     switch( ch ) {
         case JOY_0:
-            return xbox ? "⇓" : "⇣";
+            return xbox ? "A" : "✕";
         case JOY_1:
-            return xbox ? "⇒" : "⇢";
+            return xbox ? "B" : "○";
         case JOY_2:
-            return xbox ? "⇐" : "⇠";
+            return xbox ? "X" : "□";
         case JOY_3:
-            return xbox ? "⇑" : "⇡";
-        case JOY_4:
-            return xbox ? "↘" : "↰";
-        case JOY_5:
-            return xbox ? "↙" : "↱";
-        case JOY_6:
-            return xbox ? "⇺" : "⇦";
-        case JOY_7:
-            return xbox ? "⇻" : "⇨";
-        case JOY_UP:
-            return "↟";
-        case JOY_DOWN:
-            return "↡";
-        case JOY_LEFT:
-            return "↞";
-        case JOY_RIGHT:
-            return "↠";
-        case JOY_LEFTUP:
-            return "⇟";
-        case JOY_RIGHTUP:
-            return "↵";
-        case JOY_LEFTDOWN:
-            return "↴";
-        case JOY_RIGHTDOWN:
-            return "⇞";
-        case JOY_LT_UP:
-            return lt + "↟";
-        case JOY_LT_DOWN:
-            return lt + "↡";
-        case JOY_LT_LEFT:
-            return lt + "↞";
-        case JOY_LT_RIGHT:
-            return lt + "↠";
-        case JOY_RTRIGGER:
-            return xbox ? "⇝" : "↳";
-        case JOY_L3:
-            return "↺";
-        case JOY_R3:
-            return "↻";
-        case JOY_LSTICK_UP:
-            return "↾";
-        case JOY_LSTICK_DOWN:
-            return "⇂";
-        case JOY_LSTICK_LEFT:
-            return "↼";
-        case JOY_LSTICK_RIGHT:
-            return "⇀";
-        case JOY_LSTICK_LEFTUP:
-            return "⇖";
-        case JOY_LSTICK_RIGHTUP:
-            return "⇗";
-        case JOY_LSTICK_LEFTDOWN:
-            return "⇙";
-        case JOY_LSTICK_RIGHTDOWN:
-            return "⇘";
-        case JOY_LSTICK_CENTER:
-            return "⇋";
-        case JOY_RSTICK_UP:
-            return "↿";
-        case JOY_RSTICK_DOWN:
-            return "⇃";
-        case JOY_RSTICK_LEFT:
-            return "↽";
-        case JOY_RSTICK_RIGHT:
-            return "⇁";
-        case JOY_RSTICK_LEFTUP:
-            return "⇖";
-        case JOY_RSTICK_RIGHTUP:
-            return "⇗";
-        case JOY_RSTICK_LEFTDOWN:
-            return "⇙";
-        case JOY_RSTICK_RIGHTDOWN:
-            return "⇘";
-        case JOY_RSTICK_CENTER:
-            return "⇌";
+            return xbox ? "Y" : "△";
         default:
             return std::nullopt;
     }
@@ -1442,20 +1368,17 @@ auto gamepad_hint_glyph( const int keycode ) -> std::optional<std::string>
         return std::nullopt;
     }
     const auto style = gamepad_prompt_style();
-    if( style == prompt_style::text ) {
-        static const std::array<std::string, 4> letters = { "(A)", "(B)", "(X)", "(Y)" };
-        const std::array<nc_color, 4> colors = {
-            c_light_green, c_light_red, c_light_blue, c_yellow
-        };
-        return colorize( letters[keycode], colors[keycode] );
-    }
     // Each maker's face-button colors: Xbox A green / B red / X blue /
     // Y yellow; Sony cross blue / circle red / square pink / triangle
     // green.
-    const auto colors = style == prompt_style::xbox
-                        ? std::array<nc_color, 4> { c_light_green, c_light_red, c_light_blue, c_yellow }
-                        : std::array<nc_color, 4> { c_light_blue, c_light_red, c_pink, c_light_green };
-    return colorize( *gamepad_prompt_glyph( keycode, style ), colors[keycode] );
+    const auto colors = style == prompt_style::sony
+                        ? std::array<nc_color, 4> { c_light_blue, c_light_red, c_pink, c_light_green }
+                        : std::array<nc_color, 4> { c_light_green, c_light_red, c_light_blue, c_yellow };
+    static const std::array<std::string, 4> letters = { "A", "B", "X", "Y" };
+    const std::string body = style == prompt_style::sony
+                             ? *gamepad_prompt_glyph( keycode, style )
+                             : letters[keycode];
+    return colorize( "(" + body + ")", colors[keycode] );
 }
 
 // dx and dy are -1, 0, or +1. Rotate the indicated direction 1/8 turn clockwise.

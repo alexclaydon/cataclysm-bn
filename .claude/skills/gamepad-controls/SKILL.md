@@ -319,26 +319,28 @@ it was built for and rebuild on mismatch (see `gamepad_ui` in
 query_popup — option text width differs between modes, so a stale cache
 misplaces buttons).
 
-**Controller glyphs (PromptFont)**: hints render real controller glyphs
-via a bundled 44-glyph subset of PromptFont (`data/font/promptfont.ttf`,
-OFL) that holds ONLY the mapped codepoints and is prepended to the UI
-font fallback list (`ensure_promptfont_loaded`, src/font_loader.cpp) —
-first place is safe *because* the subset provides nothing else; do NOT
-regenerate it with extra glyphs without re-checking collisions (the
-game renders U+21A5/U+21A7 in the sidebar and mapgen symbols live in
-the same arrows range, which is why map/overmap fonts don't get it).
-The `GAMEPAD_PROMPT_STYLE` option (PlayStation default / Xbox / Text)
-picks the glyph set in `gamepad_prompt_glyph` (src/input.cpp);
-`gamepad_display_name` emits those glyphs game-wide, chords compose as
-trigger glyph + input glyph, and curses builds force text style. When
-adding a new JOY_* code, map it in `gamepad_prompt_glyph` for BOTH
-styles (or it falls back to its text name) and confirm the codepoint is
-in the subset.
+**Controller prompt style**: the `GAMEPAD_PROMPT_STYLE` option
+(PlayStation default / Xbox / Text) shapes how face buttons render in
+hints via `gamepad_prompt_glyph` (src/input.cpp): Sony style shows the
+buttons' geometric shapes (✕ ○ □ △ — ordinary Unicode, crisp from the
+existing fonts), Xbox style bare letters, Text the spelled-out names
+("Pad A"). Non-face inputs always use the short text names, and LT
+chords compose as "LT+" + face form. Curses builds force text style.
+**Trap — button-icon fonts don't survive terminal cells**: a bundled
+PromptFont subset (proper Xbox/PS button icon glyphs, prepended to the
+font fallback list) shipped briefly and was reverted — detailed icon
+glyphs are unreadable at an 8x16 cell, and PromptFont squats on
+codepoints the game renders elsewhere (sidebar U+21A5/U+21A7, mapgen
+arrows), demanding careful subsetting for nothing. If real icons are
+ever wanted, the viable route is a pixel-art set designed for 16px
+(e.g. Kenney Input Prompts Pixel 16×) converted to a bitmap font, with
+two-cell-width layout handling; see commit history for the PromptFont
+attempt (`8530c76d` / its revert).
 
 `gamepad_hint_glyph( keycode )` (src/input.cpp) returns colored face
-button glyphs — maker-convention colors (Xbox: A green/B red/X blue/
-Y yellow; Sony: cross blue/circle red/square pink/triangle green) —
-for inline hints; std::nullopt for everything else, so
+button forms — maker-convention colors (Xbox/Text: A green/B red/
+X blue/Y yellow; Sony: cross blue/circle red/square pink/triangle
+green) — for inline hints; std::nullopt for everything else, so
 callers fall back to their keyboard hint. Keep hints derived from the
 **actual bindings** in the current context (look up the action's first
 gamepad event and glyph that) rather than hardcoding "A means yes" —

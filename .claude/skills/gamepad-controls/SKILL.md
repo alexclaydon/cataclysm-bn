@@ -319,9 +319,26 @@ it was built for and rebuild on mismatch (see `gamepad_ui` in
 query_popup — option text width differs between modes, so a stale cache
 misplaces buttons).
 
+**Controller glyphs (PromptFont)**: hints render real controller glyphs
+via a bundled 44-glyph subset of PromptFont (`data/font/promptfont.ttf`,
+OFL) that holds ONLY the mapped codepoints and is prepended to the UI
+font fallback list (`ensure_promptfont_loaded`, src/font_loader.cpp) —
+first place is safe *because* the subset provides nothing else; do NOT
+regenerate it with extra glyphs without re-checking collisions (the
+game renders U+21A5/U+21A7 in the sidebar and mapgen symbols live in
+the same arrows range, which is why map/overmap fonts don't get it).
+The `GAMEPAD_PROMPT_STYLE` option (PlayStation default / Xbox / Text)
+picks the glyph set in `gamepad_prompt_glyph` (src/input.cpp);
+`gamepad_display_name` emits those glyphs game-wide, chords compose as
+trigger glyph + input glyph, and curses builds force text style. When
+adding a new JOY_* code, map it in `gamepad_prompt_glyph` for BOTH
+styles (or it falls back to its text name) and confirm the codepoint is
+in the subset.
+
 `gamepad_hint_glyph( keycode )` (src/input.cpp) returns colored face
-button glyphs — green (A), red (B), blue (X), yellow (Y), Xbox
-convention — for inline hints; std::nullopt for everything else, so
+button glyphs — maker-convention colors (Xbox: A green/B red/X blue/
+Y yellow; Sony: cross blue/circle red/square pink/triangle green) —
+for inline hints; std::nullopt for everything else, so
 callers fall back to their keyboard hint. Keep hints derived from the
 **actual bindings** in the current context (look up the action's first
 gamepad event and glyph that) rather than hardcoding "A means yes" —

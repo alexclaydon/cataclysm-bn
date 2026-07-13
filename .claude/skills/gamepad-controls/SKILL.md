@@ -389,7 +389,9 @@ fallback needs verifying on the Deck.
   the last input was gamepad (see Device-gated dynamic UI consumers)
 - A `JOY_0`: Confirm (shared) · Action Menu (DEFAULTMODE) · YES on
   prompts · Fire (TARGET) · Move single item (ADVANCED_INVENTORY,
-  which registers MOVE_SINGLE_ITEM instead of CONFIRM)
+  which registers MOVE_SINGLE_ITEM instead of CONFIRM) · confirm text
+  input (shared TEXT.CONFIRM; B cancels via TEXT.QUIT — text boxes must
+  never be pad-inescapable)
 - B `JOY_1`: Exit screen (shared) · **wait a turn (DEFAULTMODE, Qud
   convention)** · cancel in UILIST, OVERMAP, chargen/worldgen/
   melee-picker dialogs · NO/ABORT on prompts
@@ -420,6 +422,11 @@ fallback needs verifying on the Deck.
   LT+Y = advanced inventory, LT+RB = throw, LT+Select = missions,
   LT+Start = player info; LT+RB = switch firing mode (TARGET); other
   `JOY_LT_n` codes free
+- Advanced inventory: A = move single item, LT+A = move stack, LB/RB =
+  swap source/destination pane, LT+D-pad up/down = page up/down,
+  LT+B = toggle favorite; "move all" and pane sources stay palette-only
+  (move-all is too destructive for a misprfess; X must stay unbound for
+  the palette to fire)
 - Left stick: 8-way aim with a white triangle indicator (geometry-drawn,
   zoom-scaled, 60% tile size, anchored in the tile corner nearest the
   player so the target tile's occupant stays visible); RT steps that way,

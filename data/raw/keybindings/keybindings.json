@@ -3533,14 +3533,14 @@
     "id": "PAGE_DOWN",
     "category": "ADVANCED_INVENTORY",
     "name": "Page down",
-    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" }, { "input_method": "gamepad", "key": "JOY_LT_DOWN" } ]
   },
   {
     "type": "keybinding",
     "id": "PAGE_UP",
     "category": "ADVANCED_INVENTORY",
     "name": "Page up",
-    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" }, { "input_method": "gamepad", "key": "JOY_LT_UP" } ]
   },
   {
     "type": "keybinding",
@@ -3591,7 +3591,11 @@
     "id": "TOGGLE_TAB",
     "category": "ADVANCED_INVENTORY",
     "name": "Toggle tab",
-    "bindings": [ { "input_method": "keyboard", "key": "TAB" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "TAB" },
+      { "input_method": "gamepad", "key": "JOY_4" },
+      { "input_method": "gamepad", "key": "JOY_5" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3640,7 +3644,7 @@
     "id": "MOVE_ITEM_STACK",
     "category": "ADVANCED_INVENTORY",
     "name": "Move item stack",
-    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "M" }, { "input_method": "gamepad", "key": "JOY_LT_0" } ]
   },
   {
     "type": "keybinding",
@@ -3661,7 +3665,7 @@
     "id": "TOGGLE_FAVORITE",
     "category": "ADVANCED_INVENTORY",
     "name": "Toggle item as favorite",
-    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "*" }, { "input_method": "gamepad", "key": "JOY_LT_1" } ]
   },
   {
     "type": "keybinding",
@@ -4480,13 +4484,17 @@
     "type": "keybinding",
     "id": "TEXT.QUIT",
     "name": "Cancel text input",
-    "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "gamepad", "key": "JOY_1" } ]
   },
   {
     "type": "keybinding",
     "id": "TEXT.CONFIRM",
     "name": "Confirm text input",
-    "bindings": [ { "input_method": "keyboard", "key": "RETURN" }, { "input_method": "keyboard", "key": "NUMPAD_6" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "RETURN" },
+      { "input_method": "keyboard", "key": "NUMPAD_6" },
+      { "input_method": "gamepad", "key": "JOY_0" }
+    ]
   },
   {
     "type": "keybinding",

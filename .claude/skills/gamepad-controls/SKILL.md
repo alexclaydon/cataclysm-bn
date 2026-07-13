@@ -200,7 +200,7 @@ the `SDL_EVENT_JOYSTICK_BUTTON_DOWN` case for buttons — `JOY_LT_0` …
 
 **Hold-to-repeat**: poll at the top of `CheckMessages()` with an
 initial-delay-then-interval state machine (`HandleRightTriggerRepeat`,
-250ms/75ms). Repeats self-throttle because `last_input` is single-slot
+250ms/60ms). Repeats self-throttle because `last_input` is single-slot
 and only consumed when the game asks for input.
 
 **The repeat event-starvation trap**: synthesized repeats must NEVER

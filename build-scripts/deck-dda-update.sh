@@ -14,6 +14,15 @@ jobs="${JOBS:-$(nproc)}"
 
 cd "${repo_dir}"
 git pull --ff-only
+
+# Install the BN-parity gamepad layout (see the cdda-gamepad-controls
+# skill). config/keybindings.json is CDDA's user-override file; entries
+# replace default bindings per (category,id). The repo copy is the
+# source of truth — this overwrites any in-game rebinds on each deploy.
+if [ -f "${repo_dir}/deck-dda-keybindings.json" ]; then
+    mkdir -p "${repo_dir}/config"
+    cp "${repo_dir}/deck-dda-keybindings.json" "${repo_dir}/config/keybindings.json"
+fi
 distrobox enter "${box}" -- bash -c \
     "cd '${repo_dir}' && nice -n 19 make -j${jobs} CLANG=1 RELEASE=1 LTO=0 \
         TILES=1 SOUND=1 LOCALIZE=1 BACKTRACE=0 RUNTESTS=0 PCH=1"

@@ -56,5 +56,5 @@ deck-local:
 	ssh $(DECK_SSH) 'bash ~/cataclysm-bn/build-scripts/deck-update.sh'
 
 deck-dda:
-	scp build-scripts/deck-dda-update.sh build-scripts/deck-dda-run.sh $(DECK_SSH):cataclysm-dda/
+	scp build-scripts/deck-dda-update.sh build-scripts/deck-dda-run.sh build-scripts/deck-dda-keybindings.json $(DECK_SSH):cataclysm-dda/
 	ssh $(DECK_SSH) 'chmod +x ~/cataclysm-dda/deck-dda-*.sh && bash ~/cataclysm-dda/deck-dda-update.sh'

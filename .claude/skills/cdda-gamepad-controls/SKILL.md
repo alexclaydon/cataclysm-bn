@@ -144,6 +144,35 @@ radials add overmap-travel verbs (CHOOSE_DESTINATION etc.) and
 INCREASE/DECREASE_VALUE; TARGET's left radial holds aimed/careful/
 precise shot; prompts bind YES/NO to radial N/S.
 
+## OUR local layout (BN-parity overrides — the Deck does NOT run stock)
+
+`build-scripts/deck-dda-keybindings.json` in the BN repo is deployed by
+`deck-dda-update.sh` to `~/cataclysm-dda/config/keybindings.json` —
+CDDA's user-override file (entries replace default bindings wholesale
+per (category,id), `"version": 2`, keyboard keys re-listed verbatim).
+It rebinds the pad to match our BN scheme wherever JSON allows:
+
+- Face: A=action_menu, B=pause (wait), X=examine, Y=inventory
+- RB=fire, LB=autoattack (BN leaves LB free; kept as bonus)
+- D-pad: up/down=stairs (LEVEL_UP/DOWN, shared), left=smash,
+  right=pickup_all (stock body-verb d-pad traded away deliberately)
+- LT layer, mirroring BN chords: ALT_B=wait menu, ALT_X=craft,
+  ALT_Y=advinv, ALT_RB=throw, ALT_START=player_data, ALT_BACK=missions,
+  ALT_LEFT/RIGHT=zoom out/in, ALT_A=interact (CDDA's context action),
+  ALT_LB=reload_item (stock)
+- LS click=open_movement (movement mode picker); RS click=peek (stock)
+- RT alone still also waits (kept alongside B — harmless)
+- Re-curated radials: LEFT N=grab NE=read E=chat SE=haul S=construct
+  SW=sleep W=disassemble NW=unload; RIGHT N=eat NE=medical E=factions
+  SE=wield S=drop SW=bodystatus W=wear NW=morale
+- Dropped off the pad (keyboard/action-menu only): take_off,
+  apply_wielded, item_action_menu, cast_spell, pick_style, ignore_enemy
+
+Caveats: each deploy overwrites in-game rebinds (the repo file is the
+source of truth — fold deliberate in-game changes back into it). The
+in-game keybindings UI writes the same file, so a session's manual
+tweaks survive until the next `make deck-dda`.
+
 ## Timing, tunables, options
 
 All hardcoded statics in `sdl_gamepad.cpp` (~93-118), no UI options:

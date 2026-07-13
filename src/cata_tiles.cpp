@@ -7009,16 +7009,25 @@ void cata_tiles::draw_direction_indicator_frame()
     if( direction_indicator_dir == point_zero ) {
         return;
     }
-    // A filled triangle sized off the tile stays centered and scales with
-    // the zoom level, unlike a font-rendered glyph.
+    // A filled triangle sized off the tile scales with the zoom level,
+    // unlike a font-rendered glyph.
     const point tl = player_to_screen( direction_indicator_pos.xy() );
-    const float cx = tl.x + tile_width / 2.0f;
-    const float cy = tl.y + tile_height / 2.0f;
     const float norm = std::hypot( static_cast<float>( direction_indicator_dir.x ),
                                    static_cast<float>( direction_indicator_dir.y ) );
     const float ux = direction_indicator_dir.x / norm;
     const float uy = direction_indicator_dir.y / norm;
-    const float side = std::min( tile_width, tile_height ) * 0.8f;
+    const float side = std::min( tile_width, tile_height ) * 0.6f;
+    // Anchor in the tile corner nearest the player (opposite the facing:
+    // a down-right arrow sits top-left) so the arrow doesn't obscure
+    // whatever occupies the target tile. The 0.5*side inset keeps the
+    // outlined arrow's furthest vertex (tip, 0.40 * 1.25 scale) inside.
+    const float inset_x = tile_width / 2.0f - 0.5f * side;
+    const float inset_y = tile_height / 2.0f - 0.5f * side;
+    const auto sign = []( const int v ) {
+        return static_cast<float>( ( v > 0 ) - ( v < 0 ) );
+    };
+    const float cx = tl.x + tile_width / 2.0f - sign( direction_indicator_dir.x ) * inset_x;
+    const float cy = tl.y + tile_height / 2.0f - sign( direction_indicator_dir.y ) * inset_y;
 
     const auto draw_arrow = [&]( const float scale, const SDL_FColor & color ) {
         // Tip, then the two base corners on either side of the shaft axis.

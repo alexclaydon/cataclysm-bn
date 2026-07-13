@@ -2975,6 +2975,16 @@ auto HandleRightTriggerRepeat() -> int
         rtrigger_repeat_at = std::numeric_limits<Uint64>::max();
         return 0;
     }
+    // Emitting a repeat returns before the SDL event poll below, so when
+    // repeats are due more often than the game consumes them, the queued
+    // release event is never dequeued and the trigger would repeat forever.
+    // Poll the live axis instead, like HandleDPad does with the hat.
+    SDL_UpdateJoysticks();
+    if( SDL_GetJoystickAxis( joystick, joy_right_trigger_axis ) <= 0 ) {
+        joy_right_trigger_held = false;
+        rtrigger_repeat_at = std::numeric_limits<Uint64>::max();
+        return 0;
+    }
     if( rtrigger_repeat_at == std::numeric_limits<Uint64>::max() ) {
         rtrigger_repeat_at = SDL_GetTicks() + rtrigger_initial_delay;
         return 0;
@@ -2992,6 +3002,18 @@ auto HandleRightTriggerRepeat() -> int
 auto HandleRightStickRepeat() -> int
 {
     if( joy_rstick_code == JOY_RSTICK_CENTER ) {
+        return 0;
+    }
+    // Same event-starvation hazard as the right trigger above: check the
+    // live stick position so releasing it always stops the glide.
+    SDL_UpdateJoysticks();
+    const auto live_code = quantized_stick_code(
+                               SDL_GetJoystickAxis( joystick, joy_right_stick_x_axis ),
+                               SDL_GetJoystickAxis( joystick, joy_right_stick_y_axis ),
+                               rstick_codes );
+    if( live_code == JOY_RSTICK_CENTER ) {
+        joy_rstick_code = JOY_RSTICK_CENTER;
+        rstick_repeat_at = std::numeric_limits<Uint64>::max();
         return 0;
     }
     if( SDL_GetTicks() >= rstick_repeat_at ) {

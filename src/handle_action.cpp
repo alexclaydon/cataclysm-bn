@@ -1943,8 +1943,10 @@ auto set_gamepad_aim( const std::optional<action_id> &act ) -> void
             const auto target = g->u.bub_pos() + delta;
 #if defined(TILES)
             if( use_tiles ) {
+                // The arrow is drawn in screen space, so use the action's
+                // nominal direction rather than the iso-rotated map delta.
                 tilecontext->init_draw_direction_indicator( target,
-                        gamepad_aim_glyph( *gamepad_aim_act ) );
+                        get_delta_from_movement_action( *gamepad_aim_act, iso_rotate::no ).raw() );
                 return;
             }
 #endif

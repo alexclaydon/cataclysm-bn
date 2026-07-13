@@ -83,7 +83,7 @@ to keys itself, SDL never sees button events.
 | New raw input (button >7, axis, chord) needs a keycode | `src/input.h` (`JOY_*` defines, 256+n block) + name registration in `src/input.cpp` `init_keycode_mapping()` | Yes |
 | Reading SDL events / axes / repeat behavior | `src/sdltiles.cpp` (`CheckMessages()` event switch, `HandleDPad()`, `HandleRightTriggerRepeat()`) | Yes |
 | Stateful in-game control schemes (multi-input, with UI state) | `src/handle_action.cpp` — intercept raw gamepad events in `game::handle_action()` just before the unknown-command block | Yes |
-| Drawing an overlay glyph/indicator on a map tile | `src/cata_tiles.{h,cpp}` `init_draw_*` one-frame hooks + a `game::draw_callback_t` that re-arms it each frame (see `init_draw_direction_indicator` / `set_gamepad_aim`) | Yes |
+| Drawing an overlay glyph/indicator on a map tile | `src/cata_tiles.{h,cpp}` `init_draw_*` one-frame hooks + a `game::draw_callback_t` that re-arms it each frame (see `init_draw_direction_indicator` / `set_gamepad_aim`). For zoom-scaled, tile-centered shapes, draw geometry sized off `tile_width/height` via `SDL_RenderGeometry` (see `draw_direction_indicator_frame`) — font-rendered overlay strings are fixed-size and top-anchored. Indicator direction is screen-space: derive from the action with `iso_rotate::no` | Yes |
 
 Existing worked examples of each pattern, all in this repo's history:
 buttons-as-gamepad-events + keycode-0 sentinel fix (`557a34b`,
@@ -171,6 +171,16 @@ ordinary bindable keys after that.
 initial-delay-then-interval state machine (`HandleRightTriggerRepeat`,
 250ms/75ms). Repeats self-throttle because `last_input` is single-slot
 and only consumed when the game asks for input.
+
+**The repeat event-starvation trap**: emitting a repeat returns from
+`CheckMessages()` BEFORE the SDL event poll. If repeats come due more
+often than the game consumes input (heavy render/turn processing),
+every call takes the repeat path, the queued release event is never
+dequeued, and the input repeats forever after release (the runaway-
+movement bug). Any repeat handler MUST verify the input is still held
+against live device state — `SDL_UpdateJoysticks()` +
+`SDL_GetJoystickAxis()` — exactly like `HandleDPad` polls the hat,
+never by trusting the held-flag set from queued events alone.
 
 **Stateful schemes beyond bindings** (e.g. stick aims → trigger
 commits): keybindings can't express state, so intercept the raw events

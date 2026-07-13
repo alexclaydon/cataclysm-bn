@@ -4131,7 +4131,7 @@ void cata_tiles::draw( point dest, const tripoint_bub_ms &center, int width, int
             void_highlight();
         }
         if( do_draw_direction_indicator ) {
-            draw_direction_indicator_frame( overlay_strings );
+            draw_direction_indicator_frame();
             void_direction_indicator();
         }
         if( do_draw_cone_aoe ) {
@@ -6602,11 +6602,11 @@ void cata_tiles::init_draw_highlight( const tripoint_bub_ms &p )
     highlights.emplace_back( p );
 }
 void cata_tiles::init_draw_direction_indicator( const tripoint_bub_ms &p,
-        const std::string &glyph )
+        const point &dir )
 {
     do_draw_direction_indicator = true;
     direction_indicator_pos = p;
-    direction_indicator_glyph = glyph;
+    direction_indicator_dir = dir;
 }
 void cata_tiles::init_draw_weather( weather_printable weather, std::string name )
 {
@@ -6717,7 +6717,7 @@ void cata_tiles::void_cursor()
 void cata_tiles::void_direction_indicator()
 {
     do_draw_direction_indicator = false;
-    direction_indicator_glyph.clear();
+    direction_indicator_dir = point_zero;
 }
 void cata_tiles::void_highlight()
 {
@@ -7004,13 +7004,42 @@ void cata_tiles::draw_highlight()
         );
     }
 }
-void cata_tiles::draw_direction_indicator_frame( std::multimap<point, formatted_text>
-        &overlay_strings )
+void cata_tiles::draw_direction_indicator_frame()
 {
-    overlay_strings.emplace( player_to_screen( direction_indicator_pos.xy() ) +
-                             point( tile_width / 2, 0 ),
-                             formatted_text( direction_indicator_glyph, catacurses::white,
-                                     text_alignment::center ) );
+    if( direction_indicator_dir == point_zero ) {
+        return;
+    }
+    // A filled triangle sized off the tile stays centered and scales with
+    // the zoom level, unlike a font-rendered glyph.
+    const point tl = player_to_screen( direction_indicator_pos.xy() );
+    const float cx = tl.x + tile_width / 2.0f;
+    const float cy = tl.y + tile_height / 2.0f;
+    const float norm = std::hypot( static_cast<float>( direction_indicator_dir.x ),
+                                   static_cast<float>( direction_indicator_dir.y ) );
+    const float ux = direction_indicator_dir.x / norm;
+    const float uy = direction_indicator_dir.y / norm;
+    const float side = std::min( tile_width, tile_height );
+
+    const auto draw_arrow = [&]( const float scale, const SDL_FColor & color ) {
+        // Tip, then the two base corners on either side of the shaft axis.
+        const float tip = 0.40f * side * scale;
+        const float back = 0.24f * side * scale;
+        const float half_width = 0.28f * side * scale;
+        std::array<SDL_Vertex, 3> verts{};
+        verts[0].position = { cx + ux * tip, cy + uy * tip };
+        verts[1].position = { cx - ux * back - uy * half_width, cy - uy * back + ux * half_width };
+        verts[2].position = { cx - ux * back + uy * half_width, cy - uy * back - ux * half_width };
+        for( auto &vert : verts ) {
+            vert.color = color;
+        }
+        printErrorIf( !SDL_RenderGeometry( renderer.get(), nullptr, verts.data(),
+                                           static_cast<int>( verts.size() ), nullptr, 0 ),
+                      "SDL_RenderGeometry() failed" );
+    };
+
+    // Black underlay outlines the arrow for contrast on any terrain.
+    draw_arrow( 1.25f, SDL_FColor{ 0.0f, 0.0f, 0.0f, 1.0f } );
+    draw_arrow( 1.0f, SDL_FColor{ 1.0f, 1.0f, 1.0f, 1.0f } );
 }
 void cata_tiles::draw_weather_frame()
 {

@@ -412,7 +412,12 @@ fallback needs verifying on the Deck.
   and d-pad diagonals stay unbound in-world so mispresses no-op). B
   backs out of trade/prompts/dialogs; A or B dismisses wait popups;
   dialogue is a raw-input loop with explicit pad translation in
-  npctalk.cpp (`7456baa`); "press any key" prompts
+  npctalk.cpp (`7456baa`); numeric text prompts (every
+  `string_input_popup` with `only_digits` — AIM counts, chargen stats,
+  vehicle charges, wait turns, debug menu, Lua prompts) are d-pad
+  spinners: up/down steps ±1, LT+up/down ±10, clamped at 0, handled as
+  raw gamepad events in the query loop so keyboard entry is untouched
+  by construction; "press any key" prompts
   (`inp_mngr.wait_for_any_key`, e.g. computer terminals) dismiss on any
   pad *button* — deliberately not on stick motion or the trigger, which
   would dismiss unread via drift or the RT repeat

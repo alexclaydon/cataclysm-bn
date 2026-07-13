@@ -445,6 +445,36 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
         }
 
+        // Gamepad spinner for numeric prompts: d-pad steps the value by
+        // one, LT+d-pad by ten. These arrive as raw events (STRING_INPUT
+        // binds no gamepad keys), so keyboard entry is untouched.
+        if( _only_digits && ev.type == input_event_t::gamepad && edit.empty() ) {
+            int delta = 0;
+            switch( ev.get_first_input() ) {
+                case JOY_UP:
+                    delta = 1;
+                    break;
+                case JOY_DOWN:
+                    delta = -1;
+                    break;
+                case JOY_LT_UP:
+                    delta = 10;
+                    break;
+                case JOY_LT_DOWN:
+                    delta = -10;
+                    break;
+                default:
+                    break;
+            }
+            if( delta != 0 ) {
+                // Unparseable leftovers (empty, a lone '-') read as 0.
+                const int64_t value = std::strtoll( ret.str().c_str(), nullptr, 10 );
+                ret = utf8_wrapper( std::to_string( std::max<int64_t>( 0, value + delta ) ) );
+                _position = static_cast<int>( ret.length() );
+                continue;
+            }
+        }
+
         if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {

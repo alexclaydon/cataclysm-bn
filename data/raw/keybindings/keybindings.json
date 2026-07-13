@@ -1348,8 +1348,17 @@
     "bindings": [
       { "input_method": "keyboard", "key": "f" },
       { "input_method": "keyboard", "key": "RETURN" },
-      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" },
+      { "input_method": "gamepad", "key": "JOY_0" },
+      { "input_method": "gamepad", "key": "JOY_RTRIGGER" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RELOAD",
+    "category": "TARGET",
+    "name": "Reload and abort aiming",
+    "bindings": [ { "input_method": "keyboard", "key": "r" }, { "input_method": "gamepad", "key": "JOY_2" } ]
   },
   {
     "type": "keybinding",
@@ -1359,7 +1368,8 @@
     "bindings": [
       { "input_method": "keyboard", "key": "BACKTAB" },
       { "input_method": "mouse", "key": "SCROLL_UP" },
-      { "input_method": "keyboard", "key": "PPAGE" }
+      { "input_method": "keyboard", "key": "PPAGE" },
+      { "input_method": "gamepad", "key": "JOY_4" }
     ]
   },
   {
@@ -1370,7 +1380,8 @@
     "bindings": [
       { "input_method": "keyboard", "key": "TAB" },
       { "input_method": "mouse", "key": "SCROLL_DOWN" },
-      { "input_method": "keyboard", "key": "NPAGE" }
+      { "input_method": "keyboard", "key": "NPAGE" },
+      { "input_method": "gamepad", "key": "JOY_5" }
     ]
   },
   {
@@ -1413,7 +1424,11 @@
     "id": "SWITCH_MODE",
     "category": "TARGET",
     "name": "Switch Firing Mode",
-    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "F" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "s" },
+      { "input_method": "keyboard", "key": "F" },
+      { "input_method": "gamepad", "key": "JOY_LT_5" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1435,6 +1450,122 @@
     "category": "TARGET",
     "name": "Toggle moving view / cursor",
     "bindings": [ { "input_method": "keyboard", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "UP",
+    "category": "TARGET",
+    "name": "Move cursor up",
+    "bindings": [
+      { "input_method": "keyboard", "key": "k" },
+      { "input_method": "keyboard", "key": "8" },
+      { "input_method": "keyboard", "key": "UP" },
+      { "input_method": "keyboard", "key": "NUMPAD_8" },
+      { "input_method": "gamepad", "key": "JOY_UP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_UP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_UP" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DOWN",
+    "category": "TARGET",
+    "name": "Move cursor down",
+    "bindings": [
+      { "input_method": "keyboard", "key": "j" },
+      { "input_method": "keyboard", "key": "DOWN" },
+      { "input_method": "keyboard", "key": "2" },
+      { "input_method": "keyboard", "key": "NUMPAD_2" },
+      { "input_method": "gamepad", "key": "JOY_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_DOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_DOWN" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LEFT",
+    "category": "TARGET",
+    "name": "Move cursor left",
+    "bindings": [
+      { "input_method": "keyboard", "key": "h" },
+      { "input_method": "keyboard", "key": "LEFT" },
+      { "input_method": "keyboard", "key": "4" },
+      { "input_method": "keyboard", "key": "NUMPAD_4" },
+      { "input_method": "gamepad", "key": "JOY_LEFT" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_LEFT" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_LEFT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RIGHT",
+    "category": "TARGET",
+    "name": "Move cursor right",
+    "bindings": [
+      { "input_method": "keyboard", "key": "l" },
+      { "input_method": "keyboard", "key": "RIGHT" },
+      { "input_method": "keyboard", "key": "6" },
+      { "input_method": "keyboard", "key": "NUMPAD_6" },
+      { "input_method": "gamepad", "key": "JOY_RIGHT" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_RIGHT" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LEFTUP",
+    "category": "TARGET",
+    "name": "Move cursor up-left",
+    "bindings": [
+      { "input_method": "keyboard", "key": "y" },
+      { "input_method": "keyboard", "key": "7" },
+      { "input_method": "keyboard", "key": "NUMPAD_7" },
+      { "input_method": "gamepad", "key": "JOY_LEFTUP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_LEFTUP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_LEFTUP" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RIGHTUP",
+    "category": "TARGET",
+    "name": "Move cursor up-right",
+    "bindings": [
+      { "input_method": "keyboard", "key": "u" },
+      { "input_method": "keyboard", "key": "9" },
+      { "input_method": "keyboard", "key": "NUMPAD_9" },
+      { "input_method": "gamepad", "key": "JOY_RIGHTUP" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_RIGHTUP" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_RIGHTUP" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LEFTDOWN",
+    "category": "TARGET",
+    "name": "Move cursor down-left",
+    "bindings": [
+      { "input_method": "keyboard", "key": "b" },
+      { "input_method": "keyboard", "key": "1" },
+      { "input_method": "keyboard", "key": "NUMPAD_1" },
+      { "input_method": "gamepad", "key": "JOY_LEFTDOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_LEFTDOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_LEFTDOWN" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RIGHTDOWN",
+    "category": "TARGET",
+    "name": "Move cursor down-right",
+    "bindings": [
+      { "input_method": "keyboard", "key": "n" },
+      { "input_method": "keyboard", "key": "3" },
+      { "input_method": "keyboard", "key": "NUMPAD_3" },
+      { "input_method": "gamepad", "key": "JOY_RIGHTDOWN" },
+      { "input_method": "gamepad", "key": "JOY_LSTICK_RIGHTDOWN" },
+      { "input_method": "gamepad", "key": "JOY_RSTICK_RIGHTDOWN" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2232,7 +2363,7 @@
     "name": "Advanced Inventory management",
     "category": "DEFAULTMODE",
     "id": "advinv",
-    "bindings": [ { "input_method": "keyboard", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "/" }, { "input_method": "gamepad", "key": "JOY_LT_3" } ]
   },
   {
     "type": "keybinding",
@@ -2436,7 +2567,7 @@
     "name": "Throw Item",
     "category": "DEFAULTMODE",
     "id": "throw",
-    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "t" }, { "input_method": "gamepad", "key": "JOY_LT_5" } ]
   },
   {
     "type": "keybinding",
@@ -3001,7 +3132,7 @@
     "name": "Movement Mode Menu",
     "category": "DEFAULTMODE",
     "id": "open_movement",
-    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "\"" }, { "input_method": "gamepad", "key": "JOY_L3" } ]
   },
   {
     "type": "keybinding",

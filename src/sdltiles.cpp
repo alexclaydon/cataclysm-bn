@@ -3511,9 +3511,24 @@ static void CheckMessages()
                 text_refresh = true;
             }
             break;
-            case SDL_EVENT_JOYSTICK_BUTTON_DOWN:
-                last_input = input_event( ev.jbutton.button, input_event_t::gamepad );
+            case SDL_EVENT_JOYSTICK_BUTTON_DOWN: {
+                int code = ev.jbutton.button;
+                if( code <= 7 && joy_left_trigger_held ) {
+                    // A held left trigger turns buttons into their chord
+                    // variants (Qud's "alternate verb" pattern).
+                    code = JOY_LT_0 + code;
+                } else if( code == 9 ) {
+                    code = JOY_L3;
+                } else if( code == 10 ) {
+                    code = JOY_R3;
+                } else if( code == 8 ) {
+                    // Guide button: Steam owns it in Game Mode; swallow it
+                    // so it can't act as an unnamed raw binding.
+                    break;
+                }
+                last_input = input_event( code, input_event_t::gamepad );
                 break;
+            }
             case SDL_EVENT_JOYSTICK_AXIS_MOTION:
                 if( ev.jaxis.axis == joy_left_trigger_axis ) {
                     // Triggers rest at -32768; count half-pressed as held.

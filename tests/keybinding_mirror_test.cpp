@@ -168,6 +168,20 @@ TEST_CASE( "keybinding_mirror_categories_track_their_base", "[keybindings]" )
         }
     }
 
+    SECTION( "TARGET direction overrides keep base keys and extend gamepad" ) {
+        // The aim cursor moves on either stick on top of the shared
+        // direction bindings (keyboard + d-pad).
+        for( const std::string id : {
+                 "UP", "DOWN", "LEFT", "RIGHT", "LEFTUP", "RIGHTUP", "LEFTDOWN", "RIGHTDOWN"
+             } ) {
+            INFO( "action id: " << id );
+            const auto &base = get_set( bindings, "default", id );
+            const auto &mirror = get_set( bindings, "TARGET", id );
+            CHECK( mirror.keyboard == base.keyboard );
+            CHECK( std::ranges::includes( mirror.gamepad, base.gamepad ) );
+        }
+    }
+
     SECTION( "CHOOSE_DIRECTION direction overrides keep base keys and extend gamepad" ) {
         // Direction prompts add left-stick selection on top of the shared
         // direction bindings (keyboard + d-pad).

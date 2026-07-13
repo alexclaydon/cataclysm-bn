@@ -3124,6 +3124,9 @@ target_handler::trajectory target_ui::run()
                 loop_exit_code = ExitCode::Reload;
                 break;
             }
+        } else if( action == "RELOAD" && mode == TargetMode::Fire ) {
+            loop_exit_code = ExitCode::Reload;
+            break;
         } else if( action == "FIRE" ) {
             if( status != Status::Good ) {
                 continue;
@@ -3266,6 +3269,9 @@ void target_ui::init_window_and_input()
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
+        // One-button route to the reload UI (the pad's X): aborts aiming
+        // via the same ExitCode::Reload path a failed ammo switch uses.
+        ctxt.register_action( "RELOAD" );
 
         aim_types = ranged::get_aim_types( *you, *relevant );
         for( ranged::aim_type &type : aim_types ) {

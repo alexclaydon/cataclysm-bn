@@ -470,6 +470,17 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_RSTICK_CENTER,
                               translate_marker_context( "key name", "JOY_RSTICK_CENTER" ) );
 
+    add_gamepad_keycode_pair( JOY_LT_0,      translate_marker_context( "key name", "JOY_LT_0" ) );
+    add_gamepad_keycode_pair( JOY_LT_1,      translate_marker_context( "key name", "JOY_LT_1" ) );
+    add_gamepad_keycode_pair( JOY_LT_2,      translate_marker_context( "key name", "JOY_LT_2" ) );
+    add_gamepad_keycode_pair( JOY_LT_3,      translate_marker_context( "key name", "JOY_LT_3" ) );
+    add_gamepad_keycode_pair( JOY_LT_4,      translate_marker_context( "key name", "JOY_LT_4" ) );
+    add_gamepad_keycode_pair( JOY_LT_5,      translate_marker_context( "key name", "JOY_LT_5" ) );
+    add_gamepad_keycode_pair( JOY_LT_6,      translate_marker_context( "key name", "JOY_LT_6" ) );
+    add_gamepad_keycode_pair( JOY_LT_7,      translate_marker_context( "key name", "JOY_LT_7" ) );
+    add_gamepad_keycode_pair( JOY_L3,        translate_marker_context( "key name", "JOY_L3" ) );
+    add_gamepad_keycode_pair( JOY_R3,        translate_marker_context( "key name", "JOY_R3" ) );
+
     add_gamepad_keycode_pair( JOY_0,         translate_marker_context( "key name", "JOY_0" ) );
     add_gamepad_keycode_pair( JOY_1,         translate_marker_context( "key name", "JOY_1" ) );
     add_gamepad_keycode_pair( JOY_2,         translate_marker_context( "key name", "JOY_2" ) );
@@ -584,6 +595,26 @@ auto gamepad_display_name( const int ch ) -> std::optional<std::string>
             return pgettext( "gamepad input name", "R-Stick Down-Right" );
         case JOY_RSTICK_CENTER:
             return pgettext( "gamepad input name", "R-Stick Center" );
+        case JOY_LT_0:
+            return pgettext( "gamepad input name", "LT+Pad A" );
+        case JOY_LT_1:
+            return pgettext( "gamepad input name", "LT+Pad B" );
+        case JOY_LT_2:
+            return pgettext( "gamepad input name", "LT+Pad X" );
+        case JOY_LT_3:
+            return pgettext( "gamepad input name", "LT+Pad Y" );
+        case JOY_LT_4:
+            return pgettext( "gamepad input name", "LT+LB" );
+        case JOY_LT_5:
+            return pgettext( "gamepad input name", "LT+RB" );
+        case JOY_LT_6:
+            return pgettext( "gamepad input name", "LT+Select" );
+        case JOY_LT_7:
+            return pgettext( "gamepad input name", "LT+Start" );
+        case JOY_L3:
+            return pgettext( "gamepad input name", "L-Stick Click" );
+        case JOY_R3:
+            return pgettext( "gamepad input name", "R-Stick Click" );
         default:
             return std::nullopt;
     }

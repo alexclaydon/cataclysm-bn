@@ -258,6 +258,23 @@ struct action_attributes {
 #define JOY_RSTICK_RIGHTDOWN (256 + 30)
 #define JOY_RSTICK_CENTER    (256 + 31)
 
+// Buttons 0-7 chorded with a held left trigger (Qud's "alternate verb"
+// pattern). Emitted in place of the raw button while LT is held.
+#define JOY_LT_0             (256 + 32)
+#define JOY_LT_1             (256 + 33)
+#define JOY_LT_2             (256 + 34)
+#define JOY_LT_3             (256 + 35)
+#define JOY_LT_4             (256 + 36)
+#define JOY_LT_5             (256 + 37)
+#define JOY_LT_6             (256 + 38)
+#define JOY_LT_7             (256 + 39)
+
+// Stick clicks (raw buttons 9/10, remapped at the SDL layer so the raw
+// codes stay out of the 0-255 range). Raw button 8 is the Guide button,
+// which Steam captures in Game Mode — leave it unmapped.
+#define JOY_L3               (256 + 40)
+#define JOY_R3               (256 + 41)
+
 /**
  * Manages the translation from action IDs to associated input.
  *

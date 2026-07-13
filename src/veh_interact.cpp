@@ -275,6 +275,9 @@ veh_interact::veh_interact( vehicle &veh, tripoint_mnt_veh p )
     main_context.register_action( "ZOOM_IN" );
     main_context.register_action( "ZOOM_OUT" );
     main_context.register_action( "ANY_INPUT" );
+    // ANY_INPUT here feeds keyboard part-hotkeys; without this, pad X is
+    // swallowed — or matches a part hotkey via its raw keycode (JOY_2 == 2).
+    main_context.allow_palette_with_any_input();
 
     count_durability();
     cache_tool_availability();

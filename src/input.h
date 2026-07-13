@@ -514,6 +514,7 @@ class input_context
             registered_manual_keys = other.registered_manual_keys;
             allow_text_entry = other.allow_text_entry;
             registered_any_input = other.registered_any_input;
+            palette_with_any_input = other.palette_with_any_input;
             category = other.category;
             coordinate = other.coordinate;
             coordinate_input_received = other.coordinate_input_received;
@@ -531,6 +532,7 @@ class input_context
                    registered_manual_keys == other.registered_manual_keys &&
                    allow_text_entry == other.allow_text_entry &&
                    registered_any_input == other.registered_any_input &&
+                   palette_with_any_input == other.palette_with_any_input &&
                    coordinate == other.coordinate &&
                    coordinate_input_received == other.coordinate_input_received &&
                    handling_coordinate_input == other.handling_coordinate_input &&
@@ -656,6 +658,16 @@ class input_context
         auto display_action_palette() -> const std::string *; // *NOPAD*
 
         /**
+         * Allow the unbound-X action palette even though this context
+         * registers ANY_INPUT, which normally suppresses it so key-capture
+         * screens see raw presses. Opt in screens whose ANY_INPUT handling
+         * only cares about keyboard hotkeys — there a gamepad X would
+         * otherwise be swallowed (or worse, collide with a hotkey via its
+         * raw keycode; JOY_2 is literally 2).
+         */
+        void allow_palette_with_any_input();
+
+        /**
          * Handles input and returns the next action in the queue.
          *
          * This internally calls getch() or whatever other input method
@@ -764,6 +776,7 @@ class input_context
         const std::string &input_to_action( const input_event &inp ) const;
     private:
         bool registered_any_input;
+        bool palette_with_any_input = false;
         std::string category; // The input category this context uses.
         point coordinate;
         bool coordinate_input_received;

@@ -1132,9 +1132,13 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
+        const bool unbound_pad_x = next_action.type == input_event_t::gamepad &&
+                                   next_action.get_first_input() == JOY_2;
+
         // If we registered to receive any input, return ANY_INPUT
-        // to signify that an unregistered key was pressed.
-        if( registered_any_input ) {
+        // to signify that an unregistered key was pressed — unless this
+        // screen opted its unbound pad X into the palette instead.
+        if( registered_any_input && !( palette_with_any_input && unbound_pad_x ) ) {
             result = &ANY_INPUT;
             break;
         }
@@ -1143,8 +1147,7 @@ const std::string &input_context::handle_input( const int timeout )
         // actions so hotkey-only legends stay usable from the pad. Only
         // fires when nothing else claimed the button, so it never shadows
         // a screen's own JOY_2 binding.
-        if( next_action.type == input_event_t::gamepad &&
-            next_action.get_first_input() == JOY_2 ) {
+        if( unbound_pad_x ) {
             inp_mngr.reset_timeout();
             const std::string *palette_choice = display_action_palette();
             inp_mngr.set_timeout( timeout );
@@ -1162,6 +1165,11 @@ const std::string &input_context::handle_input( const int timeout )
     return *result;
 }
 
+void input_context::allow_palette_with_any_input()
+{
+    palette_with_any_input = true;
+}
+
 auto input_context::display_action_palette() -> const std::string * // *NOPAD*
 {
     // A palette opened from inside a palette's own uilist would recurse.
@@ -1175,19 +1183,41 @@ auto input_context::display_action_palette() -> const std::string * // *NOPAD*
         "CONFIRM", "QUIT", "HELP_KEYBINDINGS", "ANY_INPUT", "COORDINATE",
         "MOUSE_MOVE", "SELECT", "SEC_SELECT", "TIMEOUT"
     };
-    uilist menu;
-    menu.settext( _( "Actions" ) );
     std::vector<const std::string *> choices;
     for( const std::string &action : registered_actions ) {
         if( skipped.contains( action ) ) {
             continue;
         }
-        menu.addentry( static_cast<int>( choices.size() ), true, MENU_AUTOASSIGN,
-                       describe_key_and_name( action ) );
+        // No display name registered means plumbing, not a player verb.
+        if( get_action_name( action ) == action ) {
+            continue;
+        }
+        const auto &events = inp_mngr.get_input_for_action( action, category );
+        // The palette replaces the keyboard hotkey legend: actions with no
+        // keyboard binding aren't part of the screen's working verb set,
+        // and pad-bound ones are already reachable without it.
+        const bool keyboard_bound = std::ranges::any_of( events, []( const input_event &evt ) {
+            return evt.type == input_event_t::keyboard;
+        } );
+        const bool pad_bound = std::ranges::any_of( events, []( const input_event &evt ) {
+            return evt.type == input_event_t::gamepad;
+        } );
+        if( !keyboard_bound || pad_bound ) {
+            continue;
+        }
         choices.push_back( &action );
     }
     if( choices.empty() ) {
         return nullptr;
+    }
+    std::ranges::sort( choices, [&]( const std::string *lhs, const std::string *rhs ) {
+        return localized_compare( get_action_name( *lhs ), get_action_name( *rhs ) );
+    } );
+    uilist menu;
+    menu.settext( _( "Actions" ) );
+    for( size_t i = 0; i < choices.size(); ++i ) {
+        menu.addentry( static_cast<int>( i ), true, MENU_AUTOASSIGN,
+                       describe_key_and_name( *choices[i] ) );
     }
     palette_open = true;
     menu.query();

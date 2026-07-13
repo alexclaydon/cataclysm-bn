@@ -2135,6 +2135,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     // Configure input context for navigating the map.
     input_context ictxt( "OVERMAP" );
     ictxt.register_action( "ANY_INPUT" );
+    // ANY_INPUT here only consumes keyboard input; let pad X open the palette.
+    ictxt.allow_palette_with_any_input();
     ictxt.register_directions();
     ictxt.register_action( "CONFIRM" );
     ictxt.register_action( "LEVEL_UP" );

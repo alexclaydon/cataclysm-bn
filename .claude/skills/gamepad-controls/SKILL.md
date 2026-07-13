@@ -229,18 +229,27 @@ moving parts, and their gotchas:
 ## The action palette (hotkey-only screens)
 
 Pressing X on a screen where `JOY_2` matches nothing opens a uilist of
-that context's registered actions (minus navigation/plumbing) and
-returns the pick as if its hotkey was pressed — implemented centrally
-in `input_context::handle_input` / `display_action_palette()`
-(src/input.cpp), so hotkey-legend screens (advanced inventory ops,
-zone manager verbs, crafting extras, construction) are pad-usable with
-zero per-screen work. It never fires where JOY_2 or ANY_INPUT is bound.
-NOTE: ANY_INPUT suppression excludes more screens than first assumed —
-veh_interact registers ANY_INPUT for part hotkeys, so vehicle tasks do
-NOT get the palette (the palette commit message claims otherwise, in
-error); same for uilists, inventory/pickup/trade, overmap, bionics,
-mutations. Giving such a screen palette access needs a per-screen hook
-or an explicit JOY_2 binding in its category.
+that context's actions and returns the pick as if its hotkey was
+pressed — implemented centrally in `input_context::handle_input` /
+`display_action_palette()` (src/input.cpp), so hotkey-legend screens
+(advanced inventory ops, zone manager verbs, crafting extras,
+construction) are pad-usable with zero per-screen work. Entries are
+derived from usability, not raw registrations: an action is listed only
+if it has a display name (nameless = plumbing), has a keyboard binding
+in the context (the palette replaces the hotkey legend), and is NOT
+already pad-bound (directly reachable); a static skip set drops
+navigation actions, and entries sort by localized name. Rebinding
+changes the palette automatically — don't add per-screen curation
+lists.
+
+The palette never fires where JOY_2 is bound, and by default not where
+ANY_INPUT is registered (key-capture screens must see raw presses).
+Screens whose ANY_INPUT handling only consumes keyboard hotkeys can
+opt in with `ctxt.allow_palette_with_any_input()` — done for the main
+OVERMAP context and veh_interact (where an unhandled pad X could even
+select the part with hotkey '2' via the keycode-0-family trap,
+JOY_2 == 2). Popups, text inputs, and uilists stay opted out so
+"press any key" and typing behavior are untouched.
 This is the default answer for "this screen's verbs are hotkey-only";
 hand-bind a button in that screen's category only for verbs frequent
 enough to deserve one.

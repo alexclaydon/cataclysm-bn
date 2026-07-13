@@ -232,9 +232,15 @@ Pressing X on a screen where `JOY_2` matches nothing opens a uilist of
 that context's registered actions (minus navigation/plumbing) and
 returns the pick as if its hotkey was pressed — implemented centrally
 in `input_context::handle_input` / `display_action_palette()`
-(src/input.cpp), so every hotkey-legend screen (vehicle tasks, advanced
-inventory ops, zone manager verbs, crafting extras) is pad-usable with
+(src/input.cpp), so hotkey-legend screens (advanced inventory ops,
+zone manager verbs, crafting extras, construction) are pad-usable with
 zero per-screen work. It never fires where JOY_2 or ANY_INPUT is bound.
+NOTE: ANY_INPUT suppression excludes more screens than first assumed —
+veh_interact registers ANY_INPUT for part hotkeys, so vehicle tasks do
+NOT get the palette (the palette commit message claims otherwise, in
+error); same for uilists, inventory/pickup/trade, overmap, bionics,
+mutations. Giving such a screen palette access needs a per-screen hook
+or an explicit JOY_2 binding in its category.
 This is the default answer for "this screen's verbs are hotkey-only";
 hand-bind a button in that screen's category only for verbs frequent
 enough to deserve one.

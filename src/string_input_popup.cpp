@@ -355,6 +355,20 @@ int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only
 const std::string &string_input_popup::query_string( const bool loop, const bool draw_only,
         const bool printable )
 {
+    // Numeric prompts opened from the pad are d-pad spinners: advertise
+    // the controls and keep SteamOS's on-screen keyboard closed (the
+    // ime_sentry below is what pops it). Physical keyboards still type
+    // via the non-IME fallback path. Gate read once per query — the
+    // popup belongs to the device that opened it.
+    const bool pad_spinner = _only_digits && last_input_was_gamepad();
+    if( pad_spinner && !custom_window ) {
+        const std::string hint =
+            _( "<color_light_gray>D-pad: ±1, LT+D-pad: ±10, (A) accept, (B) cancel</color>" );
+        if( _description.find( hint ) == std::string::npos ) {
+            _description = _description.empty() ? hint : _description + "\n" + hint;
+            w_full = {};
+        }
+    }
     if( !custom_window && !w_full ) {
         create_window();
         _position = -1;
@@ -365,7 +379,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
     std::optional<ime_sentry> sentry;
     if( !draw_only && loop ) {
-        sentry.emplace();
+        sentry.emplace( pad_spinner ? ime_sentry::disable : ime_sentry::enable );
     }
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );

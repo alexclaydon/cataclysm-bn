@@ -4467,7 +4467,9 @@ game::draw_callback_t::draw_callback_t( const std::function<void()> &cb )
 
 game::draw_callback_t::~draw_callback_t()
 {
-    if( added ) {
+    // A callback in static storage outlives `g`: exit_handler resets it
+    // before exit() runs static destructors.
+    if( added && g ) {
         g->invalidate_main_ui_adaptor();
     }
 }

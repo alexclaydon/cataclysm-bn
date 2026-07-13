@@ -96,9 +96,11 @@ L3=9 R3=10. In JSON these are `JOY_0` … `JOY_7`; the stick clicks are
 remapped at the SDL layer to `JOY_L3`/`JOY_R3` (256+n codes), and the
 Guide button is swallowed there (Steam owns it in Game Mode). Buttons
 0–7 pressed while LT is held emit `JOY_LT_0` … `JOY_LT_7` instead.
-Axes: LX=0 LY=1 **LT=2** RX=3 RY=4 **RT=5**; sticks idle near 0,
-triggers rest at -32768 (so "pulled" = value > 0). D-pad arrives as a
-hat, not buttons (handled by `HandleDPad()` in src/sdltiles.cpp).
+Axes: LX=0 LY=1 **LT=2** RX=3 RY=4 **RT=5**; sticks idle near 0
+(deadzone `joy_stick_deadzone` = 7000 of 32767), triggers rest at
+-32768 and count as pulled at 25% travel (`joy_trigger_threshold` =
+-16384) — both constants in src/sdltiles.cpp. D-pad arrives as a hat,
+not buttons (handled by `HandleDPad()` in src/sdltiles.cpp).
 
 The game uses SDL's legacy joystick API (not the SDL3 Gamepad API), one
 device, gated on the `ENABLE_JOYSTICK` option. The Steam Input layout

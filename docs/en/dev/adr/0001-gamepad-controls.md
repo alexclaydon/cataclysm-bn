@@ -32,8 +32,10 @@ pipeline the keyboard uses.** Concretely:
 1. **Raw input layer** (`src/sdltiles.cpp`, `src/input.h`): SDL
    joystick events become `input_event_t::gamepad` events carrying
    `JOY_*` keycodes — face/shoulder/system buttons, d-pad (hat),
-   LT+d-pad chords, quantized 8-way stick octants plus center codes
-   for both sticks, and the right trigger. Hold-to-repeat timing for
+   LT+d-pad and LT+button chords, stick clicks (L3/R3, remapped out of
+   the raw 0-255 range; the Guide button is swallowed since Steam owns
+   it), quantized 8-way stick octants plus center codes for both
+   sticks, and the right trigger. Hold-to-repeat timing for
    d-pad, RT, and right stick lives here too; synthesized repeats run
    AFTER the SDL event poll and only when it produced nothing, so real
    events (releases, direction changes) always win — repeats that

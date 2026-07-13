@@ -260,19 +260,43 @@ gamepad event and glyph that) rather than hardcoding "A means yes" —
 that way rebinds, filters, and pad-unbound options (e.g. NO on
 yes/no/quit) degrade correctly for free.
 
-First consumer: query_popup (src/popup.cpp) renders "(A) Yes / (B) No"
-and hides the selection cursor when on gamepad; keyboard style
-("(Y)es", highlight cursor) returns the moment a key is pressed. This
-closed the former highlight-cursor gap on prompts. Extend this
-screen-by-screen (uilist hints, AIM headers, the future button-hint
-bar), not with a global switch — each screen's fallback needs
-verifying on the Deck.
+Consumers so far:
+
+- query_popup (src/popup.cpp) renders "(A) Yes / (B) No" and hides the
+  selection cursor when on gamepad; keyboard style ("(Y)es", highlight
+  cursor) returns the moment a key is pressed. This closed the former
+  highlight-cursor gap on prompts.
+- `input_context::get_desc` (both variants, src/input.cpp) reorders
+  the action's bindings pad-first when on gamepad (stable partition —
+  keyboard mode is byte-identical to before), so every screen built on
+  it (chargen tabs, construction, editmap, worldfactory, …) shows
+  "Pad A"-style hints for free. The text variant also skips the inline
+  "(Y)es" keyboard form when a pad binding will be shown, falling back
+  to the separate "[Pad A] Yes" form.
+- `input_context::press_x` (src/input.cpp) shows only the active
+  device's bindings (fixes the old "Press $ or Pad A" concatenation
+  both ways), falling back to the full list when the active device has
+  none. Covers sidebar/sleep/safe-mode/vehicle messages and the
+  monster-info look/fire hints.
+
+These central generators emit plain friendly names ("Pad A"), NOT the
+colored glyphs — their output flows into wprintz/format paths that
+don't all parse color tags. Colored glyphs stay popup-only. Screens
+that build hint strings per redraw get live gating for free; a screen
+that caches hints once shows stale device flavor until reopened —
+acceptable, but prefer per-redraw generation in new code. Extend
+further UI adaptation screen-by-screen (uilist hints, AIM headers, the
+future button-hint bar), not with a global switch — each screen's
+fallback needs verifying on the Deck.
 
 ## Current gamepad state (as of 2026-07-13)
 
 - Yes/no prompts render device-aware: colored "(A) Yes / (B) No"
   glyphs, no cursor, when the last input was gamepad; classic keyboard
   style otherwise (live gate, see Device-gated dynamic UI)
+- Keybinding hints game-wide are device-aware: get_desc prefers pad
+  bindings and press_x shows only the active device's bindings when
+  the last input was gamepad (see Device-gated dynamic UI consumers)
 - A `JOY_0`: Confirm (shared) · Action Menu (DEFAULTMODE) · YES on
   prompts
 - B `JOY_1`: Exit screen (shared) · cancel in UILIST, OVERMAP,

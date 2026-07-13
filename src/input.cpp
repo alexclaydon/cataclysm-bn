@@ -961,10 +961,16 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" );
     }
 
-    std::vector<input_event> inputs_to_show;
-    for( auto &events_i : events ) {
-        const input_event &event = events_i;
+    std::vector<input_event> sorted_events( events.begin(), events.end() );
+    if( last_input_was_gamepad() ) {
+        // The player is holding the pad, so pad bindings take display priority.
+        std::ranges::stable_partition( sorted_events, []( const input_event &evt ) {
+            return evt.type == input_event_t::gamepad;
+        } );
+    }
 
+    std::vector<input_event> inputs_to_show;
+    for( const input_event &event : sorted_events ) {
         if( evt_filter( event ) &&
             // Only display gamepad buttons if a gamepad is available.
             ( gamepad_available() || event.type != input_event_t::gamepad ) ) {
@@ -1011,6 +1017,13 @@ std::string input_context::get_desc(
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
 
+    // When the player is on the pad and this action has a pad binding, the
+    // hint will show that binding, so skip the inline "(Y)es" keyboard form.
+    const bool use_gamepad = last_input_was_gamepad() &&
+    std::ranges::any_of( events, [&]( const input_event &evt ) {
+        return evt.type == input_event_t::gamepad && evt_filter( evt );
+    } );
+
     bool na = true;
     for( const auto &evt : events ) {
         if( evt_filter( evt ) &&
@@ -1018,7 +1031,7 @@ std::string input_context::get_desc(
             ( gamepad_available() || evt.type != input_event_t::gamepad ) ) {
 
             na = false;
-            if( evt.type == input_event_t::keyboard && evt.sequence.size() == 1 ) {
+            if( !use_gamepad && evt.type == input_event_t::keyboard && evt.sequence.size() == 1 ) {
                 const int ch = evt.get_first_input();
                 if( ch > ' ' && ch <= '~' ) {
                     const std::string key = utf32_to_utf8( ch );
@@ -1795,12 +1808,23 @@ std::string input_context::press_x( const std::string &action_id,
     if( events.empty() ) {
         return key_unbound;
     }
+    // Show only the active device's bindings; "Press $ or Pad A to sleep"
+    // helps nobody. Fall back to the full list if the active device has none.
+    const bool want_gamepad = last_input_was_gamepad();
+    std::vector<input_event> shown;
+    std::ranges::copy_if( events, std::back_inserter( shown ),
+    [&]( const input_event &evt ) {
+        return ( evt.type == input_event_t::gamepad ) == want_gamepad;
+    } );
+    if( shown.empty() ) {
+        shown.assign( events.begin(), events.end() );
+    }
     std::string keyed = key_bound_pre;
-    for( size_t j = 0; j < events.size(); j++ ) {
-        for( size_t k = 0; k < events[j].sequence.size(); ++k ) {
-            keyed += inp_mngr.get_keyname( events[j].sequence[k], events[j].type );
+    for( size_t j = 0; j < shown.size(); j++ ) {
+        for( size_t k = 0; k < shown[j].sequence.size(); ++k ) {
+            keyed += inp_mngr.get_keyname( shown[j].sequence[k], shown[j].type );
         }
-        if( j + 1 < events.size() ) {
+        if( j + 1 < shown.size() ) {
             keyed += _( " or " );
         }
     }

@@ -75,9 +75,12 @@ pipeline the keyboard uses.** Concretely:
    device-gated UI branches on `last_input_was_gamepad()` — recorded
    once at the event-dequeue chokepoint — re-checked on every render,
    so picking up the keyboard instantly restores keyboard affordances.
-   First consumer: query popups show colored `(A) Yes / (B) No` glyphs
+   Consumers: query popups show colored `(A) Yes / (B) No` glyphs
    (derived from the actual bindings, never hardcoded) and hide the
-   selection cursor while on gamepad.
+   selection cursor while on gamepad; the central hint generators
+   (`input_context::get_desc`, `press_x`) prefer the active device's
+   bindings, so hint text game-wide follows the device without
+   per-screen work.
 
 ## Consequences
 

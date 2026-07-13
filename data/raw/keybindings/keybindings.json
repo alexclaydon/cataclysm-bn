@@ -3626,7 +3626,7 @@
     "id": "MOVE_SINGLE_ITEM",
     "category": "ADVANCED_INVENTORY",
     "name": "Move a single item",
-    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" }, { "input_method": "gamepad", "key": "JOY_0" } ]
   },
   {
     "type": "keybinding",

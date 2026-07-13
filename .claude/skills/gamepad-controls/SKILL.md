@@ -388,7 +388,8 @@ fallback needs verifying on the Deck.
   bindings and press_x shows only the active device's bindings when
   the last input was gamepad (see Device-gated dynamic UI consumers)
 - A `JOY_0`: Confirm (shared) · Action Menu (DEFAULTMODE) · YES on
-  prompts · Fire (TARGET)
+  prompts · Fire (TARGET) · Move single item (ADVANCED_INVENTORY,
+  which registers MOVE_SINGLE_ITEM instead of CONFIRM)
 - B `JOY_1`: Exit screen (shared) · **wait a turn (DEFAULTMODE, Qud
   convention)** · cancel in UILIST, OVERMAP, chargen/worldgen/
   melee-picker dialogs · NO/ABORT on prompts

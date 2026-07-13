@@ -168,8 +168,29 @@ namespace
 auto quantized_stick_code( const Sint16 x, const Sint16 y,
                            const std::array<int, 9> &codes ) -> int
 {
-    const auto dx = x > joy_stick_deadzone ? 1 : x < -joy_stick_deadzone ? -1 : 0;
-    const auto dy = y > joy_stick_deadzone ? 1 : y < -joy_stick_deadzone ? -1 : 0;
+    // The deadzone only decides whether the stick is deflected; direction
+    // is quantized by angle into eight equal 45-degree sectors. Deriving
+    // direction from per-axis deadzone crossings shrank the cardinal
+    // sectors as the deadzone shrank (~25 degrees at 7000), so straight
+    // moves misfired as diagonals.
+    const float fx = x;
+    const float fy = y;
+    if( std::hypot( fx, fy ) < joy_stick_deadzone ) {
+        return codes[0];
+    }
+    // tan(22.5 degrees): the boundary between a cardinal and a diagonal
+    // sector. Raise to widen cardinals at the diagonals' expense.
+    constexpr float boundary = 0.41421356f;
+    int dx = 0;
+    int dy = 0;
+    if( std::fabs( fy ) <= std::fabs( fx ) * boundary ) {
+        dx = fx > 0.0f ? 1 : -1;
+    } else if( std::fabs( fx ) <= std::fabs( fy ) * boundary ) {
+        dy = fy > 0.0f ? 1 : -1;
+    } else {
+        dx = fx > 0.0f ? 1 : -1;
+        dy = fy > 0.0f ? 1 : -1;
+    }
     if( dy < 0 ) {
         return dx < 0 ? codes[5] : dx > 0 ? codes[6] : codes[1];
     }

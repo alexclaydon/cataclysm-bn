@@ -2144,6 +2144,11 @@ bool game::handle_action()
     if( act == ACTION_NULL ) {
         ZoneScopedN( "handle_action_unknown_command" );
         const input_event &&evt = ctxt.get_raw_input();
+        if( evt.type == input_event_t::gamepad ) {
+            // Unbound pad inputs are deliberate free slots, not typos:
+            // don't log "Unknown command: JOY_n" into the message log.
+            return false;
+        }
         if( !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );

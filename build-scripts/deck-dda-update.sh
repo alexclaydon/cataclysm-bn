@@ -16,5 +16,7 @@ cd "${repo_dir}"
 git pull --ff-only
 distrobox enter "${box}" -- bash -c \
     "cd '${repo_dir}' && nice -n 19 make -j${jobs} CLANG=1 RELEASE=1 LTO=0 \
-        TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=none BACKTRACE=0 RUNTESTS=0 PCH=1"
+        TILES=1 SOUND=1 LOCALIZE=1 BACKTRACE=0 RUNTESTS=0 PCH=1"
+# NB: leave LANGUAGES unset — CDDA's Makefile gates translation compilation
+# on `ifdef LANGUAGES`, and any value (even "none") is taken as a language id.
 echo "Deck DDA build updated: $(git log --oneline -1)"

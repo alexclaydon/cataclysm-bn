@@ -1,0 +1,47 @@
+[
+  {
+    "type": "ITEM",
+    "id": "svalbard_note_duty",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "duty officer's final log" },
+    "description": "A page torn from the station logbook, weighted down with a mug of frozen coffee.\n\n\"Day 41 since the mainland went quiet.  Generator failed at 0300.  Erik and Mia went up to the machine hall to restart it.  That was two days ago.\n\nThe intercom light for the research wing has been blinking all night.  Nobody is answering.  I am going to look.\n\nIf you are reading this: the seeds keep.  Whatever else happens, the seeds keep.\"",
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
+    "weight": "12 mg",
+    "volume": "1 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "svalbard_note_lab",
+    "category": "books",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str": "frost-rimed field journal" },
+    "description": "A laboratory journal, its last pages stiff with frost.  The handwriting deteriorates entry by entry.\n\n\"Core sample 7 — NPRI-7 — 400m permafrost, pre-Holocene.  Motile at minus forty.  It is not a bacterium, not a fungus, not anything with a name.\n\nWhen we warm it, it grows.  When we cool it, it waits.\n\nReykjavik says keep feeding it and log everything.  I have stopped sleeping down here.  The glass is rated for Class III.  They keep telling me it is only a Class II.\"",
+    "price": "0 cent",
+    "price_postapoc": "100 cent",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
+    "weight": "40 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "svalbard_note_security",
+    "category": "books",
+    "symbol": ",",
+    "color": "yellow",
+    "name": { "str": "security incident memo" },
+    "description": "A printed memo, stamped and countersigned, pinned beneath a broken stapler.\n\n\"MEMO 1058 — RE: seal anomalies, research wing.\n\nThird report this month of scratching inside vent trunk B.  Maintenance inspection found nothing.  Personnel are reminded that containment glass is rated for specimens up to Class III; NPRI-7 remains classified Class II.\n\nRequest for reclassification: DENIED.  Request for additional overwinter security staff: DENIED.  Report all further anomalies to the duty officer, not the mainland.\"",
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
+    "weight": "12 mg",
+    "volume": "1 ml"
+  }
+]

@@ -131,6 +131,7 @@ def build_surface():
     g[21][6] = '$'
     g[21][17] = '$'
     g[22][5] = '!'
+    g[4][17] = '('                        # downspout to the wedge roof
     # --- garage (col 1)
     room(g, 26, 4, 45, 20, wall='1')
     for x in (29, 30, 31, 37, 38, 39):
@@ -140,6 +141,7 @@ def build_surface():
     put(g, 40, 5, 'zz.ss')
     put(g, 27, 19, 'cc')
     put(g, 42, 19, '44')
+    g[5][25] = '('                        # downspout to the garage roof
     fill(g, 28, 21, 41, 22, '_')          # apron
     # --- radio mast compound (col 2)
     room(g, 52, 4, 67, 19, wall='8', floor='.')
@@ -153,6 +155,7 @@ def build_surface():
     put(g, 65, 13, 'G')
     put(g, 63, 16, 'l')
     g[13][62] = '7'
+    g[13][60] = '('                       # downspout to the shack roof
     return g
 
 
@@ -166,6 +169,7 @@ def build_hut():
     put(g, 9, 12, 'b')
     put(g, 9, 13, 'b')
     put(g, 14, 13, '3')
+    g[9][7] = '('                         # downspout to the hut roof
     return g
 
 
@@ -177,6 +181,7 @@ def build_sub1():
     for x in (19, 33, 45, 57):
         vwall(g, x, 2, 19)
     put(g, 11, 4, '<<')
+    g[4][3] = '?'                        # level wayfinding sign
     g[4][8] = '7'
     g[4][15] = '7'
     put(g, 4, 10, 'bb')
@@ -322,6 +327,7 @@ def build_sub2():
     put(g, 34, 40, 'h')
     g[42][16] = '7'
     g[23][35] = '7'
+    put(g, 35, 25, 'Z')                  # vault security terminal (working)
     hwall(g, 31, 37, 49)                 # armory over checkpoint
     put(g, 38, 23, 'gg')
     put(g, 43, 23, 'iii')
@@ -338,8 +344,10 @@ def build_sub2():
     put(g, 62, 40, '**')
     put(g, 58, 41, '*')
     put(g, 55, 44, '*')
-    for x, y in ((8, 22), (24, 22), (43, 22), (55, 22), (5, 43), (11, 43),
-                 (24, 43), (43, 43), (52, 43)):
+    door(g, 37, 26, ')')                 # armory: locked, opened by terminal
+    door(g, 5, 43, '/')                  # brig cells: bar doors
+    door(g, 11, 43, '/')
+    for x, y in ((8, 22), (24, 22), (55, 22), (24, 43), (43, 43), (52, 43)):
         door(g, x, y)
     # S band: stair lobby / records | workshop | generator hall
     vwall(g, 20, 46, 69)
@@ -369,6 +377,7 @@ def build_sub2():
     put(g, 59, 64, '<<')
     put(g, 46, 67, 'n')
     put(g, 52, 67, 'zz')
+    g[66][62] = '?'                      # level wayfinding sign
     for x, y in ((10, 46), (32, 46), (50, 46), (20, 52), (12, 58), (44, 58)):
         door(g, x, y)
     mons = [{"monster": "mon_zombie_scientist", "x": 20, "y": 28},
@@ -462,6 +471,7 @@ def build_sub3():
     hwall(g, 58, 2, 20)
     hwall(g, 58, 47, 58)
     put(g, 11, 49, '<<')
+    g[49][14] = '?'                      # level wayfinding sign
     g[47][4] = '7'
     g[47][17] = '7'
     put(g, 3, 56, 'bb')
@@ -732,9 +742,12 @@ def main():
     ]
     # guaranteed crafting-chain spawns (see docs: warm clothing + archery chains)
     guaranteed = {
+        "sub1": [
+            {"item": "svalbard_note_security", "x": 35, "y": 5, "chance": 100},
+            {"item": "compbow", "x": 54, "y": 26, "chance": 100},
+            {"item": "arrow_cf", "x": 55, "y": 26, "chance": 100, "amount": [16, 24]},
+        ],
         "sub2": [
-            {"item": "compbow", "x": 43, "y": 24, "chance": 100},
-            {"item": "arrow_cf", "x": 44, "y": 24, "chance": 100, "amount": [16, 24]},
             {"item": "tailors_kit", "x": 22, "y": 52, "chance": 100},
             {"item": "hacksaw", "x": 23, "y": 67, "chance": 100},
             {"item": "fire_ax", "x": 39, "y": 23, "chance": 100},
@@ -745,6 +758,51 @@ def main():
             {"item": "pot", "x": 24, "y": 3, "chance": 100},
             {"item": "pan", "x": 25, "y": 3, "chance": 100},
         ],
+        "deep": [
+            {"item": "svalbard_note_duty", "x": 42, "y": 52, "chance": 100},
+            {"item": "svalbard_note_lab", "x": 56, "y": 48, "chance": 100},
+        ],
+    }
+    # per-level extra mapgen keys: wayfinding signs ('?'), the dead crew,
+    # the working security terminal, and the pinned start point
+    extras = {
+        "sub1": {
+            "signs": {"?": {"signage": "LEVEL 1 — SURFACE ACCESS.  Changing area · pool · gym · plant rooms.  Cold-weather gear MUST be worn beyond this point.", "furniture": "f_sign"}},
+        },
+        "sub2": {
+            "signs": {"?": {"signage": "LEVEL 2 — OPERATIONS.  Server room · workshop · generator hall.  Armory access: security staff only.", "furniture": "f_sign"}},
+            "computers": {
+                "Z": {
+                    "name": "Vault Security Terminal",
+                    "security": 3,
+                    "options": [
+                        {"name": "Download Regional Survey Data", "action": "maps"},
+                        {"name": "ARMORY LOCK OVERRIDE", "action": "unlock"}
+                    ],
+                    "failures": [{"action": "alarm"}],
+                    "access_denied": "ERROR: NPRI-7 LOCKDOWN IN EFFECT.  Access restricted to security staff.  Report to your duty officer."
+                }
+            },
+            "place_items": [
+                {"item": "corpses", "x": 19, "y": 27, "chance": 100}
+            ],
+        },
+        "sub3": {
+            "signs": {"?": {"signage": "LEVEL 3 — HABITAT.  Mess · dormitories · infirmary · library.  Quiet hours 22:00–06:00.", "furniture": "f_sign"}},
+            "place_items": [
+                {"item": "corpses", "x": 6, "y": 60, "chance": 100},
+                {"item": "corpses", "x": 62, "y": 50, "chance": 100},
+                {"item": "corpses", "x": 11, "y": 34, "chance": 100}
+            ],
+        },
+        "deep": {
+            "place_items": [
+                {"item": "corpses", "x": 58, "y": 52, "chance": 100}
+            ],
+            "place_zones": [
+                {"type": "ZONE_START_POINT", "faction": "your_followers", "x": [38, 40], "y": [54, 55]}
+            ],
+        },
     }
     for key, g, mons, shards, note in levels:
         obj = {
@@ -756,6 +814,7 @@ def main():
         spawns = guaranteed.get(key, []) + shards
         if spawns:
             obj["place_item"] = spawns
+        obj.update(extras.get(key, {}))
         out.append({
             "type": "mapgen",
             "om_terrain": [[f"svalbard_vault_{key}_{q}" for q in row]

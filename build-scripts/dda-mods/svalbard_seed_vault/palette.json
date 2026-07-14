@@ -27,6 +27,11 @@
       "*": "t_thconc_floor",
       "$": "t_concrete",
       "!": "t_thconc_floor",
+      "?": "t_thconc_floor",
+      "(": "t_gutter_downspout",
+      "/": "t_door_bar_c",
+      ")": "t_door_metal_locked",
+      "Z": "t_thconc_floor",
       "Q": "t_thconc_floor",
       "g": "t_thconc_floor",
       "i": "t_thconc_floor",
@@ -79,6 +84,7 @@
       "z": "t_thconc_floor"
     },
     "furniture": {
+      "Z": "f_console",
       "Q": "f_woodstove",
       "g": "f_gun_safe_el",
       "i": "f_rack",
@@ -152,7 +158,7 @@
       "C": { "item": "cannedfood", "chance": 70, "repeat": [ 1, 2 ] },
       "l": { "item": "svalbard_arctic_gear", "chance": 70 },
       "o": { "item": "svalbard_arctic_gear", "chance": 50 },
-      "W": { "item": "svalbard_outdoor_gear", "chance": 80 },
+      "W": { "item": "svalbard_outdoor_gear", "chance": 50 },
       "c": { "item": "svalbard_tools", "chance": 50 },
       "K": { "item": "kitchen", "chance": 60 },
       "M": { "item": "svalbard_meds", "chance": 75 },

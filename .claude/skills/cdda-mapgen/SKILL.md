@@ -10,7 +10,9 @@ in THIS repo (the BN repo is the config home). The CDDA source checkout
 at `~/dev/cataclysm-dda` (Nova) is the reference: **grep it before using
 any id, field, or syntax** — this discipline caught every would-be
 runtime bug this workflow has produced; guessing ids caused every other
-one. Format docs: `doc/JSON/` in that checkout (MAPGEN.md,
+one. Shell gotcha when verifying: `grep -rl x | head -1 || echo MISSING`
+never prints MISSING (head exits 0 regardless) — use
+`r=$(grep -rl x ...); echo "${r:-MISSING}"` so absence is visible. Format docs: `doc/JSON/` in that checkout (MAPGEN.md,
 OVERMAP.md, ITEM_SPAWN.md, WEATHER_TYPE.md, EFFECT_ON_CONDITION.md).
 
 Worked example of everything below: `svalbard_seed_vault` (five z-levels,
@@ -93,6 +95,32 @@ The generator pattern that works:
   `t_thconc_floor`), or the furniture sits inside the fill terrain
   (racks embedded in solid rock — no validator catches it).
 
+## Sprites for custom content (looks_like)
+
+Custom overmap_terrain ids render as ASCII fallback in EVERY tileset —
+players read this as "my tileset is broken", especially when the whole
+explored map is your special. Give every custom oter (and custom item)
+a `"looks_like": "<vanilla id with sprites>"` donor (verify the donor
+id exists — e.g. `bunker`, `garage_gas_1`, `cabin_aban1`, `lmoe_under`;
+there is no vanilla `radio_tower`/`cabin`/`lab` oter). looks_like
+resolves at render time, so existing worlds pick it up on relaunch.
+It's cosmetic borrowing — bespoke art means a tileset extension.
+
+## Interactive computers (verified behavior)
+
+- Char-based: palette gives the char `f_console` furniture; the mapgen
+  object's `"computers": {"Z": {...}}` makes it interactive.
+- Action ids are the hardcoded set in `computer_session.cpp` — grep it
+  before using one. Useful generic ones: `"maps"` (reveals surrounding
+  overmap — great "find the town" reward), `"unlock"`, failure
+  `"alarm"`.
+- `"unlock"` converts `t_door_metal_locked` (NOT elocked) within 8
+  tiles OF THE PLAYER — the terminal must physically sit near the door
+  it opens, or the option never appears.
+- Gating trap: when you lock a door, check nothing *guaranteed* (chain
+  tools, `place_item` 100% spawns) sits behind it — gate rewards, not
+  requirements.
+
 ## Overmap specials
 
 - One `overmap_terrain` per OMT id; useful flags: `KNOWN_UP`/
@@ -147,6 +175,19 @@ The generator pattern that works:
 - Professions: item entries use `count`/`charges`;
   `{"group": "charged_flashlight"}` is the stock way to grant a lit
   flashlight. A dark start needs light in EVERY profession.
+- Pin the exact spawn tile with mapgen
+  `"place_zones": [{"type": "ZONE_START_POINT", "faction":
+  "your_followers", "x": [38,40], "y": [54,55]}]` (ranges must stay in
+  one OMT; no validity check — put it on known-open floor). Without it
+  the player spawns on any valid tile of the start OMT.
+- The dead crew: `place_items` with the stock `"corpses"` item group
+  spawns generic non-reviving human remains. `place_corpses` with a
+  monster group makes corpses OF those monsters — zombie-group corpses
+  can revive; don't ambush your own start location by accident.
+- Scripted story beats: clone `survnote`'s ITEM definition with a
+  fixed `description` (drop `snippet_category`) and `place_item` it at
+  100% — guaranteed exact text, vs snippets which draw randomly from a
+  category (better for repeatable flavor than for a specific arc).
 
 ## Id spelling minefield (all confirmed by grep)
 

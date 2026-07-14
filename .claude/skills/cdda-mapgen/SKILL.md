@@ -90,6 +90,17 @@ The generator pattern that works:
   palette `"signs": {"$": {"signage": "...", "furniture": "f_sign_warning"}}`.
 - `t_utility_light` is self-lit floor — sprinkle in corridors/key rooms
   so underground/eternal-night maps stay playable.
+- Rooms CAN span two z-levels: fill the upper level's footprint with
+  `t_open_air` and run `t_metal_floor` catwalks edged with `t_railing`
+  across it (vanilla silos/atria do this). Both levels must belong to
+  your special, and any stairs landing there need a solid platform.
+  Works underground.
+- Floor variety sells a map (wood `t_floor`, `t_linoleum_white`,
+  `t_grate`, `t_metal_floor`) — but each palette symbol has ONE
+  terrain, so a furniture char's floor must match the room type it
+  usually appears in; room-specific furniture (beds→wood, kitchen/med
+  →linoleum, machinery→grate) works, ubiquitous chars (counters,
+  desks) stay on the default floor and read as equipment pads.
 - `fill_ter` fills every cell without terrain. **Every furniture char
   in the palette needs an explicit terrain entry** (e.g.
   `t_thconc_floor`), or the furniture sits inside the fill terrain

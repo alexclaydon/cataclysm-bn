@@ -85,7 +85,7 @@
           { "item": "socks_wool" },
           { "item": "balclava" },
           { "item": "glock_19" },
-          { "item": "glockmag", "repeat": 2 },
+          { "item": "glockmag", "count": 2 },
           { "item": "9mm", "charges": 50 },
           { "item": "heavy_flashlight", "charges": 300 },
           { "item": "glowstick" }

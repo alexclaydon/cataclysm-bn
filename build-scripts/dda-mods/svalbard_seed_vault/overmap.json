@@ -1,0 +1,46 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_entrance",
+    "name": "seed vault entrance",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "natural_outcropping",
+    "see_cost": "spaced_high",
+    "flags": [ "KNOWN_DOWN", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_tunnel",
+    "name": "seed vault access tunnel",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_hall",
+    "name": "seed vault",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [ "KNOWN_UP", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Svalbard Seed Vault",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "svalbard_vault_entrance_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "svalbard_vault_tunnel_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "svalbard_vault_hall_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 15, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 2, 4 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "WILDERNESS", "SAFE_AT_WORLDGEN" ]
+  }
+]

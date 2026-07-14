@@ -1,0 +1,38 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_svalbard_vault",
+    "name": "Svalbard Seed Vault (deep chambers)",
+    "terrain": [ "svalbard_vault_hall" ]
+  },
+  {
+    "type": "scenario",
+    "id": "svalbard_last_deposit",
+    "name": "The Last Deposit",
+    "points": -2,
+    "description": "You are the skeleton crew of the Svalbard Global Seed Vault, deep inside the mountain at the top of the world.  It is the heart of the polar night: the sun set months ago and will not rise for months more.  An hour ago the generator coughed and died, the mainland radio went to static, and the storm outside rose to a scream.  Below the permafrost, in the dark, the last seeds of the old world wait with you.",
+    "start_name": "Svalbard Seed Vault",
+    "allowed_locs": [ "sloc_svalbard_vault" ],
+    "professions": [ "svalbard_technician", "svalbard_researcher", "svalbard_guard", "unemployed" ],
+    "start_of_cataclysm": { "hour": 0, "day": 40, "season": "autumn", "year": 1 },
+    "start_of_game": { "hour": 0, "day": 30, "season": "winter", "year": 1 },
+    "distance_initial_visibility": 0,
+    "flags": [ "LONE_START" ],
+    "eoc": [ "EOC_SVALBARD_START" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SVALBARD_START",
+    "//": "Runs once at character creation: kick the weather engine into a howling arctic storm and set the scene.",
+    "effect": [
+      { "math": [ "weather('temperature') = from_fahrenheit(-13)" ] },
+      { "math": [ "weather('windpower') = 30" ] },
+      "next_weather",
+      {
+        "u_message": "The generator's hum is gone.  Through two meters of rock you can still hear the storm — a long, patient howl.  The seed racks glitter with frost in your headlamp beam.  Nobody is coming.",
+        "type": "warning",
+        "popup": true
+      }
+    ]
+  }
+]

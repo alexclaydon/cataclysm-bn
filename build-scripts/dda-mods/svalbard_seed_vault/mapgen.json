@@ -1,0 +1,160 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      "svalbard_vault_entrance"
+    ],
+    "//": "Surface: the iconic concrete portal wedge, stairs plunging down.",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "                        ",
+        "                        ",
+        "        11111111        ",
+        "        1......1        ",
+        "        1..>>..1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        1......1        ",
+        "        111++111        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "svalbard_vault_palette"
+      ],
+      "place_nested": [
+        {
+          "chunks": [
+            "svalbard_vault_roof"
+          ],
+          "x": 8,
+          "y": 2,
+          "z": 1
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "svalbard_vault_roof",
+    "object": {
+      "mapgensize": [
+        16,
+        16
+      ],
+      "rows": [
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        ",
+        "RRRRRRRR        "
+      ],
+      "palettes": [
+        "svalbard_vault_palette"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      "svalbard_vault_tunnel"
+    ],
+    "//": "z-1: access shaft, generator room (west), office (east), gear stores.",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ||||          ",
+        "          |<<|          ",
+        "          |..|          ",
+        "          |..|          ",
+        "          |..|          ",
+        "    |||||||..|||||||    ",
+        "    |G....+..+....d|    ",
+        "    |G....|..|....d|    ",
+        "    |.....|..|....h|    ",
+        "    |l....|..|.....|    ",
+        "    |l....|..|....c|    ",
+        "    |||||||++|||||||    ",
+        "    |..............|    ",
+        "    |l............l|    ",
+        "    |l............l|    ",
+        "    |b............b|    ",
+        "    |......>>......|    ",
+        "    ||||||||||||||||    ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "svalbard_vault_palette"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      "svalbard_vault_hall"
+    ],
+    "//": "z-2: the vault proper. Four seed chambers, crew room, long gallery. Player starts here.",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "                        ",
+        "                        ",
+        "   ||||||||||||||||||   ",
+        "   |rr.rr|....|rr.rr|   ",
+        "   |.....|....|.....|   ",
+        "   |rr.rr+....+rr.rr|   ",
+        "   |.....|....|.....|   ",
+        "   |rr.rr|....|rr.rr|   ",
+        "   |||||||....|||||||   ",
+        "   |c...c|....|B...B|   ",
+        "   |.....|....|.....|   ",
+        "   |c....+....+....B|   ",
+        "   |l....|....|T..S.|   ",
+        "   |||||||....|||||||   ",
+        "   |r..............r|   ",
+        "   |r..............r|   ",
+        "   |................|   ",
+        "   |................|   ",
+        "   |................|   ",
+        "   |.......<<.......|   ",
+        "   ||||||||||||||||||   ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "svalbard_vault_palette"
+      ]
+    }
+  }
+]

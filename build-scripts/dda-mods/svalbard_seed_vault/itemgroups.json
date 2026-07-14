@@ -1,0 +1,61 @@
+[
+  {
+    "type": "item_group",
+    "id": "svalbard_seed_stock",
+    "subtype": "collection",
+    "entries": [
+      { "group": "farming_seeds", "prob": 100, "repeat": [ 3, 8 ] },
+      { "item": "seed_wheat", "prob": 60, "repeat": [ 1, 4 ] },
+      { "item": "can_beans", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "svalbard_arctic_gear",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coat_winter", "prob": 30 },
+      { "item": "winter_jacket_army", "prob": 15 },
+      { "item": "winter_pants_army", "prob": 15 },
+      { "item": "winter_gloves_army", "prob": 20 },
+      { "item": "gloves_winter", "prob": 25 },
+      { "item": "balclava", "prob": 25 },
+      { "item": "goggles_ski", "prob": 20 },
+      { "item": "mask_ski", "prob": 20 },
+      { "item": "boots_winter", "prob": 30 },
+      { "item": "socks_wool", "prob": 30 },
+      { "item": "hat_knit", "prob": 20 },
+      { "item": "sweater", "prob": 20 },
+      { "item": "long_underpants", "prob": 20 },
+      { "item": "emer_blanket", "prob": 15 },
+      { "item": "sleeping_bag", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "svalbard_tools",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "flashlight", "prob": 30, "charges": [ 50, 300 ] },
+      { "item": "heavy_flashlight", "prob": 15, "charges": [ 50, 300 ] },
+      { "item": "multitool", "prob": 20 },
+      { "item": "screwdriver", "prob": 25 },
+      { "item": "duct_tape", "prob": 25, "charges": [ 50, 200 ] },
+      { "item": "hand_crank_charger", "prob": 10 },
+      { "item": "electric_lantern", "prob": 15, "charges": [ 0, 100 ] },
+      { "item": "matches", "prob": 25 },
+      { "item": "lighter", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "svalbard_office",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "survnote", "prob": 40 },
+      { "item": "thermos", "prob": 30 },
+      { "item": "matches", "prob": 25 },
+      { "item": "flashlight", "prob": 20, "charges": [ 20, 200 ] }
+    ]
+  }
+]

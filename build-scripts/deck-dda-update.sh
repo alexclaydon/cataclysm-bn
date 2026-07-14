@@ -23,6 +23,14 @@ if [ -f "${repo_dir}/deck-dda-keybindings.json" ]; then
     mkdir -p "${repo_dir}/config"
     cp "${repo_dir}/deck-dda-keybindings.json" "${repo_dir}/config/keybindings.json"
 fi
+
+# Install our custom mods (authored in the BN repo under
+# build-scripts/dda-mods/, scp'd here by `make deck-dda`). The user mod
+# dir (~/cataclysm-dda/mods) is untracked, so upstream pulls ignore it.
+if [ -d "${repo_dir}/dda-mods" ]; then
+    mkdir -p "${repo_dir}/mods"
+    cp -r "${repo_dir}/dda-mods/." "${repo_dir}/mods/"
+fi
 distrobox enter "${box}" -- bash -c \
     "cd '${repo_dir}' && nice -n 19 make -j${jobs} CLANG=1 RELEASE=1 LTO=0 \
         TILES=1 SOUND=1 LOCALIZE=1 BACKTRACE=0 RUNTESTS=0 PCH=1"

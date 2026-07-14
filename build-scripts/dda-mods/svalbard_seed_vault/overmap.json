@@ -10,7 +10,8 @@
     "flags": [
       "KNOWN_DOWN",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "bunker"
   },
   {
     "type": "overmap_terrain",
@@ -22,7 +23,8 @@
     "see_cost": "spaced_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "garage_gas_1"
   },
   {
     "type": "overmap_terrain",
@@ -34,7 +36,8 @@
     "see_cost": "spaced_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "bunker"
   },
   {
     "type": "overmap_terrain",
@@ -46,7 +49,8 @@
     "see_cost": "high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "cabin_aban1"
   },
   {
     "type": "overmap_terrain",
@@ -59,7 +63,8 @@
     "flags": [
       "KNOWN_UP",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -71,7 +76,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -83,7 +89,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -95,7 +102,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -107,7 +115,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -120,7 +129,8 @@
     "flags": [
       "KNOWN_DOWN",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -132,7 +142,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -144,7 +155,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -157,7 +169,8 @@
     "flags": [
       "KNOWN_DOWN",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -169,7 +182,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -181,7 +195,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -193,7 +208,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -205,7 +221,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -217,7 +234,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -231,7 +249,8 @@
       "KNOWN_DOWN",
       "KNOWN_UP",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -244,7 +263,8 @@
     "flags": [
       "KNOWN_DOWN",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -256,7 +276,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -269,7 +290,8 @@
     "flags": [
       "KNOWN_UP",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -281,7 +303,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -293,7 +316,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -306,7 +330,8 @@
     "flags": [
       "KNOWN_DOWN",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -318,7 +343,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -330,7 +356,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -344,7 +371,8 @@
       "KNOWN_DOWN",
       "KNOWN_UP",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -357,7 +385,8 @@
     "flags": [
       "KNOWN_UP",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -369,7 +398,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -381,7 +411,8 @@
     "see_cost": "full_high",
     "flags": [
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -394,7 +425,8 @@
     "flags": [
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -407,7 +439,8 @@
     "flags": [
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -421,7 +454,8 @@
       "KNOWN_UP",
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -434,7 +468,8 @@
     "flags": [
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -447,7 +482,8 @@
     "flags": [
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -461,7 +497,8 @@
       "KNOWN_UP",
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -474,7 +511,8 @@
     "flags": [
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -487,7 +525,8 @@
     "flags": [
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_terrain",
@@ -500,7 +539,8 @@
     "flags": [
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
-    ]
+    ],
+    "looks_like": "lmoe_under"
   },
   {
     "type": "overmap_special",

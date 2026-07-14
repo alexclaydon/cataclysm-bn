@@ -60,6 +60,14 @@ def put(g, x, y, s):
         g[y][x + i] = c
 
 
+def refloor(g, x1, y1, x2, y2, ch):
+    """Retype the open floor of a room without touching walls/furniture."""
+    for y in range(y1, y2 + 1):
+        for x in range(x1, x2 + 1):
+            if g[y][x] == '.':
+                g[y][x] = ch
+
+
 def door(g, x, y, ch='+'):
     g[y][x] = ch
 
@@ -86,7 +94,7 @@ def vent_closet(g, ladders):
     door(g, 65, 40)
 
 
-WALLS = {'|', '1', ' ', '5', '8', '=', '2', 'L'}
+WALLS = {'|', '1', ' ', '5', '8', '=', '2', 'L', 'I'}
 NONROOM = WALLS | {'#', 'R', '~'}
 
 
@@ -203,6 +211,7 @@ def build_sub1():
         for y in (4, 9, 14):
             g[y][x] = 'a'
     put(g, 67, 17, 'n')
+    refloor(g, 58, 3, 68, 18, ':')       # vent plant: industrial grating
     for x, y in ((10, 19), (25, 19), (38, 19), (50, 19), (62, 19), (19, 7)):
         door(g, x, y)
     # M band: pool + sauna | gym + janitor | ski store / linen | fuel / battery
@@ -220,12 +229,15 @@ def build_sub1():
     put(g, 30, 37, 'Q')
     put(g, 31, 39, 'bbbb')
     put(g, 31, 41, 'bbbb')
+    refloor(g, 30, 37, 36, 42, '{')      # sauna: wood
     door(g, 29, 39)
-    for x in (31, 33, 35):
+    for x in (31, 33, 35, 37):
         g[24][x] = 'm'
         g[27][x] = 'E'
     put(g, 44, 25, 'P')
     put(g, 39, 23, 'qq')
+    put(g, 43, 28, 'qq')
+    put(g, 39, 31, 'bb')
     hwall(g, 35, 37, 47)                 # janitor closet under gym east
     put(g, 38, 42, 'JJ')
     put(g, 45, 42, '3')
@@ -238,43 +250,79 @@ def build_sub1():
     hwall(g, 33, 57, 69)                 # fuel store / battery room
     for x in (59, 62, 65):
         g[24][x] = '2'
+        g[28][x] = '2'
     put(g, 58, 31, 'zz')
     put(g, 58, 34, 'ccc')
     put(g, 58, 41, 'nn')
     put(g, 62, 34, 'a')
+    put(g, 62, 36, 'a')
+    refloor(g, 58, 23, 68, 32, ':')      # fuel store: grating
+    refloor(g, 58, 34, 68, 42, ':')      # battery room + vent shaft: grating
     vent_closet(g, '.v')                 # z-1: top of the shaft, ladder down @B
     put(g, 66, 40, '*')
     for x, y in ((12, 22), (36, 22), (52, 22), (62, 22), (52, 43), (60, 43),
                  (33, 43), (10, 43)):
         door(g, x, y)
-    # S band: bulk storage | cold store / parts | equipment | gear / stair hall
+    # S band: bulk storage | cold store / parts | equipment+gear | turbine gallery
     vwall(g, 24, 46, 69)
     vwall(g, 38, 46, 69)
-    hwall(g, 57, 24, 69)
-    vwall(g, 55, 57, 69)
-    for y in (49, 52, 55):
+    vwall(g, 44, 46, 69)
+    hwall(g, 57, 24, 44)
+    for y in (49, 52, 55, 58, 61, 64):
         put(g, 4, y, 'ssssss')
         put(g, 14, y, 'ssssss')
     put(g, 4, 67, '33')
     put(g, 10, 67, '4')
-    put(g, 14, 67, 'zz')
+    put(g, 14, 67, '33')
+    put(g, 18, 67, '44')
+    put(g, 21, 67, 'zz')
     g[47][12] = '7'
-    for x in (26, 28, 30, 32):
-        g[48][x] = 'F'
-    put(g, 26, 55, 'CC')
+    for x in (26, 28, 30, 32):           # cold store: stocked freezers
+        g[48][x] = ']'
+        g[51][x] = ']'
+    put(g, 26, 55, 'CCCC')
     put(g, 26, 59, 'zzz')
     put(g, 26, 67, 'n')
     put(g, 33, 59, 'ss')
+    put(g, 33, 63, 'ss')
+    # equipment room over gear room (narrow column west of the void)
     put(g, 40, 48, '33')
-    put(g, 44, 48, 'sss')
-    put(g, 66, 48, 'W')
+    put(g, 39, 52, 'sss')
+    put(g, 39, 55, 'W')
     put(g, 39, 59, 'WW')
-    put(g, 44, 60, 'b')
+    put(g, 40, 62, 'b')
+    put(g, 39, 67, 'zz')
+    # turbine gallery: two z-levels tall — open air over the z-2 generator
+    # hall, crossed by railed catwalks; the stairs land on a hung platform
+    fill(g, 45, 47, 68, 68, 'I')
+    fill(g, 45, 47, 68, 47, ',')         # north catwalk along the corridor wall
+    hwall(g, 48, 45, 68, '#')
+    g[48][59] = ','
+    g[48][60] = ','
+    fill(g, 59, 48, 60, 61, ',')         # main catwalk south to the platform
+    vwall(g, 58, 49, 60, '#')
+    vwall(g, 61, 49, 60, '#')
+    fill(g, 56, 62, 64, 67, '.')         # stair platform
+    hwall(g, 61, 56, 64, '#')
+    g[61][59] = ','
+    g[61][60] = ','
+    vwall(g, 55, 62, 67, '#')
+    g[63][55] = ','
+    g[64][55] = ','
+    vwall(g, 65, 62, 67, '#')
+    hwall(g, 68, 56, 64, '#')
+    fill(g, 45, 63, 54, 64, ',')         # west spur from the gear room
+    hwall(g, 62, 45, 54, '#')
+    hwall(g, 65, 45, 54, '#')
     put(g, 59, 64, '>>')
-    g[59][57] = '7'
-    g[59][66] = '7'
-    for x, y in ((10, 46), (20, 46), (30, 46), (48, 46), (60, 46), (33, 57),
-                 (46, 57), (62, 57), (55, 63)):
+    g[47][62] = '7'
+    g[54][59] = '7'
+    g[63][57] = '7'
+    put(g, 15, 21, 'b')
+    put(g, 33, 20, 'l')
+    put(g, 50, 45, 'b')
+    for x, y in ((10, 46), (20, 46), (30, 46), (41, 46), (60, 46), (33, 57),
+                 (41, 57), (44, 63)):
         door(g, x, y)
     return g, [{"monster": "mon_manhack", "x": 39, "y": 10}]
 
@@ -291,18 +339,30 @@ def build_sub2():
         put(g, ox + 5, 3, 'u')
         put(g, ox + 2, 6, 'd')
         put(g, ox + 2, 7, 'h')
+        put(g, ox + 2, 12, 'd')
+        put(g, ox + 3, 12, 'h')
+        put(g, ox, 16, 'ff')
+        put(g, ox + 4, 16, 'u')
     fill(g, 37, 8, 43, 10, 't')
     put(g, 37, 7, 'hhhhhhh')
     put(g, 37, 11, 'hhhhhhh')
+    put(g, 36, 16, 'uu')
+    put(g, 41, 16, 'uu')
+    put(g, 45, 4, 'f')
     g[3][36] = '7'
     g[3][45] = '7'
-    for y in (4, 7, 10):
+    for y in (4, 7, 10, 13):
         put(g, 48, y, 'V.V.V.V')
+    put(g, 55, 16, 'a')
     put(g, 56, 16, 'x')
+    refloor(g, 48, 3, 57, 18, ',')       # server room: raised metal floor
     g[3][52] = '7'
     put(g, 59, 3, 'ff.ff.ff')
     put(g, 59, 8, 'ff.ff.ff')
+    put(g, 59, 11, 'ff.ff.ff')
     put(g, 59, 15, 'uuu')
+    put(g, 64, 15, 'uu')
+    put(g, 67, 17, '3')
     for x, y in ((6, 19), (14, 19), (22, 19), (30, 19), (40, 19), (52, 19),
                  (63, 19)):
         door(g, x, y)
@@ -314,6 +374,7 @@ def build_sub2():
     put(g, 3, 24, 'xxx')
     put(g, 6, 27, 'd')
     put(g, 7, 27, 'h')
+    put(g, 3, 30, 'ff')
     vwall(g, 8, 33, 43)                  # two brig cells
     put(g, 4, 35, 'B')
     put(g, 6, 35, 'T')
@@ -336,10 +397,17 @@ def build_sub2():
     put(g, 38, 33, 'x')
     put(g, 40, 35, 'd')
     put(g, 40, 36, 'h')
+    put(g, 45, 33, 'll')
     put(g, 50, 23, 'ccccc')
     put(g, 50, 41, 'nn')
     put(g, 56, 23, 'a.a')
+    put(g, 51, 28, 'zz')
+    put(g, 55, 28, '2')
+    put(g, 50, 33, 'ccc')
+    put(g, 56, 33, 'a')
+    put(g, 61, 28, '2')
     g[23][60] = '7'
+    refloor(g, 50, 23, 68, 42, ':')      # electrical: industrial grating
     vent_closet(g, 'v^')                 # z-2: v@A(67,41), ^@B(68,41)
     put(g, 62, 40, '**')
     put(g, 58, 41, '*')
@@ -356,15 +424,24 @@ def build_sub2():
     put(g, 11, 49, '>>')
     g[47][4] = '7'
     g[47][17] = '7'
+    put(g, 3, 50, 'll')
     put(g, 3, 56, 'bb')
     put(g, 3, 60, 'ff.ff.ff')
     put(g, 3, 64, 'ff.ff.ff')
+    put(g, 12, 60, 'uu')
+    put(g, 12, 64, 'uu')
+    put(g, 3, 67, 'ff.ff')
     put(g, 16, 67, '3')
     for x in (22, 27, 32):
         put(g, x, 48, 'nn')
+        put(g, x, 55, 'nn')
     put(g, 22, 51, '@@')
     put(g, 40, 48, '44')
     put(g, 40, 50, '4')
+    put(g, 40, 55, '4')
+    put(g, 22, 60, 'ss')
+    put(g, 27, 60, '44')
+    put(g, 32, 60, 'zz')
     put(g, 22, 67, 'cccc')
     put(g, 34, 67, 'zz')
     put(g, 28, 67, 'ss')
@@ -372,14 +449,22 @@ def build_sub2():
     for x in (46, 50, 54):
         g[49][x] = 'G'
         g[50][x] = 'G'
+        g[59][x] = 'G'
+        g[60][x] = 'G'
     put(g, 66, 47, '2')
     put(g, 66, 49, '2')
+    put(g, 66, 55, '3')
+    put(g, 66, 56, '3')
     put(g, 59, 64, '<<')
     put(g, 46, 67, 'n')
     put(g, 52, 67, 'zz')
+    refloor(g, 45, 47, 68, 68, ':')      # generator hall: grating underfoot
     g[66][62] = '?'                      # level wayfinding sign
     for x, y in ((10, 46), (32, 46), (50, 46), (20, 52), (12, 58), (44, 58)):
         door(g, x, y)
+    put(g, 15, 20, 'l')
+    put(g, 33, 21, 'b')
+    put(g, 50, 44, 'b')
     mons = [{"monster": "mon_zombie_scientist", "x": 20, "y": 28},
             {"monster": "mon_manhack", "x": 43, "y": 39}]
     return g, mons
@@ -397,18 +482,23 @@ def build_sub3():
             put(g, tx, ty, 'tt')
             put(g, tx, ty - 1, 'hh')
             put(g, tx, ty + 1, 'hh')
+    refloor(g, 3, 3, 21, 18, '{')        # mess hall: wood
     put(g, 23, 3, 'KKKKKKKK')
     put(g, 32, 3, 'k')
-    put(g, 32, 5, 'F')
-    put(g, 32, 6, 'F')
+    put(g, 32, 5, '[')
+    put(g, 32, 6, '[')
     put(g, 23, 5, 'S')
     put(g, 23, 8, 'KK')
+    put(g, 23, 11, 'KK')
     g[10][28] = '7'
+    refloor(g, 23, 3, 33, 18, '}')       # kitchen: linoleum
     for x in (36, 39, 42):
-        for y in (4, 7, 10):
+        for y in (4, 7, 10, 13):
             g[y][x] = 'C'
     for x in (46, 49, 52):
-        for y in (4, 7, 10, 13):
+        for y in (4, 7):
+            g[y][x] = 'H'                # living crops under the grow lights
+        for y in (10, 13):
             g[y][x] = '9'
     g[3][48] = '7'
     g[3][51] = '7'
@@ -437,6 +527,9 @@ def build_sub3():
         put(g, cx, 34, 'B')
         put(g, cx + 4, 34, 'e')
         put(g, cx + 4, 42, 'o')
+    refloor(g, 3, 23, 36, 29, '{')       # dorms + commons: wood
+    refloor(g, 3, 34, 36, 42, '{')
+    refloor(g, 17, 23, 29, 29, '{')
     g[31][34] = '7'
     put(g, 44, 26, 'pp')
     put(g, 39, 24, 'AA')
@@ -446,6 +539,11 @@ def build_sub3():
     put(g, 47, 30, 'h')
     put(g, 47, 32, 'h')
     put(g, 38, 31, 'x')
+    put(g, 40, 40, 'tt')
+    put(g, 40, 39, 'hh')
+    put(g, 40, 41, 'hh')
+    put(g, 50, 40, 'u.u')
+    refloor(g, 38, 23, 54, 42, '{')      # rec room: wood
     g[23][45] = '7'
     g[40][45] = '7'
     hwall(g, 31, 55, 69)
@@ -453,9 +551,12 @@ def build_sub3():
     put(g, 57, 26, 'bbbb')
     put(g, 57, 28, 'bbbb')
     put(g, 64, 24, 't')
+    refloor(g, 56, 23, 68, 30, '{')      # chapel: wood
     put(g, 56, 33, 'uu.uu')
     put(g, 56, 36, 'uu.uu')
+    put(g, 56, 39, 'uu.uu')
     put(g, 62, 41, 't')
+    refloor(g, 56, 32, 64, 42, '{')      # library: wood (vent closet stays)
     vent_closet(g, '^v')                 # z-3: ^@A(67,41), v@B(68,41)
     put(g, 63, 40, '*')
     put(g, 60, 42, '*')
@@ -491,8 +592,20 @@ def build_sub3():
     g[47][30] = '7'
     g[47][42] = '7'
     put(g, 22, 60, 'jj')
+    put(g, 30, 60, 'AA')
+    put(g, 35, 60, 'jj')
+    put(g, 30, 63, 'tt')
+    put(g, 30, 62, 'hh')
+    put(g, 30, 64, 'hh')
+    put(g, 40, 60, 'u.u')
+    put(g, 26, 64, 'A')
     put(g, 22, 67, 'uu')
     put(g, 30, 67, 't')
+    refloor(g, 21, 47, 46, 68, '{')      # lounge: wood
+    refloor(g, 3, 59, 19, 68, '}')       # infirmary: linoleum
+    refloor(g, 48, 47, 57, 56, '}')      # bathroom: linoleum
+    refloor(g, 48, 59, 57, 68, '}')      # laundry: linoleum
+    refloor(g, 59, 47, 68, 68, '}')      # morgue: linoleum
     for x in (48, 51, 54):
         g[47][x] = 'T'
         g[51][x] = 'U'
@@ -510,6 +623,9 @@ def build_sub3():
     for x, y in ((10, 46), (20, 52), (12, 58), (30, 46), (40, 46), (52, 46),
                  (52, 58), (63, 46), (58, 63)):
         door(g, x, y)
+    put(g, 15, 21, 'b')
+    put(g, 46, 20, 'l')
+    put(g, 30, 45, 'b')
     mons = [{"monster": "mon_blob_small", "x": 62, "y": 40}]
     return g, mons
 
@@ -525,7 +641,9 @@ def build_deep():
         for y in (4, 7, 10, 13, 16):
             put(g, x1, y, 'rrrr')
             put(g, x1 + 6, y, 'rrrr')
+            put(g, x1 + 11, y, 'rrrr')
     put(g, 59, 7, '<<')
+    put(g, 55, 3, 'll')
     g[4][56] = '7'
     g[4][65] = '7'
     put(g, 56, 15, 'x')
@@ -565,6 +683,7 @@ def build_deep():
         for y in (48, 51, 54, 57, 60, 63, 66):
             put(g, x1, y, 'rrrr')
             put(g, x1 + 6, y, 'rrrr')
+            put(g, x1 + 11, y, 'rrrr')
     # duty room — the crew's overwinter station; the player wakes here
     put(g, 37, 48, 'B.B.B')
     put(g, 43, 48, 'e')
@@ -581,6 +700,9 @@ def build_deep():
     put(g, 37, 67, 'ss')
     put(g, 44, 67, '3')
     # research wing: decon corridor, wet lab, breached containment
+    refloor(g, 48, 47, 52, 68, '}')      # decon corridor: linoleum
+    refloor(g, 54, 47, 68, 56, '}')      # wet lab: linoleum
+    refloor(g, 54, 58, 68, 68, '}')      # containment: linoleum
     for y in (47, 49, 51):
         g[y][49] = 'U'
     put(g, 55, 48, '00')
@@ -610,6 +732,8 @@ def build_deep():
     for x, y in ((10, 46), (27, 46), (40, 46), (40, 58), (50, 46), (53, 50),
                  (53, 63), (60, 57)):
         door(g, x, y)
+    put(g, 15, 20, 'b')
+    put(g, 48, 45, 'b')
     mons = [{"monster": "mon_blob_small", "x": 61, "y": 62},
             {"monster": "mon_blob_small", "x": 60, "y": 64},
             {"monster": "mon_breather", "x": 60, "y": 31}]
@@ -621,10 +745,12 @@ def rows(g):
     return [''.join(r) for r in g]
 
 
-def roof_chunk(cover):
+def roof_chunk(cover, marks=()):
     g = grid(SURF_H, 24)
     for x1, y1, x2, y2 in cover:
         fill(g, x1, y1, x2, y2, 'R')
+    for x, y, ch in marks:
+        g[y][x] = ch
     return rows(g)
 
 
@@ -715,7 +841,9 @@ def main():
                     "palettes": ["svalbard_vault_palette"]}},
         {"type": "mapgen", "nested_mapgen_id": "svalbard_garage_roof",
          "object": {"mapgensize": [24, 24],
-                    "rows": roof_chunk([(2, 4, 21, 20)]),
+                    "rows": roof_chunk([(2, 4, 21, 20)],
+                                       marks=[(6, 8, 'a'), (7, 8, 'a'),
+                                              (15, 14, 'a'), (16, 14, 'a')]),
                     "palettes": ["svalbard_vault_palette"]}},
         {"type": "mapgen", "nested_mapgen_id": "svalbard_shack_roof",
          "object": {"mapgensize": [24, 24],
@@ -746,6 +874,7 @@ def main():
             {"item": "svalbard_note_security", "x": 35, "y": 5, "chance": 100},
             {"item": "compbow", "x": 54, "y": 26, "chance": 100},
             {"item": "arrow_cf", "x": 55, "y": 26, "chance": 100, "amount": [16, 24]},
+            {"item": "towel", "x": 32, "y": 39, "chance": 100, "amount": [2, 3]},
         ],
         "sub2": [
             {"item": "tailors_kit", "x": 22, "y": 52, "chance": 100},
@@ -788,6 +917,7 @@ def main():
             ],
         },
         "sub3": {
+            "sealed_item": {"H": {"items": {"item": "farming_seeds"}, "furniture": "f_plant_harvest"}},
             "signs": {"?": {"signage": "LEVEL 3 — HABITAT.  Mess · dormitories · infirmary · library.  Quiet hours 22:00–06:00.", "furniture": "f_sign"}},
             "place_items": [
                 {"item": "corpses", "x": 6, "y": 60, "chance": 100},

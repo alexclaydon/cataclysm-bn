@@ -26,6 +26,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "svalbard_vault_mast",
+    "name": "seed vault radio mast",
+    "sym": "X",
+    "color": "light_cyan",
+    "vision_levels": "natural_outcropping",
+    "see_cost": "spaced_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_warming_hut",
+    "name": "warming hut",
+    "sym": "+",
+    "color": "brown",
+    "vision_levels": "natural_outcropping",
+    "see_cost": "high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "svalbard_vault_sub1_a",
     "name": "seed vault egress level",
     "sym": "^",
@@ -46,7 +70,6 @@
     "vision_levels": "underground_dirt",
     "see_cost": "full_high",
     "flags": [
-      "KNOWN_DOWN",
       "SOURCE_SAFETY"
     ]
   },
@@ -65,6 +88,67 @@
   {
     "type": "overmap_terrain",
     "id": "svalbard_vault_sub1_d",
+    "name": "seed vault egress level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub1_e",
+    "name": "seed vault egress level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub1_f",
+    "name": "seed vault egress level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "KNOWN_DOWN",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub1_g",
+    "name": "seed vault egress level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub1_h",
+    "name": "seed vault egress level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub1_i",
     "name": "seed vault egress level",
     "sym": "^",
     "color": "light_cyan",
@@ -96,8 +180,6 @@
     "vision_levels": "underground_dirt",
     "see_cost": "full_high",
     "flags": [
-      "KNOWN_DOWN",
-      "KNOWN_UP",
       "SOURCE_SAFETY"
     ]
   },
@@ -110,13 +192,75 @@
     "vision_levels": "underground_dirt",
     "see_cost": "full_high",
     "flags": [
-      "KNOWN_DOWN",
       "SOURCE_SAFETY"
     ]
   },
   {
     "type": "overmap_terrain",
     "id": "svalbard_vault_sub2_d",
+    "name": "seed vault operations level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub2_e",
+    "name": "seed vault operations level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub2_f",
+    "name": "seed vault operations level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "KNOWN_DOWN",
+      "KNOWN_UP",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub2_g",
+    "name": "seed vault operations level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "KNOWN_DOWN",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub2_h",
+    "name": "seed vault operations level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub2_i",
     "name": "seed vault operations level",
     "sym": "^",
     "color": "light_cyan",
@@ -148,8 +292,6 @@
     "vision_levels": "underground_dirt",
     "see_cost": "full_high",
     "flags": [
-      "KNOWN_DOWN",
-      "KNOWN_UP",
       "SOURCE_SAFETY"
     ]
   },
@@ -162,13 +304,76 @@
     "vision_levels": "underground_dirt",
     "see_cost": "full_high",
     "flags": [
-      "KNOWN_UP",
+      "KNOWN_DOWN",
       "SOURCE_SAFETY"
     ]
   },
   {
     "type": "overmap_terrain",
     "id": "svalbard_vault_sub3_d",
+    "name": "seed vault habitat level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub3_e",
+    "name": "seed vault habitat level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub3_f",
+    "name": "seed vault habitat level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "KNOWN_DOWN",
+      "KNOWN_UP",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub3_g",
+    "name": "seed vault habitat level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "KNOWN_UP",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub3_h",
+    "name": "seed vault habitat level",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_sub3_i",
     "name": "seed vault habitat level",
     "sym": "^",
     "color": "light_cyan",
@@ -200,7 +405,7 @@
     "vision_levels": "underground_dirt",
     "see_cost": "full_high",
     "flags": [
-      "KNOWN_UP",
+      "SOURCE_FOOD",
       "SOURCE_SAFETY"
     ]
   },
@@ -213,6 +418,7 @@
     "vision_levels": "underground_dirt",
     "see_cost": "full_high",
     "flags": [
+      "KNOWN_UP",
       "SOURCE_FOOD",
       "SOURCE_SAFETY"
     ]
@@ -220,6 +426,72 @@
   {
     "type": "overmap_terrain",
     "id": "svalbard_vault_deep_d",
+    "name": "seed vault",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_deep_e",
+    "name": "seed vault",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_deep_f",
+    "name": "seed vault",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "KNOWN_UP",
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_deep_g",
+    "name": "seed vault",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_deep_h",
+    "name": "seed vault",
+    "sym": "^",
+    "color": "light_cyan",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY"
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "svalbard_vault_deep_i",
     "name": "seed vault",
     "sym": "^",
     "color": "light_cyan",
@@ -252,6 +524,14 @@
       },
       {
         "point": [
+          2,
+          0,
+          0
+        ],
+        "overmap": "svalbard_vault_mast_north"
+      },
+      {
+        "point": [
           0,
           0,
           -1
@@ -274,11 +554,22 @@
       },
       {
         "point": [
+          2,
+          0,
+          -1
+        ],
+        "overmap": "svalbard_vault_sub1_c_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
           0,
           1,
           -1
         ],
-        "overmap": "svalbard_vault_sub1_c_north",
+        "overmap": "svalbard_vault_sub1_d_north",
         "locations": [
           "subterranean_empty"
         ]
@@ -289,7 +580,51 @@
           1,
           -1
         ],
-        "overmap": "svalbard_vault_sub1_d_north",
+        "overmap": "svalbard_vault_sub1_e_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          2,
+          1,
+          -1
+        ],
+        "overmap": "svalbard_vault_sub1_f_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          0,
+          2,
+          -1
+        ],
+        "overmap": "svalbard_vault_sub1_g_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          1,
+          2,
+          -1
+        ],
+        "overmap": "svalbard_vault_sub1_h_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          2,
+          2,
+          -1
+        ],
+        "overmap": "svalbard_vault_sub1_i_north",
         "locations": [
           "subterranean_empty"
         ]
@@ -318,11 +653,22 @@
       },
       {
         "point": [
+          2,
+          0,
+          -2
+        ],
+        "overmap": "svalbard_vault_sub2_c_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
           0,
           1,
           -2
         ],
-        "overmap": "svalbard_vault_sub2_c_north",
+        "overmap": "svalbard_vault_sub2_d_north",
         "locations": [
           "subterranean_empty"
         ]
@@ -333,7 +679,51 @@
           1,
           -2
         ],
-        "overmap": "svalbard_vault_sub2_d_north",
+        "overmap": "svalbard_vault_sub2_e_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          2,
+          1,
+          -2
+        ],
+        "overmap": "svalbard_vault_sub2_f_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          0,
+          2,
+          -2
+        ],
+        "overmap": "svalbard_vault_sub2_g_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          1,
+          2,
+          -2
+        ],
+        "overmap": "svalbard_vault_sub2_h_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          2,
+          2,
+          -2
+        ],
+        "overmap": "svalbard_vault_sub2_i_north",
         "locations": [
           "subterranean_empty"
         ]
@@ -362,11 +752,22 @@
       },
       {
         "point": [
+          2,
+          0,
+          -3
+        ],
+        "overmap": "svalbard_vault_sub3_c_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
           0,
           1,
           -3
         ],
-        "overmap": "svalbard_vault_sub3_c_north",
+        "overmap": "svalbard_vault_sub3_d_north",
         "locations": [
           "subterranean_empty"
         ]
@@ -377,7 +778,51 @@
           1,
           -3
         ],
-        "overmap": "svalbard_vault_sub3_d_north",
+        "overmap": "svalbard_vault_sub3_e_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          2,
+          1,
+          -3
+        ],
+        "overmap": "svalbard_vault_sub3_f_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          0,
+          2,
+          -3
+        ],
+        "overmap": "svalbard_vault_sub3_g_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          1,
+          2,
+          -3
+        ],
+        "overmap": "svalbard_vault_sub3_h_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          2,
+          2,
+          -3
+        ],
+        "overmap": "svalbard_vault_sub3_i_north",
         "locations": [
           "subterranean_empty"
         ]
@@ -406,11 +851,22 @@
       },
       {
         "point": [
+          2,
+          0,
+          -4
+        ],
+        "overmap": "svalbard_vault_deep_c_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
           0,
           1,
           -4
         ],
-        "overmap": "svalbard_vault_deep_c_north",
+        "overmap": "svalbard_vault_deep_d_north",
         "locations": [
           "subterranean_empty"
         ]
@@ -421,21 +877,89 @@
           1,
           -4
         ],
-        "overmap": "svalbard_vault_deep_d_north",
+        "overmap": "svalbard_vault_deep_e_north",
         "locations": [
           "subterranean_empty"
         ]
+      },
+      {
+        "point": [
+          2,
+          1,
+          -4
+        ],
+        "overmap": "svalbard_vault_deep_f_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          0,
+          2,
+          -4
+        ],
+        "overmap": "svalbard_vault_deep_g_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          1,
+          2,
+          -4
+        ],
+        "overmap": "svalbard_vault_deep_h_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          2,
+          2,
+          -4
+        ],
+        "overmap": "svalbard_vault_deep_i_north",
+        "locations": [
+          "subterranean_empty"
+        ]
+      },
+      {
+        "point": [
+          -2,
+          0,
+          0
+        ],
+        "overmap": "svalbard_warming_hut_north"
+      },
+      {
+        "point": [
+          4,
+          2,
+          0
+        ],
+        "overmap": "svalbard_warming_hut_north"
+      },
+      {
+        "point": [
+          1,
+          -2,
+          0
+        ],
+        "overmap": "svalbard_warming_hut_north"
       }
     ],
     "locations": [
       "wilderness"
     ],
     "city_distance": [
-      15,
-      -1
+      3,
+      30
     ],
     "city_sizes": [
-      0,
+      4,
       20
     ],
     "occurrences": [

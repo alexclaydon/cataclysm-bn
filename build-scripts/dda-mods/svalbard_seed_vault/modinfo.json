@@ -4,7 +4,7 @@
     "id": "svalbard_seed_vault",
     "name": "The Last Deposit: Svalbard",
     "authors": [ "Alex Claydon" ],
-    "description": "A story-driven start inside the Svalbard Global Seed Vault: the polar night is endless, a blizzard rages over the arctic wastes, and beneath the permafrost the world's last seeds wait with you.  Adds the vault structure, three overwintering-crew professions, and the scenario 'The Last Deposit'.",
+    "description": "A story-driven start inside the Svalbard Global Seed Vault: the polar night is endless, a blizzard rages over the arctic wastes, and beneath the permafrost the world's last seeds wait with you — along with whatever the research staff were keeping behind the containment glass.  Adds a five-level vault complex, warming huts, three overwintering-crew professions, and the scenario 'The Last Deposit'.",
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "0.1"

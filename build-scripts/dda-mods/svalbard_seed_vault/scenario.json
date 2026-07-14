@@ -3,14 +3,14 @@
     "type": "start_location",
     "id": "sloc_svalbard_vault",
     "name": "Svalbard Seed Vault (deep chambers)",
-    "terrain": [ "svalbard_vault_deep_c" ]
+    "terrain": [ "svalbard_vault_deep_h" ]
   },
   {
     "type": "scenario",
     "id": "svalbard_last_deposit",
     "name": "The Last Deposit",
     "points": -2,
-    "description": "You are the skeleton crew of the Svalbard Global Seed Vault, deep inside the mountain at the top of the world.  It is the heart of the polar night: the sun set months ago and will not rise for months more.  An hour ago the generator coughed and died, the mainland radio went to static, and the storm outside rose to a scream.  Below the permafrost, in the dark, the last seeds of the old world wait with you.",
+    "description": "You are the skeleton crew of the Svalbard Global Seed Vault, deep inside the mountain at the top of the world.  It is the heart of the polar night: the sun set months ago and will not rise for months more.  An hour ago the generator coughed and died, the mainland radio went to static, and the storm outside rose to a scream.  Four levels of rock stand between you and the surface — and somewhere down here, behind the door the researchers kept locked, something has stopped answering the intercom too.",
     "start_name": "Svalbard Seed Vault",
     "allowed_locs": [ "sloc_svalbard_vault" ],
     "professions": [ "svalbard_technician", "svalbard_researcher", "svalbard_guard", "unemployed" ],
@@ -29,7 +29,7 @@
       { "math": [ "weather('windpower') = 30" ] },
       "next_weather",
       {
-        "u_message": "The generator's hum is gone.  Through two meters of rock you can still hear the storm — a long, patient howl.  The seed racks glitter with frost in your headlamp beam.  Nobody is coming.",
+        "u_message": "The generator's hum is gone.  Through two meters of rock you can still hear the storm — a long, patient howl.  The seed racks glitter with frost in your headlamp beam.  Down the gallery, the red light over the research wing door is still blinking.  Nobody is coming.",
         "type": "warning",
         "popup": true
       }

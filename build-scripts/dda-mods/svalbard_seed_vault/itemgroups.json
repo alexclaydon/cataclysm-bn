@@ -47,7 +47,89 @@
       { "item": "lighter", "prob": 20 },
       { "item": "crowbar", "prob": 20 },
       { "item": "hammer", "prob": 20 },
-      { "item": "wrench", "prob": 20 }
+      { "item": "wrench", "prob": 20 },
+      { "item": "hacksaw", "prob": 15 },
+      { "item": "pot", "prob": 15 },
+      { "item": "pan", "prob": 15 },
+      { "item": "knife_hunting", "prob": 15 },
+      { "item": "sewing_kit", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "svalbard_armory",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "compbow", "prob": 25 },
+      { "item": "arrow_cf", "prob": 30, "charges": [ 8, 20 ] },
+      { "item": "knife_combat", "prob": 25 },
+      { "item": "fire_ax", "prob": 15 },
+      { "item": "extinguisher", "prob": 20 },
+      { "item": "glockmag", "prob": 20 },
+      { "item": "9mm", "prob": 25, "charges": 50 },
+      { "item": "pipe", "prob": 20 },
+      { "item": "flashlight", "prob": 20, "charges": [ 100, 300 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "svalbard_tailoring",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sewing_kit", "prob": 35 },
+      { "item": "tailors_kit", "prob": 15 },
+      { "item": "scissors", "prob": 30 },
+      { "item": "thread", "prob": 40, "charges": [ 50, 200 ] },
+      { "item": "sheet_cotton", "prob": 30, "repeat": [ 2, 4 ] },
+      { "item": "sheet_felt", "prob": 25, "repeat": [ 1, 3 ] },
+      { "item": "cotton_patchwork", "prob": 30, "repeat": [ 2, 5 ] },
+      { "item": "leather", "prob": 25, "repeat": [ 2, 4 ] },
+      { "item": "fur", "prob": 25, "repeat": [ 2, 4 ] },
+      { "item": "blanket", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "svalbard_materials",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "2x4", "prob": 35, "repeat": [ 2, 6 ] },
+      { "item": "pipe", "prob": 30, "repeat": [ 2, 4 ] },
+      { "item": "stick", "prob": 25, "repeat": [ 2, 4 ] },
+      { "item": "string_36", "prob": 30, "repeat": [ 1, 3 ] },
+      { "item": "scrap", "prob": 30, "repeat": [ 3, 8 ] },
+      { "item": "steel_chunk", "prob": 25, "repeat": [ 2, 5 ] },
+      { "item": "duct_tape", "prob": 25, "charges": [ 50, 200 ] },
+      { "item": "rope_30", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "svalbard_janitor",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mop", "prob": 40 },
+      { "item": "broom", "prob": 40 },
+      { "item": "soap", "prob": 35 },
+      { "item": "towel", "prob": 35 },
+      { "item": "extinguisher", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "svalbard_hut",
+    "subtype": "collection",
+    "entries": [
+      { "item": "2x4", "prob": 70, "repeat": [ 2, 4 ] },
+      { "item": "stick", "prob": 70, "repeat": [ 2, 4 ] },
+      { "item": "splinter", "prob": 50, "repeat": [ 3, 6 ] },
+      { "item": "matches", "prob": 70 },
+      { "item": "candle", "prob": 60, "repeat": [ 1, 2 ] },
+      { "item": "emer_blanket", "prob": 70 },
+      { "item": "blanket", "prob": 50 },
+      { "group": "cannedfood", "prob": 60, "repeat": [ 1, 3 ] },
+      { "item": "thermos", "prob": 30 },
+      { "item": "glowstick", "prob": 40 }
     ]
   },
   {
@@ -66,7 +148,9 @@
       { "item": "emer_blanket", "prob": 20 },
       { "item": "thermos", "prob": 10 },
       { "item": "e_tool", "prob": 10 },
-      { "item": "shovel", "prob": 10 }
+      { "item": "shovel", "prob": 10 },
+      { "item": "blanket", "prob": 20 },
+      { "item": "sheet_cotton", "prob": 20, "repeat": [ 1, 3 ] }
     ]
   },
   {

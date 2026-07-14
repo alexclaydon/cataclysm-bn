@@ -16,6 +16,15 @@ OVERMAP.md, ITEM_SPAWN.md, WEATHER_TYPE.md, EFFECT_ON_CONDITION.md).
 Worked example of everything below: `svalbard_seed_vault` (five z-levels,
 3×3-OMT floors, research-wing storyline, guaranteed crafting chains).
 
+**references/advanced-mapgen.md** catalogs the advanced machinery with
+syntax and gotchas — read it before designing anything non-trivial:
+weighted mapgen variants, parametrized palettes (roll-once wall/floor
+randomization), predecessor_mapgen, layer-clearing flags, interactive
+computers, sealed containers, update_mapgen/missions/map extras,
+auto road `connections` on specials, mutable (jigsaw-growth) specials,
+conditional nests, upstream review standards, and the in-game debug
+testing loop. Many "needs C++" instincts are wrong — check there first.
+
 ## The two-stage validation trap (learn this first)
 
 1. `--check-mods` (run via ssh on the Deck) catches missing ids, bad
@@ -56,7 +65,11 @@ The generator pattern that works:
 - Multi-OMT maps: `"om_terrain": [["a","b"],["c","d"]]` with rows
   24·cols wide and 24·rows tall. Each cell id needs its own
   `overmap_terrain`. Coordinates in `place_*` are absolute in the big
-  grid.
+  grid, BUT a ranged coordinate (`"x": [10, 30]`) and a vehicle
+  footprint must each stay inside ONE 24-tile OMT — crossing a
+  boundary is an error (ranges) or a silent no-spawn (vehicles).
+  `set`-array entries repeat in every OMT of a multi-OMT map; avoid
+  them there.
 - Nested chunks (`place_nested`) must be SQUARE (`mapgensize` [n,n],
   n ≤ 24); spaces in their rows are no-ops. Roofs = nested chunk of
   `t_flat_roof` placed with `"z": 1`.
@@ -97,8 +110,17 @@ The generator pattern that works:
   (warming huts around the vault). Every extra surface point adds a
   placement constraint; keep satellites few.
 - `city_distance`/`city_sizes` control town proximity (min ≥ N keeps
-  towns away; [3,30] reliably puts one nearby). Coastal placement
-  cannot be forced from a mod.
+  towns away; [3,30] reliably puts one nearby). `city_distance`
+  measures from the city's EDGE (urban radius), nearest city only.
+  Coastal placement cannot be forced from a mod.
+- `occurrences` minima are NOT enforced in worldgen (only in CI
+  tests) — keep the minimum 0 for upstream-quality work. Non-unique
+  specials place far more often than intuition suggests; for "rare
+  but present", use flag `OVERMAP_UNIQUE` (occurrences then means an
+  x-in-y chance, conventionally `[x, 100]`).
+- A special can demand a road: `"connections"` with a point outside
+  its own OMTs auto-builds one from the nearest road network (see
+  references/advanced-mapgen.md).
 - Existing worlds keep their overmap: id changes/renames require a NEW
   world to see (and break old saves that referenced removed ids).
 
@@ -165,6 +187,24 @@ The generator pattern that works:
   across huge floors, placed where the story says they'd be.
 - **Storytell with the fabric**: blood-field trails, breached glass,
   a warning sign, one locked gun safe — no dialogue needed.
+
+## In-game iteration (faster than restart cycles)
+
+- Exiting to the main menu and reloading the save re-reads most JSON —
+  no relaunch needed between content tweaks.
+- Debug menu (bind its key first): Reveal map to find your special,
+  long-range teleport (takes exact OMT coords), overmap editor to
+  force-place a special on ungenerated land, `spawn nested map` to
+  test nests in isolation. Temporarily setting a mapgen `"weight"`
+  absurdly high makes a variant spawn everywhere for inspection.
+- QA pass before shipping: walk the map and smash furniture — a
+  furniture symbol without its own terrain mapping reveals the wrong
+  floor underneath (the classic bug; we shipped it once as racks on
+  solid rock). Verify vehicles in-game — origins vary by model.
+- Loot sanity: a symbol-based `items` chance applies to EVERY
+  instance of that symbol; dense symbols multiply loot fast. Balance
+  philosophy upstream: loot mirrors pre-Cataclysm reality — tune
+  enemies, not loot, and let junk outnumber ideal tools.
 
 ## Deploy loop
 

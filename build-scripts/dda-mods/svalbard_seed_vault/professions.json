@@ -24,7 +24,8 @@
           { "item": "multitool" },
           { "item": "flashlight", "charges": 300 },
           { "item": "screwdriver" },
-          { "item": "duct_tape", "charges": 200 }
+          { "item": "duct_tape", "charges": 200 },
+          { "item": "glowstick" }
         ]
       }
     }
@@ -53,7 +54,9 @@
           { "item": "socks_wool" },
           { "item": "matches" },
           { "item": "bandages" },
-          { "item": "thermos" }
+          { "item": "thermos" },
+          { "item": "flashlight", "charges": 300 },
+          { "item": "glowstick" }
         ]
       }
     }
@@ -83,7 +86,9 @@
           { "item": "balclava" },
           { "item": "glock_19" },
           { "item": "glockmag", "repeat": 2 },
-          { "item": "9mm", "charges": 50 }
+          { "item": "9mm", "charges": 50 },
+          { "item": "heavy_flashlight", "charges": 300 },
+          { "item": "glowstick" }
         ]
       }
     }

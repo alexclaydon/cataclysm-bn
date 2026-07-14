@@ -3,7 +3,7 @@
     "type": "start_location",
     "id": "sloc_svalbard_vault",
     "name": "Svalbard Seed Vault (deep chambers)",
-    "terrain": [ "svalbard_vault_hall" ]
+    "terrain": [ "svalbard_vault_deep_c" ]
   },
   {
     "type": "scenario",

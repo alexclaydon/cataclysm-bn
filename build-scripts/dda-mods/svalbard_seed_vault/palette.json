@@ -88,7 +88,14 @@
       "I": "t_open_air",
       "[": "t_linoleum_white",
       "]": "t_thconc_floor",
-      "H": "t_thconc_floor"
+      "H": "t_thconc_floor",
+      "N": "t_ice_sh_thick",
+      "O": "t_thconc_floor",
+      "\"": "t_metal_ventilation_shutter",
+      "X": "t_floor_burnt",
+      "'": "t_thconc_floor",
+      "`": "t_thconc_floor",
+      "-": "t_floor"
     },
     "furniture": {
       "Z": "f_console",
@@ -142,7 +149,10 @@
       "Y": "f_dryer",
       "z": "f_rack",
       "[": "f_fridge",
-      "]": "f_freezer"
+      "]": "f_freezer",
+      "O": "f_sandbag_half",
+      "'": "f_wreckage",
+      "-": "f_crate_c"
     },
     "toilets": {
       "T": {}
@@ -292,6 +302,9 @@
         "item": "SUS_freezer",
         "chance": 80
       }
+    },
+    "traps": {
+      "`": "tr_beartrap"
     }
   }
 ]

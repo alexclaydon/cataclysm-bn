@@ -97,8 +97,8 @@ def vent_closet(g, ladders):
     door(g, 65, 40)
 
 
-WALLS = {'|', '1', ' ', '5', '8', '=', '2', 'L', 'I'}
-NONROOM = WALLS | {'#', 'R', '~'}
+WALLS = {'|', '1', ' ', '5', '8', '=', '2', 'L', 'I', '"'}
+NONROOM = WALLS | {'#', 'R', '~', '-'}
 
 
 def check_connectivity(g, name, seeds, outdoor=False):
@@ -327,6 +327,14 @@ def build_sub1():
     for x, y in ((10, 46), (20, 46), (30, 46), (41, 46), (60, 46), (33, 57),
                  (41, 57), (44, 63)):
         door(g, x, y)
+    # meltwater intrusion (the 2017 flood, replayed): the entrance tunnel
+    # froze over where the pump lost; the crew's sandbag line holds a gap
+    # open under the stairs
+    refloor(g, 4, 5, 17, 9, 'N')
+    for x in (6, 7, 8, 9, 12, 13, 14):
+        g[10][x] = 'O'
+    # vent trunk B: top of the shaft, behind the janitor's lockers
+    g[42][46] = 'v'
     return g, [{"monster": "mon_manhack", "x": 39, "y": 10}]
 
 
@@ -468,6 +476,11 @@ def build_sub2():
     put(g, 15, 20, 'l')
     put(g, 33, 21, 'b')
     put(g, 50, 44, 'b')
+    # vent trunk B passes through the checkpoint corner
+    g[42][46] = '^'
+    g[41][46] = 'v'
+    # ventilation shutter in the armory/electrical wall: the loud way in
+    g[25][49] = '"'
     # Erik and Mia went up to restart the generator two days ago (duty log);
     # they never came back.  Blood pools mark where it went wrong.
     g[57][53] = '*'
@@ -635,6 +648,17 @@ def build_sub3():
     put(g, 15, 21, 'b')
     put(g, 46, 20, 'l')
     put(g, 30, 45, 'b')
+    # vent trunk B passes through the rec room corner
+    g[41][46] = '^'
+    g[42][46] = 'v'
+    # the burnt dorm cell: an open flame in the dark days, cell 2
+    fill(g, 10, 23, 15, 29, 'X')
+    put(g, 11, 25, "'")
+    put(g, 13, 27, "'")
+    # the chapel barricade, breached at the door line
+    put(g, 59, 23, '-')
+    put(g, 61, 23, '-')
+    put(g, 62, 23, '-')
     mons = [{"monster": "mon_blob_small", "x": 62, "y": 40}]
     return g, mons
 
@@ -743,6 +767,12 @@ def build_deep():
         door(g, x, y)
     put(g, 15, 20, 'b')
     put(g, 48, 45, 'b')
+    # vent trunk B: bottom of the shaft; the guard set a trap for whatever
+    # was climbing it, and wreckage marks the crew's retreat down the corridor
+    g[42][46] = '^'
+    g[41][46] = '`'
+    for x, y in ((47, 44), (43, 45), (40, 44)):
+        g[y][x] = "'"
     # NPRI-7 is a nest now: the brain-mass deep in the containment cell
     # directs its blobs; stragglers ooze through the breach and the wet lab.
     mons = [{"monster": "mon_blob_brain", "x": 62, "y": 64},
@@ -792,6 +822,9 @@ def main():
         (sub1, sub2, [(68, 41)], 'v', '^'),
         (sub2, sub3, [(67, 41)], 'v', '^'),
         (sub3, deep, [(68, 41)], 'v', '^'),
+        (sub1, sub2, [(46, 42)], 'v', '^'),
+        (sub2, sub3, [(46, 41)], 'v', '^'),
+        (sub3, deep, [(46, 42)], 'v', '^'),
     ]
     for up, down, pts, upch, downch in anchors:
         for x, y in pts:
@@ -829,7 +862,8 @@ def main():
                 ],
                 "place_vehicles": [
                     {"vehicle": "suv", "x": 31, "y": 12, "chance": 90, "rotation": 270, "status": 1, "fuel": 40},
-                    {"vehicle": "humvee", "x": 39, "y": 12, "chance": 75, "rotation": 270, "status": 1, "fuel": 40}
+                    {"vehicle": "humvee", "x": 39, "y": 12, "chance": 75, "rotation": 270, "status": 1, "fuel": 40},
+                    {"vehicle": "pickup", "x": 34, "y": 1, "chance": 100, "rotation": 0, "status": 1, "fuel": 15}
                 ]
             }
         },
@@ -889,6 +923,7 @@ def main():
             {"item": "compbow", "x": 54, "y": 26, "chance": 100},
             {"item": "arrow_cf", "x": 55, "y": 26, "chance": 100, "amount": [16, 24]},
             {"item": "towel", "x": 32, "y": 39, "chance": 100, "amount": [2, 3]},
+            {"item": "hose", "x": 13, "y": 7, "chance": 100},
         ],
         "sub2": [
             {"item": "tailors_kit", "x": 22, "y": 52, "chance": 100},
@@ -900,6 +935,7 @@ def main():
             {"item": "thread", "x": 48, "y": 67, "chance": 100, "amount": [2, 3]},
             {"item": "pot", "x": 24, "y": 3, "chance": 100},
             {"item": "pan", "x": 25, "y": 3, "chance": 100},
+            {"item": "candle", "x": 13, "y": 24, "chance": 100},
         ],
         "deep": [
             {"item": "svalbard_note_duty", "x": 42, "y": 52, "chance": 100},
@@ -911,6 +947,10 @@ def main():
     extras = {
         "sub1": {
             "signs": {"?": {"signage": "LEVEL 1 — SURFACE ACCESS.  Changing area · pool · gym · plant rooms.  Cold-weather gear MUST be worn beyond this point.", "furniture": "f_sign"}},
+            "place_graffiti": [
+                {"text": "PUMP DIED DAY 12.  LET IT FREEZE.", "x": 8, "y": 11},
+                {"text": "E + M '41", "x": 33, "y": 38}
+            ],
         },
         "sub2": {
             "signs": {"?": {"signage": "LEVEL 2 — OPERATIONS.  Server room · workshop · generator hall.  Armory access: security staff only.", "furniture": "f_sign"}},
@@ -929,6 +969,10 @@ def main():
             "place_items": [
                 {"item": "corpses", "x": 19, "y": 27, "chance": 100}
             ],
+            "place_graffiti": [
+                {"text": "IIII IIII IIII IIII IIII IIII IIII IIII II", "x": 4, "y": 38},
+                {"text": "MAINLAND KNEW.  THEY ALWAYS KNEW.", "x": 25, "y": 28}
+            ],
         },
         "sub3": {
             "sealed_item": {"H": {"items": {"item": "farming_seeds"}, "furniture": "f_plant_harvest"}},
@@ -936,12 +980,50 @@ def main():
             "place_items": [
                 {"item": "corpses", "x": 6, "y": 60, "chance": 100},
                 {"item": "corpses", "x": 62, "y": 50, "chance": 100},
-                {"item": "corpses", "x": 11, "y": 34, "chance": 100}
+                {"item": "corpses", "x": 11, "y": 34, "chance": 100},
+                {"item": "corpses", "x": 12, "y": 26, "chance": 100},
+                {"item": "corpses", "x": 58, "y": 26, "chance": 100},
+                {"item": "corpses", "x": 63, "y": 25, "chance": 100}
+            ],
+            "place_graffiti": [
+                {"text": "ST. OLGA, PROTECT WHAT KEEPS.", "x": 64, "y": 27},
+                {"text": "DAY 38: OUT OF COFFEE.  MORALE CRITICAL.", "x": 5, "y": 7}
+            ],
+            "place_fields": [
+                {"field": "fd_slime", "x": 46, "y": 42},
+                {"field": "fd_slime", "x": 46, "y": 41},
+                {"field": "fd_slime", "x": 47, "y": 42},
+                {"field": "fd_blood", "x": 60, "y": 23},
+                {"field": "fd_blood", "x": 59, "y": 25, "intensity": 2}
             ],
         },
         "deep": {
             "place_items": [
                 {"item": "corpses", "x": 58, "y": 52, "chance": 100}
+            ],
+            "place_graffiti": [
+                {"text": "THE SEEDS KEEP", "x": 40, "y": 54},
+                {"text": "DO NOT FEED IT", "x": 50, "y": 52},
+                {"text": "TRAP SET FOR WHAT COMES DOWN THE VENT — S.", "x": 45, "y": 41}
+            ],
+            "place_fields": [
+                {"field": "fd_slime", "x": 57, "y": 62},
+                {"field": "fd_slime", "x": 57, "y": 60},
+                {"field": "fd_slime", "x": 58, "y": 59},
+                {"field": "fd_slime", "x": 60, "y": 57},
+                {"field": "fd_slime", "x": 59, "y": 55},
+                {"field": "fd_slime", "x": 57, "y": 53},
+                {"field": "fd_slime", "x": 55, "y": 51},
+                {"field": "fd_slime", "x": 53, "y": 50},
+                {"field": "fd_slime", "x": 51, "y": 48},
+                {"field": "fd_slime", "x": 50, "y": 46},
+                {"field": "fd_slime", "x": 48, "y": 45},
+                {"field": "fd_slime", "x": 46, "y": 44},
+                {"field": "fd_slime", "x": 44, "y": 43},
+                {"field": "fd_slime", "x": 45, "y": 42},
+                {"field": "fd_slime", "x": 46, "y": 42},
+                {"field": "fd_blood", "x": 46, "y": 40},
+                {"field": "fd_blood", "x": 47, "y": 41}
             ],
             "place_zones": [
                 {"type": "ZONE_START_POINT", "faction": "your_followers", "x": [38, 40], "y": [54, 55]}
@@ -949,6 +1031,18 @@ def main():
         },
     }
     for key, g, mons, shards, note in levels:
+        # coordinate ops must land on walkable tiles, not walls/rock
+        bad_ops = []
+        for op in (extras.get(key, {}).get('place_graffiti', [])
+                   + extras.get(key, {}).get('place_fields', [])
+                   + extras.get(key, {}).get('place_items', [])
+                   + guaranteed.get(key, []) + shards + mons):
+            x, y = op['x'], op['y']
+            if isinstance(x, int) and g[y][x] in WALLS:
+                bad_ops.append((key, x, y, g[y][x]))
+        if bad_ops:
+            print(f'!! coordinate ops on wall tiles: {bad_ops}')
+            sys.exit(1)
         obj = {
             "fill_ter": "t_rock",
             "rows": rows(g),

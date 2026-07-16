@@ -989,6 +989,17 @@
           0
         ],
         "overmap": "svalbard_warming_hut_north"
+      },
+      {
+        "point": [
+          1,
+          1,
+          0
+        ],
+        "locations": [
+          "land",
+          "road"
+        ]
       }
     ],
     "locations": [
@@ -1011,6 +1022,22 @@
       "MAN_MADE",
       "WILDERNESS",
       "SAFE_AT_WORLDGEN"
+    ],
+    "connections": [
+      {
+        "point": [
+          1,
+          1,
+          0
+        ],
+        "terrain": "road",
+        "connection": "local_road",
+        "from": [
+          1,
+          0,
+          0
+        ]
+      }
     ]
   }
 ]

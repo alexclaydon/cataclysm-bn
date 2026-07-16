@@ -14,6 +14,25 @@
     "base_wind": 12.0,
     "base_wind_distrib_peaks": 80,
     "base_wind_season_variation": 0,
-    "weather_white_list": [ "sunny", "cloudy", "flurries", "snowing", "snowstorm", "thunder", "lightning" ]
+    "weather_white_list": [ "clear", "sunny", "cloudy", "flurries", "snowing", "snowstorm", "thunder", "lightning", "svalbard_aurora" ]
+  },
+  {
+    "type": "weather_type",
+    "id": "svalbard_aurora",
+    "name": "Aurora",
+    "//": "Clear polar-night sky with the aurora borealis overhead: a faint green light across the snow.  Upgrades from clear nights under high pressure; surface-only mood payoff for finally reaching the open air.",
+    "color": "c_light_green",
+    "map_color": "c_light_green",
+    "sym": "%",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": 4,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "required_weathers": [ "clear", "sunny" ],
+    "priority": 15,
+    "condition": { "and": [ { "not": "is_day" }, { "math": [ "weather('pressure') >= 1010" ] } ] }
   }
 ]

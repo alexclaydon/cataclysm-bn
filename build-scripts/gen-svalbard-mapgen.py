@@ -72,7 +72,10 @@ def door(g, x, y, ch='+'):
     g[y][x] = ch
 
 
-def shell(g):
+FULL_LIGHTS = tuple((x, y) for y in (20, 44) for x in (6, 24, 42, 62))
+
+
+def shell(g, lights=FULL_LIGHTS):
     """Outer hull + the two main corridors."""
     room(g, 2, 2, 69, 69)
     hwall(g, 19, 2, 69)
@@ -81,10 +84,10 @@ def shell(g):
     hwall(g, 43, 2, 69)
     hwall(g, 46, 2, 69)
     fill(g, 3, 44, 68, 45)
-    # emergency lighting at corridor intersections
-    for x in (6, 24, 42, 62):
-        g[20][x] = '7'
-        g[44][x] = '7'
+    # emergency lighting at corridor intersections; levels where the dead
+    # generator matters pass a thinned list so the east reaches stay dark
+    for x, y in lights:
+        g[y][x] = '7'
 
 
 def vent_closet(g, ladders):
@@ -330,7 +333,7 @@ def build_sub1():
 # ---------------------------------------------------------------- z-2
 def build_sub2():
     g = grid()
-    shell(g)
+    shell(g, lights=((6, 20), (42, 20), (24, 44)))
     # N band: 4 offices | conference | server | archives
     for x in (10, 18, 26, 34, 47, 58):
         vwall(g, x, 2, 19)
@@ -465,8 +468,14 @@ def build_sub2():
     put(g, 15, 20, 'l')
     put(g, 33, 21, 'b')
     put(g, 50, 44, 'b')
+    # Erik and Mia went up to restart the generator two days ago (duty log);
+    # they never came back.  Blood pools mark where it went wrong.
+    g[57][53] = '*'
+    g[53][60] = '*'
     mons = [{"monster": "mon_zombie_scientist", "x": 20, "y": 28},
-            {"monster": "mon_manhack", "x": 43, "y": 39}]
+            {"monster": "mon_manhack", "x": 43, "y": 39},
+            {"monster": "mon_zombie_technician", "x": 52, "y": 57, "name": "Erik"},
+            {"monster": "mon_zombie_technician", "x": 61, "y": 53, "name": "Mia"}]
     return g, mons
 
 
@@ -633,7 +642,7 @@ def build_sub3():
 # ---------------------------------------------------------------- z-4
 def build_deep():
     g = grid()
-    shell(g)
+    shell(g, lights=((24, 20), (62, 44)))
     # N band: three seed chambers | stair hall
     for x in (19, 36, 53):
         vwall(g, x, 2, 19)
@@ -659,7 +668,7 @@ def build_deep():
     for x in (10, 11, 24, 25, 38, 39, 52, 53, 64, 65):
         g[29][x] = ','
         g[35][x] = ','
-    for x in (8, 20, 32, 44, 56):
+    for x in (20, 56):
         g[32][x] = '7'
     put(g, 30, 24, 'xx')
     put(g, 14, 24, 'bb')
@@ -734,8 +743,13 @@ def build_deep():
         door(g, x, y)
     put(g, 15, 20, 'b')
     put(g, 48, 45, 'b')
-    mons = [{"monster": "mon_blob_small", "x": 61, "y": 62},
-            {"monster": "mon_blob_small", "x": 60, "y": 64},
+    # NPRI-7 is a nest now: the brain-mass deep in the containment cell
+    # directs its blobs; stragglers ooze through the breach and the wet lab.
+    mons = [{"monster": "mon_blob_brain", "x": 62, "y": 64},
+            {"monster": "mon_blob", "x": 59, "y": 62},
+            {"monster": "mon_blob", "x": 56, "y": 63},
+            {"monster": "mon_blob_small", "x": 57, "y": 61},
+            {"monster": "mon_blob_small", "x": 58, "y": 53},
             {"monster": "mon_breather", "x": 60, "y": 31}]
     return g, mons
 
@@ -908,7 +922,7 @@ def main():
                         {"name": "Download Regional Survey Data", "action": "maps"},
                         {"name": "ARMORY LOCK OVERRIDE", "action": "unlock"}
                     ],
-                    "failures": [{"action": "alarm"}],
+                    "failures": [{"action": "alarm"}, {"action": "manhacks"}, {"action": "damage"}],
                     "access_denied": "ERROR: NPRI-7 LOCKDOWN IN EFFECT.  Access restricted to security staff.  Report to your duty officer."
                 }
             },

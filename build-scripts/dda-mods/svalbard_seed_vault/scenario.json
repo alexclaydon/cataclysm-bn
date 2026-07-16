@@ -25,6 +25,7 @@
     "id": "EOC_SVALBARD_START",
     "//": "Runs once at character creation: kick the weather engine into a howling arctic storm and set the scene.",
     "effect": [
+      { "math": [ "u_svalbard_arrival = time('now')" ] },
       { "math": [ "weather('temperature') = from_fahrenheit(-13)" ] },
       { "math": [ "weather('windpower') = 30" ] },
       "next_weather",

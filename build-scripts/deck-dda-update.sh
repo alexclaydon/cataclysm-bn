@@ -13,7 +13,10 @@ box="${DECK_DISTROBOX:-bn-dev}"
 jobs="${JOBS:-$(nproc)}"
 
 cd "${repo_dir}"
-git pull --ff-only
+# --no-tags: CDDA tags every experimental release (13k+ tags); on a
+# shallow clone a plain pull auto-follows them and downloads years of
+# history (~14 GB once, in anger). We only track master.
+git pull --ff-only --no-tags
 
 # Install the BN-parity gamepad layout (see the cdda-gamepad-controls
 # skill). config/keybindings.json is CDDA's user-override file; entries

@@ -437,6 +437,11 @@
           "monster": "mon_manhack",
           "x": 62,
           "y": 10
+        },
+        {
+          "monster": "mon_zombie",
+          "x": 4,
+          "y": 30
         }
       ],
       "place_item": [
@@ -660,6 +665,11 @@
           "y": 39
         },
         {
+          "monster": "mon_manhack",
+          "x": 53,
+          "y": 10
+        },
+        {
           "monster": "mon_zombie_technician",
           "x": 52,
           "y": 57,
@@ -879,6 +889,11 @@
           "monster": "mon_shadow",
           "x": 66,
           "y": 39
+        },
+        {
+          "monster": "mon_zombie_scientist",
+          "x": 64,
+          "y": 52
         }
       ],
       "place_item": [

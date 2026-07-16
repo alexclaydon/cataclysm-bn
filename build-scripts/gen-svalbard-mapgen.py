@@ -336,7 +336,8 @@ def build_sub1():
     # vent trunk B: top of the shaft, behind the janitor's lockers
     g[42][46] = 'v'
     mons = [{"monster": "mon_manhack", "x": 39, "y": 10},
-            {"monster": "mon_manhack", "x": 62, "y": 10}]
+            {"monster": "mon_manhack", "x": 62, "y": 10},
+            {"monster": "mon_zombie", "x": 4, "y": 30}]
     return g, mons
 
 
@@ -489,6 +490,7 @@ def build_sub2():
     g[53][60] = '*'
     mons = [{"monster": "mon_zombie_scientist", "x": 20, "y": 28},
             {"monster": "mon_manhack", "x": 43, "y": 39},
+            {"monster": "mon_manhack", "x": 53, "y": 10},
             {"monster": "mon_zombie_technician", "x": 52, "y": 57, "name": "Erik"},
             {"monster": "mon_zombie_technician", "x": 61, "y": 53, "name": "Mia"}]
     return g, mons
@@ -663,7 +665,8 @@ def build_sub3():
     put(g, 62, 23, '-')
     # a shadow waits inside the closed trunk A vent closet
     mons = [{"monster": "mon_blob_small", "x": 62, "y": 40},
-            {"monster": "mon_shadow", "x": 66, "y": 39}]
+            {"monster": "mon_shadow", "x": 66, "y": 39},
+            {"monster": "mon_zombie_scientist", "x": 64, "y": 52}]
     return g, mons
 
 

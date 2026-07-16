@@ -337,7 +337,7 @@ def build_sub1():
     g[42][46] = 'v'
     mons = [{"monster": "mon_manhack", "x": 39, "y": 10},
             {"monster": "mon_manhack", "x": 62, "y": 10},
-            {"monster": "mon_zombie", "x": 4, "y": 30}]
+            {"monster": "mon_zombie_swimmer", "x": 4, "y": 30}]
     return g, mons
 
 
@@ -666,7 +666,7 @@ def build_sub3():
     # a shadow waits inside the closed trunk A vent closet
     mons = [{"monster": "mon_blob_small", "x": 62, "y": 40},
             {"monster": "mon_shadow", "x": 66, "y": 39},
-            {"monster": "mon_zombie_scientist", "x": 64, "y": 52}]
+            {"monster": "mon_zombie_medical", "x": 64, "y": 52}]
     return g, mons
 
 
@@ -872,6 +872,9 @@ def main():
                     {"vehicle": "suv", "x": 31, "y": 12, "chance": 90, "rotation": 270, "status": 1, "fuel": 40},
                     {"vehicle": "humvee", "x": 39, "y": 12, "chance": 75, "rotation": 270, "status": 1, "fuel": 40},
                     {"vehicle": "pickup", "x": 34, "y": 1, "chance": 100, "rotation": 0, "status": 1, "fuel": 15}
+                ],
+                "place_monster": [
+                    {"monster": "mon_svalbard_polar_bear", "x": 70, "y": 10, "chance": 75}
                 ]
             }
         },
@@ -888,6 +891,10 @@ def main():
                 ],
                 "place_items": [
                     {"item": "svalbard_hut", "x": 14, "y": 13, "chance": 100, "repeat": [2, 3]}
+                ],
+                "place_monster": [
+                    {"monster": "mon_svalbard_reindeer", "x": 18, "y": 18, "chance": 60},
+                    {"monster": "mon_svalbard_reindeer", "x": 4, "y": 6, "chance": 40}
                 ]
             }
         },

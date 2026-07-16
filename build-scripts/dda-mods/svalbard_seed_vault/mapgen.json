@@ -95,6 +95,14 @@
           "fuel": 15
         }
       ],
+      "place_monster": [
+        {
+          "monster": "mon_svalbard_polar_bear",
+          "x": 70,
+          "y": 10,
+          "chance": 75
+        }
+      ],
       "items": {
         "n": {
           "item": "tools_common",
@@ -168,6 +176,20 @@
             2,
             3
           ]
+        }
+      ],
+      "place_monster": [
+        {
+          "monster": "mon_svalbard_reindeer",
+          "x": 18,
+          "y": 18,
+          "chance": 60
+        },
+        {
+          "monster": "mon_svalbard_reindeer",
+          "x": 4,
+          "y": 6,
+          "chance": 40
         }
       ]
     }
@@ -439,7 +461,7 @@
           "y": 10
         },
         {
-          "monster": "mon_zombie",
+          "monster": "mon_zombie_swimmer",
           "x": 4,
           "y": 30
         }
@@ -891,7 +913,7 @@
           "y": 39
         },
         {
-          "monster": "mon_zombie_scientist",
+          "monster": "mon_zombie_medical",
           "x": 64,
           "y": 52
         }

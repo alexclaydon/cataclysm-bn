@@ -20,6 +20,16 @@
   remote build on the Deck) as a background task, then report the
   result when it finishes — the conversation must stay free for
   discussion while the Deck compiles.
+- **One build per machine, ever.** Agents MUST NOT start a build on a
+  machine (Nova or the Steam Deck) while another build may still be
+  running there. Before launching any build, verify none is in flight:
+  check prior background tasks (`TaskOutput`, non-blocking) AND the
+  machine's processes (`pgrep -af "make|cmake|ninja|clang|deck-.*-update"`,
+  via ssh for the Deck). A stale binary timestamp or a quiet log is NOT
+  evidence a build died — Deck builds run `nice -19` and their git-pull
+  step can sit silent for minutes. If duplicates are ever found, kill
+  down to exactly one (builds are incremental; little is lost) rather
+  than letting two makes share a source tree.
 - **Skill upkeep**: when a session produces knowledge worth keeping —
   new conventions or principles, corrected assumptions, gotchas, or
   changed state that an existing skill in `.claude/skills/` describes —

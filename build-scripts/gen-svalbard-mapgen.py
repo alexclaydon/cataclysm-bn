@@ -335,7 +335,9 @@ def build_sub1():
         g[10][x] = 'O'
     # vent trunk B: top of the shaft, behind the janitor's lockers
     g[42][46] = 'v'
-    return g, [{"monster": "mon_manhack", "x": 39, "y": 10}]
+    mons = [{"monster": "mon_manhack", "x": 39, "y": 10},
+            {"monster": "mon_manhack", "x": 62, "y": 10}]
+    return g, mons
 
 
 # ---------------------------------------------------------------- z-2
@@ -659,7 +661,9 @@ def build_sub3():
     put(g, 59, 23, '-')
     put(g, 61, 23, '-')
     put(g, 62, 23, '-')
-    mons = [{"monster": "mon_blob_small", "x": 62, "y": 40}]
+    # a shadow waits inside the closed trunk A vent closet
+    mons = [{"monster": "mon_blob_small", "x": 62, "y": 40},
+            {"monster": "mon_shadow", "x": 66, "y": 39}]
     return g, mons
 
 
@@ -780,6 +784,7 @@ def build_deep():
             {"monster": "mon_blob", "x": 56, "y": 63},
             {"monster": "mon_blob_small", "x": 57, "y": 61},
             {"monster": "mon_blob_small", "x": 58, "y": 53},
+            {"monster": "mon_blob_small", "x": 26, "y": 8},
             {"monster": "mon_breather", "x": 60, "y": 31}]
     return g, mons
 
@@ -924,6 +929,10 @@ def main():
             {"item": "arrow_cf", "x": 55, "y": 26, "chance": 100, "amount": [16, 24]},
             {"item": "towel", "x": 32, "y": 39, "chance": 100, "amount": [2, 3]},
             {"item": "hose", "x": 13, "y": 7, "chance": 100},
+            {"item": "sewing_kit", "x": 50, "y": 28, "chance": 100},
+            {"item": "thread", "x": 51, "y": 28, "chance": 100, "amount": [2, 3]},
+            {"item": "pot", "x": 11, "y": 50, "chance": 100},
+            {"item": "pan", "x": 12, "y": 50, "chance": 100},
         ],
         "sub2": [
             {"item": "tailors_kit", "x": 22, "y": 52, "chance": 100},
@@ -931,16 +940,23 @@ def main():
             {"item": "fire_ax", "x": 39, "y": 23, "chance": 100},
         ],
         "sub3": [
-            {"item": "sewing_kit", "x": 49, "y": 67, "chance": 100},
-            {"item": "thread", "x": 48, "y": 67, "chance": 100, "amount": [2, 3]},
-            {"item": "pot", "x": 24, "y": 3, "chance": 100},
-            {"item": "pan", "x": 25, "y": 3, "chance": 100},
             {"item": "candle", "x": 13, "y": 24, "chance": 100},
         ],
         "deep": [
             {"item": "svalbard_note_duty", "x": 42, "y": 52, "chance": 100},
             {"item": "svalbard_note_lab", "x": 56, "y": 48, "chance": 100},
         ],
+    }
+    # Tool and book groups live OUTSIDE the shared palette on purpose:
+    # they spawn only on the surface and z-1/z-2 — at least two levels
+    # from the z-4 start — so the player must climb through danger to
+    # tool up.  Chances are 0.8x the old palette values (the -20% pass).
+    # z-3's library is empty because the crew burned the books (graffito).
+    upper_level_items = {
+        "u": {"item": "homebooks", "chance": 48, "repeat": [1, 2]},
+        "n": {"item": "tools_common", "chance": 32},
+        "c": {"item": "svalbard_tools", "chance": 40},
+        "z": {"item": "mechanics", "chance": 40},
     }
     # per-level extra mapgen keys: wayfinding signs ('?'), the dead crew,
     # the working security terminal, and the pinned start point
@@ -951,6 +967,7 @@ def main():
                 {"text": "PUMP DIED DAY 12.  LET IT FREEZE.", "x": 8, "y": 11},
                 {"text": "E + M '41", "x": 33, "y": 38}
             ],
+            "items": upper_level_items,
         },
         "sub2": {
             "signs": {"?": {"signage": "LEVEL 2 — OPERATIONS.  Server room · workshop · generator hall.  Armory access: security staff only.", "furniture": "f_sign"}},
@@ -973,6 +990,7 @@ def main():
                 {"text": "IIII IIII IIII IIII IIII IIII IIII IIII II", "x": 4, "y": 38},
                 {"text": "MAINLAND KNEW.  THEY ALWAYS KNEW.", "x": 25, "y": 28}
             ],
+            "items": upper_level_items,
         },
         "sub3": {
             "sealed_item": {"H": {"items": {"item": "farming_seeds"}, "furniture": "f_plant_harvest"}},
@@ -987,7 +1005,8 @@ def main():
             ],
             "place_graffiti": [
                 {"text": "ST. OLGA, PROTECT WHAT KEEPS.", "x": 64, "y": 27},
-                {"text": "DAY 38: OUT OF COFFEE.  MORALE CRITICAL.", "x": 5, "y": 7}
+                {"text": "DAY 38: OUT OF COFFEE.  MORALE CRITICAL.", "x": 5, "y": 7},
+                {"text": "WE BURNED THE BOOKS IN FEBRUARY.  FORGIVE US.", "x": 58, "y": 35}
             ],
             "place_fields": [
                 {"field": "fd_slime", "x": 46, "y": 42},
@@ -1030,6 +1049,9 @@ def main():
             ],
         },
     }
+    # the surface garage/mast keep tool loot too (4+ levels from spawn)
+    out[0]["object"]["items"] = {k: upper_level_items[k] for k in ("n", "c", "z")}
+
     for key, g, mons, shards, note in levels:
         # coordinate ops must land on walkable tiles, not walls/rock
         bad_ops = []

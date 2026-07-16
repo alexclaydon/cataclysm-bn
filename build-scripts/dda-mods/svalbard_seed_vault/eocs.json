@@ -198,5 +198,180 @@
         "type": "warning"
       }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SVALBARD_LURKERS",
+    "default": "mon_blob_small",
+    "monsters": [
+      {
+        "monster": "mon_blob_small",
+        "weight": 3
+      },
+      {
+        "monster": "mon_manhack",
+        "weight": 2
+      },
+      {
+        "monster": "mon_shadow",
+        "weight": 1
+      },
+      {
+        "monster": "mon_shadow_snake",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SVALBARD_LURKERS",
+    "//": "The vault is never quite cleared: from day 1, something occasionally finds its way to the player.  Weak enemies only, on a slow cadence, gated to vault OMTs.",
+    "recurrence": [
+      "8 hours",
+      "20 hours"
+    ],
+    "condition": {
+      "and": [
+        {
+          "or": [
+            {
+              "u_at_om_location": "svalbard_vault_sub1_a"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub1_b"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub1_c"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub1_d"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub1_e"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub1_f"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub1_g"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub1_h"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub1_i"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_a"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_b"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_c"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_d"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_e"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_f"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_g"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_h"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub2_i"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_a"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_b"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_c"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_d"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_e"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_f"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_g"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_h"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_sub3_i"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_a"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_b"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_c"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_d"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_e"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_f"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_g"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_h"
+            },
+            {
+              "u_at_om_location": "svalbard_vault_deep_i"
+            }
+          ]
+        },
+        {
+          "math": [
+            "time_since(u_svalbard_arrival) > time('1 d')"
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_SVALBARD_LURKERS",
+        "group": true,
+        "single_target": true,
+        "real_count": 1,
+        "min_radius": 6,
+        "max_radius": 14,
+        "spawn_message": "Something moves at the edge of your light.",
+        "false_eocs": [
+          {
+            "id": "EOC_SVALBARD_LURKER_MISS",
+            "effect": [
+              {
+                "u_message": "For a moment you are sure something is watching you.  Then it is gone.",
+                "type": "warning"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

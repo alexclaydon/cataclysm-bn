@@ -226,10 +226,6 @@
         "item": "svalbard_storage",
         "chance": 60
       },
-      "z": {
-        "item": "mechanics",
-        "chance": 50
-      },
       "q": {
         "item": "gym",
         "chance": 50
@@ -254,10 +250,6 @@
         "item": "svalbard_outdoor_gear",
         "chance": 50
       },
-      "c": {
-        "item": "svalbard_tools",
-        "chance": 50
-      },
       "K": {
         "item": "kitchen",
         "chance": 60
@@ -277,18 +269,6 @@
       "e": {
         "item": "dresser",
         "chance": 50
-      },
-      "u": {
-        "item": "homebooks",
-        "chance": 60,
-        "repeat": [
-          1,
-          2
-        ]
-      },
-      "n": {
-        "item": "tools_common",
-        "chance": 40
       },
       "B": {
         "item": "bed",

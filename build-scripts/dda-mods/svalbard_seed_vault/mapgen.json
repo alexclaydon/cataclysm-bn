@@ -94,7 +94,21 @@
           "status": 1,
           "fuel": 15
         }
-      ]
+      ],
+      "items": {
+        "n": {
+          "item": "tools_common",
+          "chance": 32
+        },
+        "c": {
+          "item": "svalbard_tools",
+          "chance": 40
+        },
+        "z": {
+          "item": "mechanics",
+          "chance": 40
+        }
+      }
     }
   },
   {
@@ -418,6 +432,11 @@
           "monster": "mon_manhack",
           "x": 39,
           "y": 10
+        },
+        {
+          "monster": "mon_manhack",
+          "x": 62,
+          "y": 10
         }
       ],
       "place_item": [
@@ -458,6 +477,34 @@
           "x": 13,
           "y": 7,
           "chance": 100
+        },
+        {
+          "item": "sewing_kit",
+          "x": 50,
+          "y": 28,
+          "chance": 100
+        },
+        {
+          "item": "thread",
+          "x": 51,
+          "y": 28,
+          "chance": 100,
+          "amount": [
+            2,
+            3
+          ]
+        },
+        {
+          "item": "pot",
+          "x": 11,
+          "y": 50,
+          "chance": 100
+        },
+        {
+          "item": "pan",
+          "x": 12,
+          "y": 50,
+          "chance": 100
         }
       ],
       "signs": {
@@ -477,7 +524,29 @@
           "x": 33,
           "y": 38
         }
-      ]
+      ],
+      "items": {
+        "u": {
+          "item": "homebooks",
+          "chance": 48,
+          "repeat": [
+            1,
+            2
+          ]
+        },
+        "n": {
+          "item": "tools_common",
+          "chance": 32
+        },
+        "c": {
+          "item": "svalbard_tools",
+          "chance": 40
+        },
+        "z": {
+          "item": "mechanics",
+          "chance": 40
+        }
+      }
     }
   },
   {
@@ -676,7 +745,29 @@
           "x": 25,
           "y": 28
         }
-      ]
+      ],
+      "items": {
+        "u": {
+          "item": "homebooks",
+          "chance": 48,
+          "repeat": [
+            1,
+            2
+          ]
+        },
+        "n": {
+          "item": "tools_common",
+          "chance": 32
+        },
+        "c": {
+          "item": "svalbard_tools",
+          "chance": 40
+        },
+        "z": {
+          "item": "mechanics",
+          "chance": 40
+        }
+      }
     }
   },
   {
@@ -783,37 +874,14 @@
           "monster": "mon_blob_small",
           "x": 62,
           "y": 40
+        },
+        {
+          "monster": "mon_shadow",
+          "x": 66,
+          "y": 39
         }
       ],
       "place_item": [
-        {
-          "item": "sewing_kit",
-          "x": 49,
-          "y": 67,
-          "chance": 100
-        },
-        {
-          "item": "thread",
-          "x": 48,
-          "y": 67,
-          "chance": 100,
-          "amount": [
-            2,
-            3
-          ]
-        },
-        {
-          "item": "pot",
-          "x": 24,
-          "y": 3,
-          "chance": 100
-        },
-        {
-          "item": "pan",
-          "x": 25,
-          "y": 3,
-          "chance": 100
-        },
         {
           "item": "candle",
           "x": 13,
@@ -883,6 +951,11 @@
           "text": "DAY 38: OUT OF COFFEE.  MORALE CRITICAL.",
           "x": 5,
           "y": 7
+        },
+        {
+          "text": "WE BURNED THE BOOKS IN FEBRUARY.  FORGIVE US.",
+          "x": 58,
+          "y": 35
         }
       ],
       "place_fields": [
@@ -1039,6 +1112,11 @@
           "monster": "mon_blob_small",
           "x": 58,
           "y": 53
+        },
+        {
+          "monster": "mon_blob_small",
+          "x": 26,
+          "y": 8
         },
         {
           "monster": "mon_breather",

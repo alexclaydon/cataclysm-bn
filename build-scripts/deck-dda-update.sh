@@ -39,4 +39,14 @@ distrobox enter "${box}" -- bash -c \
         TILES=1 SOUND=1 LOCALIZE=1 BACKTRACE=0 RUNTESTS=0 PCH=1"
 # NB: leave LANGUAGES unset — CDDA's Makefile gates translation compilation
 # on `ifdef LANGUAGES`, and any value (even "none") is taken as a language id.
+
+# Warm the flexbuffer cache: after a pull, the first launch silently
+# re-parses every changed JSON file and rewrites its .fb cache — on the
+# Deck that's minutes of black screen that reads as a hang (observed:
+# a 14-minute frozen launch after the 2026-07-16 update). --check-mods
+# loads core data + the mod, which writes the same caches headlessly,
+# so the deploy absorbs the cost instead of the first launch.
+distrobox enter "${box}" -- bash -c \
+    "cd '${repo_dir}' && ./cataclysm-tiles --check-mods svalbard_seed_vault" \
+    || echo "WARNING: cache warm / mod check failed (build itself succeeded)" >&2
 echo "Deck DDA build updated: $(git log --oneline -1)"

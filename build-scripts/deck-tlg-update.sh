@@ -7,10 +7,6 @@
 #
 # Kept in the cataclysm-bn repo (this fork is the config home for all
 # Deck game builds); `make deck-tlg` on Nova copies it over before use.
-#
-# NB: no keybindings install here — TLG's gamepad layer is the legacy
-# numeric JOY_n scheme, so the BN-parity layout in
-# deck-dda-keybindings.json does not apply to it.
 set -euo pipefail
 
 repo_dir="${TLG_REPO_DIR:-$HOME/cataclysm-tlg}"
@@ -18,10 +14,20 @@ box="${DECK_DISTROBOX:-bn-dev}"
 jobs="${JOBS:-$(nproc)}"
 
 cd "${repo_dir}"
-# --no-tags: same shallow-clone discipline as the DDA build — we only
-# track master, and tag auto-following on a shallow clone drags in
-# release history we don't want.
-git pull --ff-only --no-tags
+# We track OUR fork's aec-dev branch (github.com/alexclaydon/Cataclysm-TLG),
+# which carries the CDDA gamepad-overhaul backport — not upstream master.
+# Remotes on the Deck clone match Nova: origin = fork, upstream = TLG.
+# --no-tags: same shallow-clone discipline as the DDA build.
+git pull --ff-only --no-tags origin aec-dev
+
+# Install the BN-parity gamepad layout (works here because aec-dev
+# carries the modern CDDA controls backport with named gamepad keys).
+# config/keybindings.json is the user-override file; the repo copy is
+# the source of truth — this overwrites in-game rebinds on each deploy.
+if [ -f "${repo_dir}/deck-tlg-keybindings.json" ]; then
+    mkdir -p "${repo_dir}/config"
+    cp "${repo_dir}/deck-tlg-keybindings.json" "${repo_dir}/config/keybindings.json"
+fi
 
 # WARNINGS override: TLG's default includes -Werror, and clang-22
 # promotes optimization-report warnings (-Wpass-failed "loop not

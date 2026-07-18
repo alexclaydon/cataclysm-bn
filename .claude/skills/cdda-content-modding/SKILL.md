@@ -1,5 +1,5 @@
 ---
-name: cdda-mapgen
+name: cdda-content-modding
 description: How to build Cataclysm-DDA content mods in this repo — multi-level maps (mapgen), overmap specials, palettes, item groups, scenarios, professions, weather/region overlays, and EOCs — and deploy/validate them on the Steam Deck. Use whenever creating or modifying CDDA levels, buildings, dungeons, starting scenarios, or loot, including any work under build-scripts/dda-mods/ or on the Svalbard vault mod. Distilled from building the five-level "The Last Deposit" vault; full of validated ids and traps that grep-first discipline caught and the validator did not.
 ---
 

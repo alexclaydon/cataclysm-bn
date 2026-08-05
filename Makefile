@@ -52,4 +52,10 @@ deck:
 
 deck-local:
 	git push origin HEAD
+	# Copy the update script over before running it. It used to be run from
+	# whatever the Deck's clone happened to hold, which only changes on a
+	# successful pull — so a fix to the pulling logic could never reach the
+	# Deck if the pull itself was broken. Same pattern as the meta-repo's
+	# deck-dda target.
+	scp build-scripts/deck-update.sh $(DECK_SSH):cataclysm-bn/build-scripts/
 	ssh $(DECK_SSH) 'bash ~/cataclysm-bn/build-scripts/deck-update.sh'
